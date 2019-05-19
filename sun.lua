@@ -116,6 +116,7 @@ local function getJulianCycle(d,lw) return round(d-J0-lw/(2*PI)) end
 local function getApproxTransit(Ht,lw,n) return J0+(Ht+lw)/(2*PI)+n end
 local function getSolarTransitJ(ds, M, L) return J2000+ds+0.0053*sin(M)-0.0069*sin(2*L) end
 local function getHourAngle(h, phi, d) return acos((sin(h)-sin(phi)*sin(d))/(cos(phi)*cos(d))) end
+local function notNAN(x) return x==x end
 
 sun.getTimes=function(date,lat,lng)
 	local lw,phi,d,n,ds,M,C,L
@@ -142,9 +143,11 @@ sun.getTimes=function(date,lat,lng)
     local i, len, time, angle, morningName, eveningName, Jset, Jrise
     for _,time in pairs(sun_times) do
         Jset =getSetJ(time[1]*grad)
-        Jrise=Jnoon-(Jset-Jnoon)
-        result[time[2]]=fromJulian(Jrise)
-        result[time[3]]=fromJulian(Jset)
+	if notNAN(Jset) then
+        	Jrise=Jnoon-(Jset-Jnoon)
+        	result[time[2]]=fromJulian(Jrise)
+        	result[time[3]]=fromJulian(Jset)
+	end
     end
     return result
 end
