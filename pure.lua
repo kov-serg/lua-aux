@@ -10,7 +10,7 @@ end
 
 function pure_check()
 	local i,r,n,v,f	
-	i=0	r={} f=debug.getinfo(2,"f").func
+	i=0 r={} f=debug.getinfo(2,"f").func
 	while true do
 		i=i+1 n,v=debug.getupvalue(f,i)
 		if n==nil then break end
