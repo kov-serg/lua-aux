@@ -1,8 +1,7 @@
-local matrix_m={ __index={} }
-local matrix_mt={type='matrix',__index={}}
-matrix=setmetatable({},matrix_m)
+local Matrix={}
+local Matrix_mt={ type='matrix',__index=Matrix }
 
-matrix_m.__call=function(m,v,n)
+function matrix(v,n)
 	local r
 	if type(v)=='number' or n then 
 		if n==nil then n,v=v,1 end
@@ -12,10 +11,10 @@ matrix_m.__call=function(m,v,n)
 		end
 	else
 		local mt=getmetatable(v)
-		if mt and mt.type=='matrix' then
+		if mt and mt.type==Matrix_mt.type then
 			r={ dim=v.dim, data={} }
 			for di,dv in ipairs(v.data) do r.data[di]=dv end
-			return setmetatable(r,matrix_mt)		
+			return setmetatable(r,Matrix_mt)		
 		end
 		-- from array
 		n=n or math.max(#v,#v[1])
@@ -27,10 +26,10 @@ matrix_m.__call=function(m,v,n)
 			end
 		end
 	end
-	return setmetatable(r,matrix_mt)
+	return setmetatable(r,Matrix_mt)
 end
 
-local tostring=function(v,fmt)
+local function tostring(v,fmt)
 	if type(v)=='number' then
 		return string.format(fmt,v)
 	elseif type(v)=='table' then
@@ -42,26 +41,27 @@ local tostring=function(v,fmt)
 	end
 	return type(v)
 end
-matrix_mt.__tostring=function(m,fmt)
-	local r='matrix{\n'
-	fmt=fmt or '%8.4f'
-	for y=1,m.dim do
+Matrix.format_string="%8.4f"
+Matrix.format_prefix=Matrix_mt.type
+function Matrix_mt:__tostring(fmt)
+	local r=self.format_prefix..'{\n'
+	fmt=fmt or self.format_string
+	for y=1,self.dim do
 		r=r..'\t{'
-		for x=1,m.dim do
+		for x=1,self.dim do
 			if x>1 then r=r..',' end
-			r=r..tostring(m.data[x+(y-1)*m.dim],fmt)
+			r=r..tostring(self.data[x+(y-1)*self.dim],fmt)
 		end
-
 		r=r..'},\n'
 	end
 	return r..'}'
 end
-local need_matrix=function(va)
+local function need_matrix(va)
 	local mt=getmetatable(va)
-	if mt and mt.type=='matrix' then return end
+	if mt and mt.type==Matrix_mt.type then return end
 	error("need matrix",3)
 end
-matrix_mt.__index.tr=function(a)
+function Matrix.tr(a)
 	local n=a.dim
 	local r={dim=n,data={}}
 	for y=1,r.dim do
@@ -71,15 +71,14 @@ matrix_mt.__index.tr=function(a)
 			r.data[x+(y-1)*n]=v
 		end
 	end
-	return setmetatable(r,matrix_mt)
+	return setmetatable(r,Matrix_mt)
 end
-matrix_mt.__index.unary=function(a,fn)
-	local r={ dim=a.dim, data={} }
-	for k,v in ipairs(a.data) do r.data[k]=fn(v) end
-	return setmetatable(r,matrix_mt)
+function Matrix:unary(fn)
+	local r={ dim=self.dim, data={} }
+	for k,v in ipairs(self.data) do r.data[k]=fn(v) end
+	return setmetatable(r,Matrix_mt)
 end
-matrix_mt.__index.binary=function(a,b,fn)
-	need_matrix(b)
+function Matrix.binary(a,b,fn) need_matrix(b)
 	local da,db=a.dim,b.dim
 	local r={dim=math.max(da,db),data={}}
 	local va,vb
@@ -90,14 +89,14 @@ matrix_mt.__index.binary=function(a,b,fn)
 			r.data[x+r.dim*(y-1)]=fn(va,vb)
 		end
 	end
-	return setmetatable(r,matrix_mt)
+	return setmetatable(r,Matrix_mt)
 end
-matrix_mt.__index.get=function(m,y,x) return m.data[x+(y-1)*m.dim] end
-matrix_mt.__index.set=function(m,y,x,v) m.data[x+(y-1)*m.dim]=v end
-matrix_mt.__unm=function(va) return va:unary(function(x) return -x end) end
-matrix_mt.__add=function(va,vb) return va:binary(vb,function(ai,bi) return ai+bi end) end
-matrix_mt.__sub=function(va,vb) return va:binary(vb,function(ai,bi) return ai-bi end) end
-matrix_mt.__mul=function(va,vb)
+function Matrix:get(y,x) return self.data[x+(y-1)*self.dim] end
+function Matrix:set(y,x,v) self.data[x+(y-1)*self.dim]=v end
+function Matrix_mt.__unm(va) return va:unary(function(x) return -x end) end
+function Matrix_mt.__add(va,vb) return va:binary(vb,function(ai,bi) return ai+bi end) end
+function Matrix_mt.__sub(va,vb) return va:binary(vb,function(ai,bi) return ai-bi end) end
+function Matrix_mt.__mul(va,vb)
 	-- n*m =m
 	-- m*n =m
 	-- m*c =mc
@@ -106,7 +105,7 @@ matrix_mt.__mul=function(va,vb)
 	if type(va)=='number' then return vb:unary(function(vbi) return va*vbi end) end
 	local mt=getmetatable(vb)
 	if type(vb)=='number' or (mt and mt.scalar) then return va:unary(function(vai) return vai*vb end) end
-	if mt and mt.type=='matrix' then
+	if mt and mt.type==Matrix_mt.type then
 		if va.dim~=vb.dim then error "need matrix same dimensions" end
 		local n=va.dim
 		local r={ dim=n, data={} }
@@ -119,7 +118,7 @@ matrix_mt.__mul=function(va,vb)
 				r.data[x+(y-1)*n]=s
 			end
 		end
-		return setmetatable(r,matrix_mt)
+		return setmetatable(r,Matrix_mt)
 	end
 	if mt and mt.type=='vector' then
 		if va.dim~=#vb then error "need vector same dimensions" end
@@ -136,7 +135,7 @@ matrix_mt.__mul=function(va,vb)
 	end
 	error("operation matrix*"..mt.type.." not implemented")
 end
-matrix_mt.__div=function(va,vb)
+function Matrix_mt.__div(va,vb)
 	-- n/m =n*inv(m)
 	-- m/n =m
 	-- m*c =mc
@@ -152,9 +151,9 @@ matrix_mt.__div=function(va,vb)
 	error("operation matrix*"..mt.type.." not implemented")
 end
 local norm=function(x) if type(x)=='number' then return math.abs(x) end return x:norm() end
-matrix_mt.__index.det=function(m)
+function Matrix:det()
 	local n,w,r
-	n=m.dim w=matrix(m) r=1
+	n=self.dim w=matrix(self) r=1
 	for x=1,n do
 		mi=x mv=norm(w.data[x+(x-1)*n])
 		for y=x+1,n do tv=norm(w.data[x+(y-1)*n]) if mv<tv then mv=tv mi=y end end
@@ -169,9 +168,9 @@ matrix_mt.__index.det=function(m)
 	end
 	return r
 end
-matrix_mt.__index.inv=function(m)
+function Matrix:inv()
 	local n,r,w,mi,mv,tv,mf
-	n=m.dim w=matrix(m) r=matrix(n)
+	n=self.dim w=matrix(self) r=matrix(n)
 	for x=1,n do
 		mi=x mv=norm(w.data[x+(x-1)*n])
 		for y=x+1,n do tv=norm(w.data[x+(y-1)*n]) if mv<tv then mv=tv mi=y end end
@@ -197,13 +196,11 @@ end
 --[[
 require "complex"
 require "vector"
-
 i=complex{0,1}
 r=vector{1,-1,i,0}
 f=30*math.pi/180
 c=math.cos(f)
 s=math.sin(f)
-
 m1=matrix{
 	{c ,s,0,0},
 	{-s,c,0,0},
