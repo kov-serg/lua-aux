@@ -141,12 +141,12 @@ function Matrix_mt.__div(va,vb)
 	-- m*c =mc
 	-- m/v =error
 	-- m/m =m*inv(m)
-	if type(va)=='number' then return n*vb:inverse() end
+	if type(va)=='number' then return va*vb:inv() end
 	local mt=getmetatable(vb)
 	if type(vb)=='number' or (mt and mt.scalar) then return va:unary(function(vai) return vai/vb end) end
 	if mt and mt.type=='matrix' then
 		if va.dim~=vb.dim then error "need matrix same dimensions" end
-		return va*vb:inverse()
+		return va*vb:inv()
 	end
 	error("operation matrix*"..mt.type.." not implemented")
 end
