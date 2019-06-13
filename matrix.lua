@@ -144,7 +144,7 @@ function Matrix_mt.__div(va,vb)
 	if type(va)=='number' then return va*vb:inv() end
 	local mt=getmetatable(vb)
 	if type(vb)=='number' or (mt and mt.scalar) then return va:unary(function(vai) return vai/vb end) end
-	if mt and mt.type=='matrix' then
+	if mt and mt.type==Matrix_mt.type then
 		if va.dim~=vb.dim then error "need matrix same dimensions" end
 		return va*vb:inv()
 	end
