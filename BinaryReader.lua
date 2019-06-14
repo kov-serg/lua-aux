@@ -194,7 +194,7 @@ function BinaryReader:get_struct(s,r)
 	local debug,trace,p0=r.debug or false,r.print or print,self.ofs
 	string.gsub(s,"([%w_]*):(%S+)",function(name,type)
 		local p1,value,p2
-		p1=self.ofs value=p:get(type) p2=self.ofs
+		p1=self.ofs value=self:get(type) p2=self.ofs
 		if #name>0 then r[name]=value end
 		if debug then packet_print_value(name,type,value,p1-p0,p2-p1,trace) end
 	end)
