@@ -7,7 +7,7 @@ function scope(body)
             return table.unpack(t)
         end
     end
-    local ok,err=pcall(function() res=table.pack(body(auto)) end)
+    local ok,err=pcall(function() res={body(auto)} end)
     for i=#list,1,-1 do list[i].fn(list[i].arg) end
     if not ok then
         if type(err)~='string' then error(err,2)
