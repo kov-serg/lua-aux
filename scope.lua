@@ -15,3 +15,9 @@ function scope(body)
     end
     return table.unpack(res)
 end
+
+-- usage:
+-- scope(function(auto)
+--   local f=auto(io.close){ io.open "text.txt" }
+--   print( f:read() )
+-- end)
