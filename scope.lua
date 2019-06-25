@@ -3,7 +3,7 @@ function scope(body)
     local function auto(close,msg)
         return function(t)
             if t[1] then table.insert(list,{ arg=t[1], fn=close or io.close })
-            else error(t[2] or "no resource",2) end
+            else error(msg or t[2] or "no resource",2) end
             return table.unpack(t)
         end
     end
