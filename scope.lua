@@ -1,21 +1,17 @@
-function scope(self)
-    local result
-    self=self or {}
-    self.list={}
-    self.error=self.error or error
-    local function auto(arg,close,msg)
-        if arg then
-            table.insert(self.list,{ arg=arg, fn=close or io.close })
-        else
-            self.error(msg or "init error",2)
+function scope(body)
+    local list,res={}
+    local function auto(close,msg)
+        return function(t)
+            if t[1] then table.insert(list,{ arg=t[1], fn=close or io.close })
+            else error(t[2] or "no resource",2) end
+            return table.unpack(t)
         end
-        return arg
     end
-    local ok,err=true
-    if self.init then ok,err=pcall(function() self.init(auto) end) end
-    if ok then ok,err=pcall(function() result=table.pack(self.body()) end) end
-    if self.done then self.done(ok,err) end
-    for _,close in pairs(self.list) do close.fn(close.arg) end
-    if not ok then self.error(err) end
-    return table.unpack(result)
+    local ok,err=pcall(function() res=table.pack(body(auto)) end)
+    for i=#list,1,-1 do list[i].fn(list[i].arg) end
+    if not ok then
+        if type(err)~='string' then error(err,2)
+        else error("scope error\nlua: "..err,2) end
+    end
+    return table.unpack(res)
 end
