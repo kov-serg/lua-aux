@@ -11,7 +11,8 @@ function scope(body)
 			return table.unpack(t)
 		end
 	end
-	local ok,err=pcall(function() res={body(auto)} end)
+	local function defer(fn) auto(fn){true} end
+	local ok,err=pcall(function() res={body(auto,defer)} end)
 	for i=#list,1,-1 do list[i].fn(list[i].arg) end
 	if not ok then
 		if type(err)~='string' then error(err,2)
@@ -21,8 +22,9 @@ function scope(body)
 end
 
 -- usage:
--- scope(function(auto)
+-- scope(function(auto,defer)
 --   local f=auto(io.close){ io.open "text.txt" }
 --   local g,err=auto(io.close,"weak") { io.open "test2.txt" }
+--   defer(function() print "leaving scope" end)
 --   print( f:read() )
 -- end)
