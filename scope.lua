@@ -22,9 +22,16 @@ function scope(body)
 end
 
 -- usage:
--- scope(function(auto,defer)
+--
+-- scope(function(auto)
 --   local f=auto(io.close){ io.open "text.txt" }
 --   local g,err=auto(io.close,"weak") { io.open "test2.txt" }
---   defer(function() print "leaving scope" end)
 --   print( f:read() )
 -- end)
+--
+-- scope(function(auto,defer)
+--   local f=auto(io.close){ io.open "text.txt" }
+--   defer(function() print "run at scope exit" end)
+--   print( f:read() )
+-- end)
+--
