@@ -175,9 +175,8 @@ function BinaryReader:get(f,clip)
 		return table.unpack(res,1,#res-1)
 	end
 end
-local function packet_print_value(name,vtype,value,ofs,size,print)
+local function trace_value(name,vtype,value,ofs,size,trace)
 	local space,ln,fmt,fw
-	print=print or print
 	if #name>0 then space=' ' else space='' end
 	if type(value)=='number' then
 		fw=string.packsize(vtype)
@@ -185,14 +184,14 @@ local function packet_print_value(name,vtype,value,ofs,size,print)
 		if vtype:match'[fd]' then fmt="%10.4g" end
 		ln=name:lower()
 		if ln:match "size" or ln:match "number" or ln:match "version"
-		  or ln:match "count"
-		 then
+			or ln:match "count"
+		then
 			fmt="%10d" 
 		end
-		print(string.format("+%04X "..fmt.."%s%s",ofs,value,space,name))
+		trace(string.format("+%04X "..fmt.."%s%s",ofs,value,space,name))
 	else
 		local sv=value:gsub("[%s%z]+$",""):gsub('[\x00-\x1F\x7F-\xFF]','-')
-		print(string.format('+%04X %10s%s%s="%s"',ofs,'#'..size,space,name,sv))
+		trace(string.format('+%04X %10s%s%s="%s"',ofs,'#'..size,space,name,sv))
 	end
 end
 function BinaryReader:get_struct(s,r)
@@ -202,7 +201,7 @@ function BinaryReader:get_struct(s,r)
 		local p1,value,p2
 		p1=self.ofs value=self:get(type) p2=self.ofs
 		if #name>0 then r[name]=value end
-		if debug then packet_print_value(name,type,value,p1-p0,p2-p1,trace) end
+		if debug then trace_value(name,type,value,p1-p0,p2-p1,trace) end
 	end)
 	return r
 end
