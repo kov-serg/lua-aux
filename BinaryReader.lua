@@ -105,18 +105,6 @@ function BinaryReader:rewind()
 	self.datasize=nil
 	return self
 end
-function BinaryReader:push_ofs()
-	if not self.ofs_stack then self.ofs_stack={} end
-	table.insert(self.ofs_stack,self.ofs)
-	return self
-end
-function BinaryReader:pop_ofs()
-	if not self.ofs_stack or #self.ofs_stack<1 then 
-		error("offset stack is empty",2)
-	end
-	self.ofs=table.remove(self.ofs_stack,#self.ofs_stack)
-	return self
-end
 function BinaryReader:getpage(ofs,count)
 	local res,wrk,page
 	count=count or 1
@@ -137,6 +125,24 @@ function BinaryReader:getpage(ofs,count)
 		count=count-1 page=page+1
 	end
 	return res
+end
+function BinaryReader:at(ofs,fn,...)
+	local old,res,ok,err,args
+	old=self.ofs
+	args=table.pack(...)
+	self:seek(ofs)
+	ok,err=pcall(function()
+		res=table.pack(fn(table.unpack(args)))
+	end)
+	self.ofs=old
+	if not ok then error(err,2) end
+	return table.unpack(res)
+end
+function BinaryReader:get_at(ofs,...)
+	return self:at(ofs,self.get,self,...)
+end
+function BinaryReader:get_struct_at(ofs,...)
+	return self:at(ofs,self.get_struct,self,...)
 end
  -- <>= !4 bB i2 I2 i3 I3 i4 I4  hH lL f d c32 z s1 s2 s4 x X2 X4 X8
 function BinaryReader:get(f,clip)
@@ -201,9 +207,13 @@ function BinaryReader:get_struct(s,r)
 	return r
 end
 function BinaryReader:hexdump(prm)
-	local a,c,line,buf
+	local a,c,line,buf,saved_ofs
 	if type(prm)=='number' then prm={ size=prm } end
 	prm=prm or {}
+	if prm.at then
+		saved_ofs=self.ofs
+		self.ofs=prm.at
+	end
 	prm.size=prm.size or self:size()-self.ofs
 	if prm.size<=0 then return self end
 	prm.width=prm.width or 16
@@ -231,5 +241,6 @@ function BinaryReader:hexdump(prm)
 		if #buf<prm.width then break end
 		a=a+prm.width
 	end
+	if saved_ofs then self.ofs=saved_ofs end
 	return self
 end
