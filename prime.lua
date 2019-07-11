@@ -97,3 +97,9 @@ function gcd(a,b)
 	while b~=0 do a,b=b,a%b end
 	return a
 end
+function is_gen(g,p)
+	for m,n in factors(p-1) do
+		if mod_pow(g,(p-1)//m,p)==1 then return false end
+	end
+	return true
+end
