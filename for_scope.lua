@@ -24,12 +24,12 @@ end
 -- usage:
 --
 -- function test()
---   for t in for_scope,function(auto,defer) -- scope.begin
+--   for scope in for_scope,function(auto,defer) -- scope.begin
 --     local f,err=auto(io.close,"weak") { io.open "test2.txt" }
 --     print(f,err)
 --     defer(function() print "defer" end)
 --     return auto(){ io.open "readme.txt" }:read()
---   end do return table.unpack(t) end -- scope.end
+--   end do return table.unpack(scope) end -- scope.end
 -- end
 -- print(test())
 --
