@@ -13,3 +13,5 @@ function top(t,n,get)
 		return keys[idx], t[ keys[idx] ]
 	end
 end
+
+return top
