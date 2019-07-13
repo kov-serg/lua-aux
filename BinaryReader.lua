@@ -42,7 +42,10 @@ local function seq_unpack(f,data,ofs,read,limit)
 	limit=limit or 8
 	for i=1,limit do
 		rc,re=pcall(function() res=table.pack(string.unpack(f,data,ofs)) end)
-		if rc then return res end
+		if rc then
+			if res[2]~=#data+2 then return res end
+			re="more"
+		end
 		local re1=re:match':%s*([^:]+)$' -- check for invalid format
 		if re1 and re1:find('invalid') then error(re1,2) end
 		more=read() if not more then error(re) end
@@ -59,11 +62,9 @@ function newFileStreamReader(name)
 	return setmetatable(self,{__index=FileStreamReader})
 end
 function FileStreamReader:read(size) 
-	--print("FileStream:read",size)
 	return self.file:read(size)
 end
 function FileStreamReader:seek(ofs,mode) 
-	--print("FileStream:seek",ofs,mode or '')
 	return self.file:seek(mode or 'set',ofs) 
 end
 function FileStreamReader:size()
