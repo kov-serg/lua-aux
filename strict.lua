@@ -10,3 +10,5 @@ function strict(s) s=s or {}
 		end,
 	})
 end
+
+return strict
