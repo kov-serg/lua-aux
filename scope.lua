@@ -35,3 +35,5 @@ end
 --   print( f:read() )
 -- end)
 --
+
+return scope
