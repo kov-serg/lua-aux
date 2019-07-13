@@ -1,36 +1,19 @@
 local Vector={}
 local Vector_mt={ type='vector', __index=Vector }
 
-vector=function(x)
-	local r={}
-	local mt=getmetatable(x)
-	if type(x)=='number' or (mt and mt.scalar) then
-		r[1]=x
-	else
-		for k,v in ipairs(x) do r[k]=v end
-	end
-	return setmetatable(r,Vector_mt)
-end
-local function tostring(v,fmt)
-	if type(v)=='number' then
-		return string.format(fmt,v)
-	elseif type(v)=='table' then
-		local mt=getmetatable(v)
-		if mt then 
-			local ts=mt.__tostring
-			if ts then return ts(v,fmt) end
+vector=setmetatable({},{
+	__call=function(t,x)
+		local r={}
+		local mt=getmetatable(x)
+		if type(x)=='number' or (mt and mt.scalar) then
+			r[1]=x
+		else
+			for k,v in ipairs(x) do r[k]=v end
 		end
+		return setmetatable(r,Vector_mt)
 	end
-	return type(v)
-end
-Vector.format_string="%.4g"
-Vector.format_prefix=Vector_mt.type
-function Vector_mt:__tostring(fmt)
-	fmt=fmt or self.format_string
-	local r=self.format_prefix..'{'
-	for k,v in ipairs(self) do if k>1 then r=r..',' end r=r..tostring(v,fmt) end
-	return r..'}'
-end
+})
+
 local function need_vector(va)
 	local mt=getmetatable(va)
 	if mt and mt.type==Vector_mt.type then return end
@@ -102,6 +85,26 @@ end
 function Vector:dir()
 	return self/self:len()
 end
+local function tostring(v,fmt)
+	if type(v)=='number' then
+		return string.format(fmt,v)
+	elseif type(v)=='table' then
+		local mt=getmetatable(v)
+		if mt then 
+			local ts=mt.__tostring
+			if ts then return ts(v,fmt) end
+		end
+	end
+	return type(v)
+end
+Vector.format_string="%.4g"
+Vector.format_prefix=Vector_mt.type
+function Vector_mt:__tostring(fmt)
+	fmt=fmt or self.format_string
+	local r=self.format_prefix..'{'
+	for k,v in ipairs(self) do if k>1 then r=r..',' end r=r..tostring(v,fmt) end
+	return r..'}'
+end
 
 --[[
 require "complex"
@@ -117,3 +120,5 @@ print( x*y,y*x,z*i,i*z )
 --print(complex{0,1}*vector{1,complex{1,1}})
 print( vector(complex{1,2}))
 ]]
+
+return vector
