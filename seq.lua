@@ -5,3 +5,5 @@ function seq(fn)
 		return res[1] and table.unpack(res,2) or nil
 	end
 end
+
+return seq
