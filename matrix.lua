@@ -139,13 +139,14 @@ function Matrix_mt.__div(va,vb)
 end
 local norm=function(x) if type(x)=='number' then return math.abs(x) end return x:norm() end
 function Matrix:det()
-	local n,w,r
-	n=self.dim w=matrix(self) r=1
+	local n,w,r,s
+	n=self.dim w=matrix(self) r=1 s=false
 	for x=1,n do
 		mi=x mv=norm(w.data[x+(x-1)*n])
 		for y=x+1,n do tv=norm(w.data[x+(y-1)*n]) if mv<tv then mv=tv mi=y end end
 		if mi~=x then
 			for k=x,n do w.data[k+(x-1)*n],w.data[k+(mi-1)*n]=w.data[k+(mi-1)*n],w.data[k+(x-1)*n] end
+			if (mi+x)%2==1 then s=not s end
 		end
 		for y=x+1,n do
 			mf=w.data[x+(y-1)*n]/w.data[x+(x-1)*n]
@@ -153,6 +154,7 @@ function Matrix:det()
 		end
 		r=r*w.data[x+(x-1)*n]
 	end
+	if s then r=-r end
 	return r
 end
 matrix.det=Matrix.det
