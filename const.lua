@@ -3,3 +3,4 @@ function const(c)
 		__newindex=function(t,n,v) error "const is read only" end
 	})
 end
+return const
