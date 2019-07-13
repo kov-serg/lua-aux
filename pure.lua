@@ -43,3 +43,5 @@ function test(v1) pure_check() local _ENV={G=_G}
 end
 test "error"
 ]]
+
+return pure
