@@ -153,3 +153,6 @@ m=p:get"H"
 print(p:hexdump())
 
 ]]
+
+return Packet
+
