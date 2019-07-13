@@ -1,61 +1,48 @@
 local Matrix={}
 local Matrix_mt={ type='matrix',__index=Matrix }
 
-function matrix(v,n)
-	local r
-	if type(v)=='number' or n then 
-		if n==nil then n,v=v,1 end
-		r={ dim=n, data={} }
-		for y=1,n do
-			for x=1,n do table.insert(r.data,x==y and v or 0) end
-		end
-	else
-		local mt=getmetatable(v)
-		if mt and mt.type==Matrix_mt.type then
-			r={ dim=v.dim, data={} }
-			for di,dv in ipairs(v.data) do r.data[di]=dv end
-			return setmetatable(r,Matrix_mt)		
-		end
-		-- from array
-		n=n or math.max(#v,#v[1])
-		r={ dim=n, data={} } 
-		for y=1,n do
-			local row=v[y] or {}
-			for x=1,n do
-				r.data[x+(y-1)*n]=row[x] or 0
+matrix=setmetatable({},{
+	__call=function(t,v,n)
+		local r
+		if type(v)=='number' or n then 
+			if n==nil then n,v=v,1 end
+			r={ dim=n, data={} }
+			if type(v)=='table' then
+				local mt=getmetatable(v)
+				if mt and mt.scalar then
+					for y=1,n do -- from scalar
+						for x=1,n do table.insert(r.data,x==y and v or 0) end
+					end
+				else
+					for y=1,n do -- for table or vector
+						for x=1,n do table.insert(r.data,x==y and (v[x] or 1) or 0) end
+					end
+				end
+			else
+				for y=1,n do -- from number
+					for x=1,n do table.insert(r.data,x==y and v or 0) end
+				end
+			end
+		else
+			local mt=getmetatable(v)
+			if mt and mt.type==Matrix_mt.type then
+				r={ dim=v.dim, data={} }
+				for di,dv in ipairs(v.data) do r.data[di]=dv end
+				return setmetatable(r,Matrix_mt)		
+			end
+			-- from array
+			n=n or math.max(#v,#v[1])
+			r={ dim=n, data={} } 
+			for y=1,n do
+				local row=v[y] or {}
+				for x=1,n do
+					r.data[x+(y-1)*n]=row[x] or 0
+				end
 			end
 		end
+		return setmetatable(r,Matrix_mt)
 	end
-	return setmetatable(r,Matrix_mt)
-end
-
-local function tostring(v,fmt)
-	if type(v)=='number' then
-		return string.format(fmt,v)
-	elseif type(v)=='table' then
-		local mt=getmetatable(v)
-		if mt then 
-			local ts=mt.__tostring
-			if ts then return ts(v,fmt) end
-		end
-	end
-	return type(v)
-end
-Matrix.format_string="%8.4f"
-Matrix.format_prefix=Matrix_mt.type
-function Matrix_mt:__tostring(fmt)
-	local r=self.format_prefix..'{\n'
-	fmt=fmt or self.format_string
-	for y=1,self.dim do
-		r=r..'\t{'
-		for x=1,self.dim do
-			if x>1 then r=r..',' end
-			r=r..tostring(self.data[x+(y-1)*self.dim],fmt)
-		end
-		r=r..'},\n'
-	end
-	return r..'}'
-end
+})
 local function need_matrix(va)
 	local mt=getmetatable(va)
 	if mt and mt.type==Matrix_mt.type then return end
@@ -92,7 +79,7 @@ function Matrix.binary(a,b,fn) need_matrix(b)
 	return setmetatable(r,Matrix_mt)
 end
 function Matrix:get(y,x) return self.data[x+(y-1)*self.dim] end
-function Matrix:set(y,x,v) self.data[x+(y-1)*self.dim]=v end
+function Matrix:set(y,x,v) self.data[x+(y-1)*self.dim]=v return self end
 function Matrix_mt.__unm(va) return va:unary(function(x) return -x end) end
 function Matrix_mt.__add(va,vb) return va:binary(vb,function(ai,bi) return ai+bi end) end
 function Matrix_mt.__sub(va,vb) return va:binary(vb,function(ai,bi) return ai-bi end) end
@@ -144,7 +131,7 @@ function Matrix_mt.__div(va,vb)
 	if type(va)=='number' then return va*vb:inv() end
 	local mt=getmetatable(vb)
 	if type(vb)=='number' or (mt and mt.scalar) then return va:unary(function(vai) return vai/vb end) end
-	if mt and mt.type==Matrix_mt.type then
+	if mt and mt.type=='matrix' then
 		if va.dim~=vb.dim then error "need matrix same dimensions" end
 		return va*vb:inv()
 	end
@@ -168,6 +155,7 @@ function Matrix:det()
 	end
 	return r
 end
+matrix.det=Matrix.det
 function Matrix:inv()
 	local n,r,w,mi,mv,tv,mf
 	n=self.dim w=matrix(self) r=matrix(n)
@@ -192,6 +180,87 @@ function Matrix:inv()
 	end
 	return r
 end
+matrix.inv=Matrix.inv
+local function tostring(v,fmt)
+	if type(v)=='number' then
+		return string.format(fmt,v)
+	elseif type(v)=='table' then
+		local mt=getmetatable(v)
+		if mt then 
+			local ts=mt.__tostring
+			if ts then return ts(v,fmt) end
+		end
+	end
+	return type(v)
+end
+Matrix.format_string="%8.4f"
+Matrix.format_prefix=Matrix_mt.type
+function Matrix_mt:__tostring(fmt)
+	local r=self.format_prefix..'{\n'
+	fmt=fmt or self.format_string
+	for y=1,self.dim do
+		r=r..'\t{'
+		for x=1,self.dim do
+			if x>1 then r=r..',' end
+			r=r..tostring(self.data[x+(y-1)*self.dim],fmt)
+		end
+		r=r..'},\n'
+	end
+	return r..'}'
+end
+-- 3D/4D matrix helpers
+function matrix.identity(n) return matrix(1,n or 4) end
+function matrix.scale(x,n) return matrix(x,n or 4) end
+function matrix.translate(x,n) n=n or 4
+	local m=matrix(1,n)
+	for i=1,n-1 do m:set(i,n,x[i] or 0) end
+	return m
+end
+function matrix.translateX(x,n) n=n or 4 return matrix(n):set(1,n,x) end
+function matrix.translateY(y,n) n=n or 4 return matrix(n):set(2,n,y) end
+function matrix.translateZ(z,n) n=n or 4 return matrix(n):set(3,n,z) end
+function matrix.mirrorX(n) return matrix(1,n or 4):set(1,1,-1) end
+function matrix.mirrorY(n) return matrix(1,n or 4):set(2,2,-1) end
+function matrix.mirrorZ(n) return matrix(1,n or 4):set(3,3,-1) end
+function matrix.rotateX(a,n) n=n or 4
+	local m,c,s=matrix(1,n),math.cos(a),math.sin(a)
+	m:set(2,2,c):set(2,3,-s)
+	m:set(3,2,s):set(3,3, c)
+	return m
+end
+function matrix.rotateY(a,n) n=n or 4
+	local m,c,s=matrix(1,n),math.cos(a),math.sin(a)
+	m:set(1,1, c):set(1,3,s)
+	m:set(3,1,-s):set(3,3,c)
+	return m
+end
+function matrix.rotateZ(a,n) n=n or 4
+	local m,c,s=matrix(1,n),math.cos(a),math.sin(a)
+	m:set(1,1,c):set(1,2,-s)
+	m:set(2,1,s):set(2,2, c)
+	return m
+end
+function matrix.rotate(a,dir,n) n=n or 4
+	local m,c,s=matrix(1,n),math.cos(a),math.sin(a)
+	dir=dir:dir()
+	local c1,x,y,z=1-c,dir[1],dir[2],dir[3]
+	m:set(1,1, c+c1*x*x   ):set(1,2, c1*x*y-s*z ):set(1,3, c1*x*z+s*y)
+	m:set(2,1, c1*y*x+s*z ):set(2,2, c+c1*y*y   ):set(2,3, c1*y*z-s*x)
+	m:set(3,1, c1*z*x-s*y ):set(3,2, c1*z*y+s*x ):set(3,3, c+c1*z*z  )
+	return m
+end
+function matrix.mirror(dir) n=n or 4
+	local m,v=matrix(1,n)
+	dir=dir:dir()
+	for y=1,#dir do
+		for x=1,#dir do
+			if x==y then v=1 else v=0 end
+			m:set(y,x,v-2*dir[x]*dir[y])
+		end
+	end
+	return m
+end
+
 
 --[[
 require "complex"
@@ -217,3 +286,5 @@ m3=m2:inv()
 print(m2*m3)
 print(m3:tr()*r)
 ]]
+
+return matrix
