@@ -1,5 +1,5 @@
 local Parser={}
-function newParser(prm)
+function parser(prm)
 	prm=prm or {}
 	if type(prm)=='string' then prm={text=prm} end
 	prm.text=prm.text or error "no text"
@@ -89,3 +89,5 @@ function Parser:try(fn,...)
 	if not r[1] then self.pos=p end
 	return table.unpack(r)
 end
+
+return parser
