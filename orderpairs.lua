@@ -8,3 +8,5 @@ function orderpairs(t,cmp)
 		return keys[idx], t[keys[idx]]
 	end
 end
+
+return orderpairs
