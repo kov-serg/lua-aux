@@ -31,4 +31,13 @@ for auto,defer in scope() do
 end
 ]]
 
-return scope
+local function check(fn)
+  local supported=false
+  for auto,defer in scope() do
+    defer(function() supported=true end)
+  end
+  if not supported then error "Need Lua 5.4" end
+  return fn
+end
+
+return check(scope)
