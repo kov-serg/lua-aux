@@ -26,7 +26,7 @@ end
 --[[usage:
 for auto,defer in scope() do
   defer(function() print"defer" end)
-  local f=auto(io.close){ io.open "scope54.lua"}
+  local f=auto(io.close){ io.open "scope54.lua" }
   print(f:read())
 end
 ]]
