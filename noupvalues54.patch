@@ -93,3 +93,4 @@ diff -r 55beab95170f src/lua.h
  
  #define LUA_VERSION_NUM			504
  #define LUA_VERSION_RELEASE_NUM		(LUA_VERSION_NUM * 100 + 0)
+
