@@ -1,0 +1,95 @@
+diff -r 55beab95170f src/Makefile
+--- a/src/Makefile	Mon Jul 15 19:07:40 2019 +0300
++++ b/src/Makefile	Tue Jul 30 15:34:39 2019 +0300
+@@ -7,7 +7,8 @@
+ PLAT= none
+ 
+ CC= gcc -std=gnu99
+-CFLAGS= -O2 -Wall -Wextra -DLUA_COMPAT_5_3 $(SYSCFLAGS) $(MYCFLAGS)
++#CFLAGS= -O2 -Wall -Wextra -DLUA_COMPAT_5_3 $(SYSCFLAGS) $(MYCFLAGS)
++CFLAGS= -O2 -Wall -Wextra $(SYSCFLAGS) $(MYCFLAGS)
+ LDFLAGS= $(SYSLDFLAGS) $(MYLDFLAGS)
+ LIBS= -lm $(SYSLIBS) $(MYLIBS)
+ 
+diff -r 55beab95170f src/llex.c
+--- a/src/llex.c	Mon Jul 15 19:07:40 2019 +0300
++++ b/src/llex.c	Tue Jul 30 15:34:39 2019 +0300
+@@ -41,7 +41,7 @@
+     "and", "break", "do", "else", "elseif",
+     "end", "false", "for", "function", "goto", "if",
+     "in", "local", "nil", "not", "or", "repeat",
+-    "return", "then", "true", "until", "while",
++    "return", "then", "true", "until", "noupvalues", "while",
+     "//", "..", "...", "==", ">=", "<=", "~=",
+     "<<", ">>", "::", "<eof>",
+     "<number>", "<integer>", "<name>", "<string>"
+diff -r 55beab95170f src/llex.h
+--- a/src/llex.h	Mon Jul 15 19:07:40 2019 +0300
++++ b/src/llex.h	Tue Jul 30 15:34:39 2019 +0300
+@@ -28,7 +28,7 @@
+   TK_AND = FIRST_RESERVED, TK_BREAK,
+   TK_DO, TK_ELSE, TK_ELSEIF, TK_END, TK_FALSE, TK_FOR, TK_FUNCTION,
+   TK_GOTO, TK_IF, TK_IN, TK_LOCAL, TK_NIL, TK_NOT, TK_OR, TK_REPEAT,
+-  TK_RETURN, TK_THEN, TK_TRUE, TK_UNTIL, TK_WHILE,
++  TK_RETURN, TK_THEN, TK_TRUE, TK_UNTIL, TK_NOUPVALUES, TK_WHILE,
+   /* other terminal symbols */
+   TK_IDIV, TK_CONCAT, TK_DOTS, TK_EQ, TK_GE, TK_LE, TK_NE,
+   TK_SHL, TK_SHR,
+diff -r 55beab95170f src/lparser.c
+--- a/src/lparser.c	Mon Jul 15 19:07:40 2019 +0300
++++ b/src/lparser.c	Tue Jul 30 15:34:39 2019 +0300
+@@ -368,6 +368,12 @@
+     }
+     else {  /* not found as local at current level; try upvalues */
+       int idx = searchupvalue(fs, n);  /* try existing upvalues */
++      if (fs->noupvalues) {
++        if (strcmp(getstr(n),LUA_ENV)!=0) {
++          var->k=VVOID;
++          return;
++        }
++      }
+       if (idx < 0) {  /* not found? */
+         singlevaraux(fs->prev, n, var, 0);  /* try upper levels */
+         if (var->k == VVOID)  /* not found? */
+@@ -667,6 +673,7 @@
+   fs->nlocvars = 0;
+   fs->nactvar = 0;
+   fs->needclose = 0;
++  fs->noupvalues = 0;
+   fs->firstlocal = ls->dyd->actvar.n;
+   fs->firstlabel = ls->dyd->label.n;
+   fs->bl = NULL;
+@@ -924,6 +931,10 @@
+   }
+   parlist(ls);
+   checknext(ls, ')');
++  if (ls->t.token==TK_NOUPVALUES) {
++    luaX_next(ls); /* skip noupvalues */
++    new_fs.noupvalues=1;
++  }
+   statlist(ls);
+   new_fs.f->lastlinedefined = ls->linenumber;
+   check_match(ls, TK_END, TK_FUNCTION, line);
+diff -r 55beab95170f src/lparser.h
+--- a/src/lparser.h	Mon Jul 15 19:07:40 2019 +0300
++++ b/src/lparser.h	Tue Jul 30 15:34:39 2019 +0300
+@@ -141,6 +141,7 @@
+   lu_byte freereg;  /* first free register */
+   lu_byte iwthabs;  /* instructions issued since last absolute line info */
+   lu_byte needclose;  /* function needs to close upvalues when returning */
++  lu_byte noupvalues;
+ } FuncState;
+ 
+ 
+diff -r 55beab95170f src/lua.h
+--- a/src/lua.h	Mon Jul 15 19:07:40 2019 +0300
++++ b/src/lua.h	Tue Jul 30 15:34:39 2019 +0300
+@@ -18,7 +18,7 @@
+ 
+ #define LUA_VERSION_MAJOR	"5"
+ #define LUA_VERSION_MINOR	"4"
+-#define LUA_VERSION_RELEASE	"0"
++#define LUA_VERSION_RELEASE	"0+noupvalue"
+ 
+ #define LUA_VERSION_NUM			504
+ #define LUA_VERSION_RELEASE_NUM		(LUA_VERSION_NUM * 100 + 0)
