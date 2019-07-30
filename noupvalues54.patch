@@ -89,8 +89,7 @@ diff -r 55beab95170f src/lua.h
  #define LUA_VERSION_MAJOR	"5"
  #define LUA_VERSION_MINOR	"4"
 -#define LUA_VERSION_RELEASE	"0"
-+#define LUA_VERSION_RELEASE	"0+noupvalue"
++#define LUA_VERSION_RELEASE	"0+noupvalues"
  
  #define LUA_VERSION_NUM			504
  #define LUA_VERSION_RELEASE_NUM		(LUA_VERSION_NUM * 100 + 0)
-
