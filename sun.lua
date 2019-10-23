@@ -28,25 +28,25 @@ local function getSolarMeanAnomaly(d) return grad*(357.5291+0.98560028*d) end
 local function getEquationOfCenter(M) return grad*(1.9148*sin(M) + 0.02*sin(2*M) + 0.0003*sin(3*M)) end
 local function getEclipticLongitude(M,C)
 	local P = grad*102.9372 -- perihelion of the Earth
-    return M + C + P + PI
+	return M + C + P + PI
 end
 local function getSunCoords(d)
 	local M,C,L
-    M=getSolarMeanAnomaly(d)
-    C=getEquationOfCenter(M)
-    L=getEclipticLongitude(M,C)
-    return { dec=getDeclination(L,0), ra=getRightAscension(L,0) }
+	M=getSolarMeanAnomaly(d)
+	C=getEquationOfCenter(M)
+	L=getEclipticLongitude(M,C)
+	return { dec=getDeclination(L,0), ra=getRightAscension(L,0) }
 end
 -- moon calculations, based on http://aa.quae.nl/en/reken/hemelpositie.html formulas
 local function getMoonCoords(d) -- geocentric ecliptic coordinates of the moon
 	local L,M,F,l,b,dt
-    L=grad*(218.316 + 13.176396*d) -- ecliptic longitude
-    M=grad*(134.963 + 13.064993*d) -- mean anomaly
-    F=grad*( 93.272 + 13.229350*d) -- mean distance
-    l=L+grad*6.289*sin(M)   -- longitude
-    b=grad*5.128*sin(F)     -- latitude
-    dt=385001-20905*cos(M) -- distance to the moon in km
-    return { ra=getRightAscension(l,b), dec=getDeclination(l,b), dist=dt }
+	L=grad*(218.316 + 13.176396*d) -- ecliptic longitude
+	M=grad*(134.963 + 13.064993*d) -- mean anomaly
+	F=grad*( 93.272 + 13.229350*d) -- mean distance
+	l=L+grad*6.289*sin(M)   -- longitude
+	b=grad*5.128*sin(F)     -- latitude
+	dt=385001-20905*cos(M) -- distance to the moon in km
+	return { ra=getRightAscension(l,b), dec=getDeclination(l,b), dist=dt }
 end
 local pos_mt={
 	__tostring=function(pos)
@@ -59,15 +59,15 @@ local pos_mt={
 }
 sun.getMoonPosition=function(date,lat,lng)
 	local lw,phi,d,c,H,h
-    lw=-lng*grad
-    phi=lat*grad
-    d=toDays(date)
-    c=getMoonCoords(d)
-    H=getSiderealTime(d,lw)-c.ra
-    h=getAltitude(H,phi,c.dec)
-    -- altitude correction for refraction
-    h=h + grad*0.017/tan(h+grad*10.26/(h+grad*5.10))
-    return setmetatable({ azimuth=getAzimuth(H,phi,c.dec), altitude=h,distance=c.dist }, pos_mt)
+	lw=-lng*grad
+	phi=lat*grad
+	d=toDays(date)
+	c=getMoonCoords(d)
+	H=getSiderealTime(d,lw)-c.ra
+	h=getAltitude(H,phi,c.dec)
+	-- altitude correction for refraction
+	h=h + grad*0.017/tan(h+grad*10.26/(h+grad*5.10))
+	return setmetatable({ azimuth=getAzimuth(H,phi,c.dec), altitude=h,distance=c.dist }, pos_mt)
 end
 -- calculations for illumination parameters of the moon,
 -- based on http://idlastro.gsfc.nasa.gov/ftp/pro/astro/mphase.pro formulas and
@@ -75,81 +75,82 @@ end
 -- (Willmann-Bell, Richmond) 1998.
 sun.getMoonIllumination=function(date)
 	local d,s,m,sdist,phi,inc
-    d=toDays(date)
-    s=getSunCoords(d)
-    m=getMoonCoords(d)
-    sdist=149598000 -- distance from Earth to Sun in km
-    phi =acos(sin(s.dec)*sin(m.dec) + cos(s.dec)*cos(m.dec)*cos(s.ra-m.ra))
-    inc =atan(sdist*sin(phi), m.dist-sdist*cos(phi))
-    return {
-        fraction=(1+cos(inc))/2,
-        angle=atan(
-        	cos(s.dec)*sin(s.ra-m.ra), 
-        	sin(s.dec)*cos(m.dec)-cos(s.dec)*sin(m.dec)*cos(s.ra-m.ra)
-        )
-    }
+	d=toDays(date)
+	s=getSunCoords(d)
+	m=getMoonCoords(d)
+	sdist=149598000 -- distance from Earth to Sun in km
+	phi =acos(sin(s.dec)*sin(m.dec) + cos(s.dec)*cos(m.dec)*cos(s.ra-m.ra))
+	inc =atan(sdist*sin(phi), m.dist-sdist*cos(phi))
+	return {
+		fraction=(1+cos(inc))/2,
+		angle=atan(
+			cos(s.dec)*sin(s.ra-m.ra), 
+			sin(s.dec)*cos(m.dec)-cos(s.dec)*sin(m.dec)*cos(s.ra-m.ra)
+		)
+	}
 end
 sun.getPosition=function(date,lat,lng)
 	local lw,phi,d,c,H
-    lw =-lng*grad
-    phi=lat*grad
-    d  =toDays(date)
-    c=getSunCoords(d)
-    H=getSiderealTime(d,lw)-c.ra
-    return setmetatable({
-        azimuth=getAzimuth(H, phi, c.dec),
-        altitude=getAltitude(H, phi, c.dec)
-    },pos_mt)
+	lw =-lng*grad
+	phi=lat*grad
+	d  =toDays(date)
+	c=getSunCoords(d)
+	H=getSiderealTime(d,lw)-c.ra
+	return setmetatable({
+		azimuth=getAzimuth(H, phi, c.dec),
+		altitude=getAltitude(H, phi, c.dec)
+	},pos_mt)
 end
 
 -- calculations for sun times
 local sun_times={
-    {-0.83, 'sunrise',       'sunset'      },
-    { -0.3, 'sunriseEnd',    'sunsetStart' },
-    {   -6, 'dawn',          'dusk'        },
-    {  -12, 'nauticalDawn',  'nauticalDusk'},
-    {  -18, 'nightEnd',      'night'       },
-    {    6, 'goldenHourEnd', 'goldenHour'  },
+	{-0.83, 'sunrise',       'sunset'      },
+	{ -0.3, 'sunriseEnd',    'sunsetStart' },
+	{   -6, 'dawn',          'dusk'        },
+	{  -12, 'nauticalDawn',  'nauticalDusk'},
+	{  -18, 'nightEnd',      'night'       },
+	{    6, 'goldenHourEnd', 'goldenHour'  },
 }
 local J0 = 0.0009
 local function getJulianCycle(d,lw) return round(d-J0-lw/(2*PI)) end
 local function getApproxTransit(Ht,lw,n) return J0+(Ht+lw)/(2*PI)+n end
 local function getSolarTransitJ(ds, M, L) return J2000+ds+0.0053*sin(M)-0.0069*sin(2*L) end
+-- may return nan
 local function getHourAngle(h, phi, d) return acos((sin(h)-sin(phi)*sin(d))/(cos(phi)*cos(d))) end
 local function notNAN(x) return x==x end
 
 sun.getTimes=function(date,lat,lng)
 	local lw,phi,d,n,ds,M,C,L
-    lw=-lng*grad
-    phi=lat*grad
-    d=toDays(date)
-    n  = getJulianCycle(d, lw)
-    ds = getApproxTransit(0, lw, n)
-    M = getSolarMeanAnomaly(ds)
-    C = getEquationOfCenter(M)
-    L = getEclipticLongitude(M, C)
-    dec = getDeclination(L, 0)
-    Jnoon = getSolarTransitJ(ds, M, L)
-    -- returns set time for the given sun altitude
-    local function getSetJ(h)
-        local w = getHourAngle(h, phi, dec)
-        local a = getApproxTransit(w, lw, n);
-        return getSolarTransitJ(a, M, L)
-    end
-    local result = {
-        solarNoon=fromJulian(Jnoon),
-        nadir=fromJulian(Jnoon-0.5),
-    }
-    local i, len, time, angle, morningName, eveningName, Jset, Jrise
-    for _,time in pairs(sun_times) do
-        Jset =getSetJ(time[1]*grad)
-	if notNAN(Jset) then
-        	Jrise=Jnoon-(Jset-Jnoon)
-        	result[time[2]]=fromJulian(Jrise)
-        	result[time[3]]=fromJulian(Jset)
+	lw=-lng*grad
+	phi=lat*grad
+	d=toDays(date)
+	n  = getJulianCycle(d, lw)
+	ds = getApproxTransit(0, lw, n)
+	M = getSolarMeanAnomaly(ds)
+	C = getEquationOfCenter(M)
+	L = getEclipticLongitude(M, C)
+	dec = getDeclination(L, 0)
+	Jnoon = getSolarTransitJ(ds, M, L)
+	-- returns set time for the given sun altitude
+	local function getSetJ(h)
+		local w = getHourAngle(h, phi, dec)
+		local a = getApproxTransit(w, lw, n);
+		return getSolarTransitJ(a, M, L)
 	end
-    end
-    return result
+	local result = {
+		solarNoon=fromJulian(Jnoon),
+		nadir=fromJulian(Jnoon-0.5),
+	}
+	local i, len, time, angle, morningName, eveningName, Jset, Jrise
+	for _,time in pairs(sun_times) do
+		Jset =getSetJ(time[1]*grad)
+		if notNAN(Jset) then
+			Jrise=Jnoon-(Jset-Jnoon)
+			result[time[2]]=fromJulian(Jrise)
+			result[time[3]]=fromJulian(Jset)
+		end
+	end
+	return result
 end
 
 -- helper function from seq.lua
@@ -169,10 +170,19 @@ local function top(t,n,get)
 	end
 end 
 
--- simple usage: sun.info{ name="Moscow", lat=55.753890, lng=37.620767 }
+-- simple usage:
+--  sun.info "moscow"
+--  sun.info{ name="Moscow", lat=55.753890, lng=37.620767 }
+sun.places={
+	piter={ name="Piter", lat=59.950000, lng=30.316667 },
+	moscow={ name="Moscow", lat=55.753890, lng=37.620767 },
+	kaluga={ name="Kaluga", lat=54.533333, lng=36.266667 },
+	obninsk={ name="Obninsk", lat=55.100000, lng=36.616667 },
+}
 sun.info=function(place,t)
-    local tt=t
+	local tt=t
 	t=t or os.time()
+	if type(place)=='string' then place=sun.places[place:lower()] end
 	local pos=sun.getPosition(t,place.lat,place.lng)
 	local moon=sun.getMoonPosition(t,place.lat,place.lng) moon.distance=nil
 	local times=sun.getTimes(t,place.lat,place.lng)
