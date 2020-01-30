@@ -83,7 +83,12 @@ function Complex_mt.__div(va,vb)
 end
 function Complex_mt.__pow(va,vb)
 	local a,b=complex(va),complex(vb)
-	local lnma=math.log(a:norm())/2
+	local an=a:norm() 
+	if an==0 then 
+		if b:norm()==0 then error("0^0 is undefined")
+		else return a end
+	end
+	local lnma=math.log(an)/2
 	local arga=a:arg()
 	local s=math.exp( lnma*b[1] - b[2]*arga )
 	local f=b[1]*arga+b[2]*lnma
