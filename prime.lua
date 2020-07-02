@@ -28,7 +28,7 @@ function is_prime(x)
   local n,r,a
   if x==2 or x==3 then return true end
   if x<2 or x%2==0 then return false end
-  n=math.ceil(math.log(x,2))
+  n=math.ceil(math.log(x,2))+4
   for i=1,n do
     a=1+math.random(x-3)
     r=mod_pow(a,x-1,x)
