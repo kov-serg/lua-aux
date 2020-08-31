@@ -64,8 +64,8 @@ end
 function FileStreamReader:read(size) 
 	return self.file:read(size)
 end
-function FileStreamReader:seek(ofs,mode) 
-	return self.file:seek(mode or 'set',ofs) 
+function FileStreamReader:seek(ofs) 
+	return self.file:seek('set',ofs) 
 end
 function FileStreamReader:size()
 	local pos,res
@@ -75,6 +75,26 @@ function FileStreamReader:size()
 	return res
 end
 function FileStreamReader:close() self.file:close() end
+
+local StringStreamReader={}
+function newStringStreamReader(data)
+	local res={data=data,pos=0}
+	return setmetatable(res,{__index=StringStreamReader})
+end
+function StringStreamReader:read(size)
+	local h,t=self.pos, self.pos+size
+	if t>#self.data then t=#self.data end
+	self.pos=t
+	if h<#self.data then return self.data:sub(h+1,t+1) end
+end
+function StringStreamReader:seek(ofs,mode)
+	self.pos=ofs
+	if self.pos<0 then self.pos=0 end
+	if self.pos>#self.data then self.pos=#self.data end
+	return self.pos
+end
+function StringStreamReader:size() return #self.data end
+function StringStreamReader:close() self.data="" end
 
 local BinaryReader={}
 function newBinaryReader(self)
@@ -91,6 +111,7 @@ function newBinaryReader(self)
 		size=self.cache_size,
 		unload=function(page) self.pages[page]=nil end,
 	}
+	if self.data then self.stream=newStringStreamReader(self.data) end
 	if self.filename then self.stream=newFileStreamReader(self.filename) end
 	return setmetatable(self,{__index=BinaryReader})
 end
@@ -172,9 +193,12 @@ function BinaryReader:get(f,clip)
 			po=po+self.pagesize
 			return self:getpage(po) 
 		end,self.unpack_page_limit)
-		self.ofs=self.ofs-ph+res[#res]-1
+		self.ofs=po+res[#res]-1
 		return table.unpack(res,1,#res-1)
 	end
+end
+function BinaryReader:peek(...)
+	return self:get_at(self.ofs,...)
 end
 local function trace_value(name,vtype,value,ofs,size,trace)
 	local space,ln,fmt,fw
@@ -243,4 +267,35 @@ function BinaryReader:hexdump(prm)
 	end
 	if saved_ofs then self.ofs=saved_ofs end
 	return self
+end
+
+-- experimental
+local function seq_find(pat,data,ofs,read,limit)
+	local res,rc,re,more
+	limit=limit or 2
+	for i=1,limit do
+		res=table.pack(string.find(data,pat,ofs))
+		if #res>1 and res[2]<#data then break end
+		more=read() if not more then break end
+		data=data..more
+	end
+	return res
+end
+-- experimental
+function BinaryReader:find(f)
+	local wrk,ph,po,res
+
+	wrk=self:getpage(self.ofs)
+	ph=self.ofs%self.pagesize
+	po=self.ofs-ph
+	res=seq_find(f,wrk,ph+1,function() 
+		po=po+self.pagesize
+		return self:getpage(po) 
+	end)
+	if #res>0 then
+		res[1]=res[1]+po
+		res[2]=res[2]+po
+		self.ofs=res[2]
+		return table.unpack(res)
+	end
 end
