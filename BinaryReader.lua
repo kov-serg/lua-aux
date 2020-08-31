@@ -193,7 +193,7 @@ function BinaryReader:get(f,clip)
 			po=po+self.pagesize
 			return self:getpage(po) 
 		end,self.unpack_page_limit)
-		self.ofs=po+res[#res]-1
+		self.ofs=self.ofs-ph+res[#res]-1
 		return table.unpack(res,1,#res-1)
 	end
 end
