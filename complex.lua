@@ -12,8 +12,8 @@ complex=setmetatable({},{
 	end,
 })
 
-function complex.re(x) local t=complex(x) return x[1] end
-function complex.im(x) local t=complex(x) return x[2] end
+function complex.re(x) local t=complex(x) return t[1] end
+function complex.im(x) local t=complex(x) return t[2] end
 function complex.abs(x) local t=complex(x) return math.sqrt(t:norm()) end       
 function complex.conj(x) local t=complex(x) return complex{t[1],-t[2]} end
 function complex.norm(x) local t=complex(x) return t[1]*t[1]+t[2]*t[2] end
