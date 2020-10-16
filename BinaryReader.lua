@@ -231,8 +231,11 @@ function BinaryReader:get_struct(s,r)
 	return r
 end
 function BinaryReader:hexdump(prm)
-	local a,c,line,buf,saved_ofs
-	if type(prm)=='number' then prm={ size=prm } end
+	local a,c,line,buf,saved_ofs,w
+	if type(prm)=='number' then 
+		if prm<0 then prm=self:size()-self.ofs+prm end
+		prm={ size=prm }
+	end
 	prm=prm or {}
 	if prm.at then
 		saved_ofs=self.ofs
@@ -246,7 +249,8 @@ function BinaryReader:hexdump(prm)
 	a=0
 	while a<prm.size do
 		line=string.format(prm.addr_fmt,self.ofs).." "
-		buf=self:get(prm.width,true)
+		w=prm.size-a if w>prm.width then w=prm.width end
+		buf=self:get(w,true)
 		for i=1,prm.width do
 			if i>#buf then line=line..' --'
 			else line=line..string.format(" %02X",buf:byte(i)) end
