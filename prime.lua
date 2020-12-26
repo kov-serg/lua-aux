@@ -1,6 +1,6 @@
 function mod(a,m)
 	if a>=m then a=a-m if a>=m then a=a%m end
-	elseif a<0 then a=a+m if a<0 then a=m+a%m end	end
+	elseif a<0 then a=a+m if a<0 then a=a%m end end
 	return a
 end
 function mod_add(a,b,m) return mod(a+b,m) end
