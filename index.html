@@ -4,61 +4,108 @@ article {
   margin-left:auto;
   margin-right:auto;
 }
+article pre {
+  border: 1px solid gray
+}
 </style>
 <article>
 
 <h1>lua-aux</h1>
+<hr/>
+  
+<ol>
+  <li>Utils<ol>
+    <li><a href="#dump">dump</a>
+    <li><a href="#top">top</a>
+    <li><a href="#orderpairs">orderpairs</a>
+    <li><a href="#seq">seq</a>
+  </ol>
+  <li>math<ol>
+    <li><a href="#complex">complex</a>
+    <li><a href="#vector">vector</a>
+    <li><a href="#matrix">matrix</a>
+    <li><a href="#qfilter">qfilter</a>
+    <li><a href="#prime">prime</a>
+    <li><a href="#sun">sun</a>
+  </ol>
+  <li>file utils<ol>
+    <li><a href="#utils">utils</a>
+    <li><a href="#Packet">Packet</a>
+    <li><a href="#BinaryReader">BinaryReader</a>
+    <li><a href="#parser">parser</a>
+    <li><a href="#utf8cp">utf8cp</a>
+  </ol>
+  <li>extensions<ol>
+    <li><a href="#const">const</a>
+    <li><a href="#strict">strict</a>
+    <li><a href="#pure">pure</a>
+    <li><a href="#scope">scope</a>
+    <li><a href="#for_scope">for_scope</a>
+    <li><a href="#reload">reload</a>
+  </ol>
+</ol>
 
 <h2>Utils</h2>
-<h3>dump</h3>
+
+<h3 id="dump">dump</h3>
 <p>simple debugging function</p>
-<h3>top</h3>
+<pre>
+  require "dump"
+  dump(_G)
+</pre>
+ 
+<h3 id="top">top</h3>
 <p>for selecting top items</p>
-<h3>orderpairs</h3>
+
+<h3 id="orderpairs">orderpairs</h3>
 <p>ordered pairs()</p>
 <h3>seq</h3>
 <p>sequence definition</p>
+  
+<hr/>
 
 <h2>Extending lua</h2>
-<h3>const</h3>
+<h3 id="const">const</h3>
 <p>read only restriction for tables</p>
-<h3>strict</h3>
+<h3 id="strict">strict</h3>
 <p>access only for defined fields</p>
-<h3>pure</h3>
+<h3 id="pure">pure</h3>
 <p>isolate part of code</p>
-<h3>scope</h3>
+<h3 id="scope">scope</h3>
 <p>resource managment</p>
-<h3>for_scope</h3>
+<h3 id="for_scope">for_scope</h3>
 <p>resource managment using for construction</p>
-<h3>reload</h3>
+<h3 id="reload">reload</h3>
 <p>force reload package</p>
+  
+<hr/>
 
 <h2>Text/Binary file utils</h2>
-<h3>utf8cp</h3>
+<h3 id="utf8cp">utf8cp</h3>
 <p>minimal code pages support</p>
-<h3>utils</h3>
+<h3 id="utils">utils</h3>
 <p>simple text generator utils</p>
-<h3>BinaryReader</h3>
+<h3 id="BinaryReader">BinaryReader</h3>
 <p>structured binary file reader with cache</p>
-<h3>Packet</h3>
+<h3 id="Packet">Packet</h3>
 <p>packet parser/builder</p>
-<h3>parser</h3>
+<h3 id="parser">parser</h3>
 <p>text parser</p>
 
 <hr/>
 
 <h2>Math</h2>
-<h3>complex</h3>
+<h3 id="complex">complex</h3>
 <p>complex numbers support</p>
-<h3>vector</h3>
+<h3 id="vector">vector</h3>
 <p>vector math. can be used with complex numbers</p>
-<h3>matrix</h3>
+<h3 id="matrix">matrix</h3>
 <p>matrix math. can be used with complex numbers</p>
-<h3>qfilter</h3>
+<h3 id="qfilter">qfilter</h3>
 <p>bell-shaped signal filter</p>
-<h3>prime</h3>
+<h3 id="prime">prime</h3>
 <p>basic integer math support</p>
-<h3>sun</h3>
+<h3 id="sun">sun</h3>
 <p>calculate sun rase and down times for location specified</p>
 
 </article>
