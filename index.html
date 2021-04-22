@@ -15,8 +15,14 @@ article pre {
 	overflow: scroll;
 	transition: max-height 1s ease-in-out 0.1s;
 }
+.output:before {
+	content: "[Output]";
+	display: block;
+	font-weight: bold;
+	border-bottom: 1px solid black;
+}
 .output:focus, .output:hover {
-	max-height: 40em;
+	max-height: 80em;
 }
 </style>
 <article>
