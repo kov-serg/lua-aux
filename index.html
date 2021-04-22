@@ -5,7 +5,8 @@ article {
   margin-right:auto;
 }
 article pre {
-  border: 1px solid gray
+  padding: 1em 1.5em;
+  border: 1px dashed #ccc
 }
 </style>
 <article>
@@ -50,8 +51,46 @@ article pre {
 <h3 id="dump">dump</h3>
 <p>simple debugging function</p>
 <pre>
-  require "dump"
-  dump(_G)
+require "dump"
+dump(_G)
+</pre>
+<pre class="output">
+arg	table: 0x56278fb459a0
+utf8	table: 0x56278fb44850
+string	table: 0x56278fb43b40
+dump	function: 0x56278fb7b7d0
+type	function: 0x56278e111b80
+pcall	function: 0x56278e112aa0
+table	table: 0x56278fb42210
+collectgarbage	function: 0x56278e112420
+pairs	function: 0x56278e1129c0
+select	function: 0x56278e111c10
+ipairs	function: 0x56278e1121c0
+_G	table: 0x56278fb3fbc0
+setmetatable	function: 0x56278e1125b0
+next	function: 0x56278e112210
+rawset	function: 0x56278e111f20
+tostring	function: 0x56278e111be0
+load	function: 0x56278e1126d0
+rawget	function: 0x56278e111f80
+tonumber	function: 0x56278e111cc0
+debug	table: 0x56278fb454e0
+assert	function: 0x56278e112940
+os	table: 0x56278fb436e0
+xpcall	function: 0x56278e1124f0
+math	table: 0x56278fb43ef0
+require	function: 0x56278fb41e40
+io	table: 0x56278fb424e0
+rawlen	function: 0x56278e111fd0
+rawequal	function: 0x56278e112020
+getmetatable	function: 0x56278e112870
+dofile	function: 0x56278e1128c0
+print	function: 0x56278e112070
+error	function: 0x56278e112390
+loadfile	function: 0x56278e1127f0
+coroutine	table: 0x56278fb41eb0
+_VERSION	Lua 5.3
+package	table: 0x56278fb41830
 </pre>
  
 <h3 id="top">top</h3>
