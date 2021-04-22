@@ -179,5 +179,27 @@ date	function: 0x56278e116cd0
 <p>basic integer math support</p>
 <h3 id="sun">sun</h3>
 <p>calculate sun rase and down times for location specified</p>
+<pre>
+sun=require "sun"
+sun.info "moscow"
+</pre>
+<pre class="output">
+Moscow sun(az=138.79,alt=-13.81) moon=(az=15.66,alt=47.93)
+	00:29:08	nadir
+	02:22:43	nightEnd
+	03:32:45	nauticalDawn
+	04:27:02	dawn
+	05:08:36	sunrise
+	05:12:42	sunriseEnd
+	05:59:46	goldenHourEnd
+	12:29:08	solarNoon
+	18:58:31	goldenHour
+	19:45:35	sunsetStart
+	19:49:41	sunset
+	20:31:15	dusk
+	21:25:32	nauticalDusk
+	21:44:50	&lt;&lt;&lt; now
+	22:35:34	night
+</pre>
 
 </article>
