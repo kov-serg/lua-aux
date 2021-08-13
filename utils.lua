@@ -44,7 +44,7 @@ function template(G) G=G or _G local fs,fn={}
 					if g==nil then error("no variable "..i.." in {{"..v.."}}") end
 				end
 				if p then fn:gsub('[^|]+',function(f)
-						if G[f]==nil then error("no function "..fn.."in {{"..v.."}}") end
+						if G[f]==nil then error("no function "..fn.." in {{"..v.."}}") end
 						g=G[f](g)
 					end)
 				end
