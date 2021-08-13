@@ -32,9 +32,10 @@ function xml_encode(x)
 	return x:gsub("[<>&'\"]",function(v) return tab[v] end)
 end
 
-function template(G) G=G or _G local fn
+function template(G) G=G or _G local fs,fn={}
 	fn=function(t)
 		if type(t)=='table' then G=setmetatable(t,{__index=G}) return fn end
+		if type(t)=='function' then table.insert(fs,t) return fn end
 		local r=t:gsub('{{([^}]+)}}',function(v)
 			local g=G for i in v:gmatch("[^%.]+") do
 				local p,fn=i:find('|')
@@ -50,6 +51,7 @@ function template(G) G=G or _G local fn
 			end
 			return g
 		end)
+		for i=#fs,1,-1 do r=fs[i](r) end
 		return r
 	end
 	return fn
