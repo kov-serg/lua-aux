@@ -32,29 +32,35 @@ function xml_encode(x)
 	return x:gsub("[<>&'\"]",function(v) return tab[v] end)
 end
 
-function template(G) G=G or _G local fs,fn={}
-	fn=function(t)
-		if type(t)=='table' then G=setmetatable(t,{__index=G}) return fn end
-		if type(t)=='function' then table.insert(fs,t) return fn end
-		local r=t:gsub('{{([^}]+)}}',function(v)
-			local g=G for i in v:gmatch("[^%.]+") do
-				local p,fn=i:find('|')
-				if p then fn=i:sub(p+1) i=i:sub(1,p-1) end
-				if type(g[i])=='function' then g=g[i]() else g=g[i]
-					if g==nil then error("no variable "..i.." in {{"..v.."}}") end
-				end
-				if p then fn:gsub('[^|]+',function(f)
-						if G[f]==nil then error("no function "..fn.." in {{"..v.."}}") end
-						g=G[f](g)
-					end)
-				end
+function template(G) G=G or _G local get_fn
+	function get_fn(m) local fn
+		fn=function(t)
+			if type(t)=='table' then G=setmetatable(t,{__index=G}) return fn end
+			if type(t)=='function' then
+				if m then return get_fn(function(x) return m(t(x)) end) end
+				return get_fn(t)
 			end
-			return g
-		end)
-		for i=#fs,1,-1 do r=fs[i](r) end
-		return r
-	end
-	return fn
+			local r=t:gsub('{{([^}]+)}}',function(v)
+				local g=G for i in v:gmatch("[^%.]+") do
+					local p,fn=i:find('|')
+					if p then fn=i:sub(p+1) i=i:sub(1,p-1) end
+					if type(g[i])=='function' then g=g[i]() else g=g[i]
+						if g==nil then error("no variable "..i.." in {{"..v.."}}") end
+					end
+					if p then fn:gsub('[^|]+',function(f)
+							if G[f]==nil then error("no function "..fn.." in {{"..v.."}}") end
+							g=G[f](g)
+						end)
+					end
+				end
+				return g
+			end)
+			if m then r=m(r) end
+			return r
+		end
+		return fn
+	end 
+	return get_fn()
 end
 
 function create_text(name,G) return create(name,template(G)) end
