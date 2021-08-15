@@ -1,6 +1,6 @@
 function strict(s) s=s or {}
 	return setmetatable({},{
-		__index=function(t,n) 
+		__index=function(t,n)
 			if s[n]==nil then error("no "..n.." defined") end
 			return s[n]
 		end,
