@@ -1,6 +1,6 @@
 function mod(a,m)
 	if a>=m then a=a-m if a>=m then a=a%m end
-	elseif a<0 then a=a+m if a<0 then a=a%m end end
+	elseif a<0 then a=a+m if a<0 then a=m+a%m end	end
 	return a
 end
 function mod_add(a,b,m) return mod(a+b,m) end
@@ -10,17 +10,20 @@ end
 function mod_pow(a,b,m) local r,c=1 while b>0 do c=b//2
   if 2*c~=b then r=mod_mul(r,a,m) end a=mod_mul(a,a,m) b=c end return r 
 end
-function mod_sqrt(a,m)
-  local ai,b,c,d,e,r,t,s
+function mod_sqrt(a,m,b)
+  local ai,c,d,e,r,t,s
   if not is_prime(m) then error "need prime m" end
   t=m-1 c=t/2 if mod_pow(a,c,m)==t then return 0 end
-  repeat b=math.random(m-1) until mod_pow(b,c,m)==t
+  if not b or mod_pow(b,c,m)~=t then
+  	repeat b=math.random(m-1) until mod_pow(b,c,m)==t
+  end
   s=0 while t%2==0 do s=s+1 t=t//2 end
   ai=mod_pow(a,m-2,m) c=mod_pow(b,t,m) r=mod_pow(a,(t+1)//2,m);
   for i=1,s-1 do e=mod_pow(2,s-i-1,m)
     d=mod_pow(mod_mul(mod_mul(r,r,m),ai,m),e,m)
     if d==m-1 then r=mod_mul(r,c,m) end c=mod_mul(c,c,m)
   end
+  --if (r+a)%2==1 then r=m-r end
   if r>m//2 then r=m-r end
   return r,m-r
 end
