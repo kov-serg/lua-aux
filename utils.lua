@@ -34,7 +34,7 @@ end
 
 function template(G) G=G or _G local get_fn
 	function get_fn(m) local fn
-		fn=function(t)
+		fn=function(t) if t==nil then return fn end
 			if type(t)=='table' then G=setmetatable(t,{__index=G}) return fn end
 			if type(t)=='function' then
 				if m then return get_fn(function(x) return m(t(x)) end) end
