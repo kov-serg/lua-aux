@@ -221,7 +221,9 @@ local function trace_value(name,vtype,value,ofs,size,trace)
 end
 function BinaryReader:get_struct(s,r)
 	r=r or {}
-	local debug,trace,p0=r.debug or false,r.print or print,self.ofs
+	local debug=self.debug or false
+	local trace=self.print or print
+	local p0=self.ofs
 	string.gsub(s,"([%w_]*):(%S+)",function(name,type)
 		local p1,value,p2
 		p1=self.ofs value=self:get(type) p2=self.ofs
