@@ -3,7 +3,11 @@
 local Loops={}
 function Loops:init() if self.context.init then self.context.init(self) end return self end
 function Loops:reset() self.t_suspend=self.t_suspend-self.t self.t=0 self.iteration=0 end
-function Loops:suspend(dt) self.t_suspend=self.t+dt return self end
+function Loops:suspend(dt)
+	dt=dt or self.ds_nested or self.ds_min or 0
+	self.t_suspend=self.t+dt
+	return self
+end
 function Loops:first() return self.iteration==1 end
 function Loops:timeout(limit) return self.t>limit end
 function Loops:switch_to(name) self.active=name self:reset() end
@@ -30,7 +34,8 @@ function Loops:step(dt)
 			else
 				self.nested[k]=nil
 			end
-		end		
+		end
+		self.ds_nested=dsg
 		ds=self.t_suspend-self.t
 		if ds<=0 then
 			local fn=self.context[self.active]
