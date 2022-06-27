@@ -61,8 +61,10 @@ function Loops:step(dt)
 		end
 		if dsg and dsg<ds then ds=dsg end
 		self.ds=ds
-		if self.ds_min and ds<self.ds_min then ds=self.ds_min end
-		if self.ds_max and ds>self.ds_max then ds=self.ds_max end
+		if ds>=0 then
+			if self.ds_min and ds<self.ds_min then ds=self.ds_min end
+			if self.ds_max and ds>self.ds_max then ds=self.ds_max end
+		end
 		return ds -- recomended suspend time till next iteration
 	end
 end
