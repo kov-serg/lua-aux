@@ -9,7 +9,7 @@ function Loops:suspend(dt)
 	return self
 end
 function Loops:first() return self.iteration==1 end
-function Loops:timeout(limit) return self.t>limit end
+function Loops:timeout(limit) return limit>=0 and self.t>limit end
 function Loops:switch_to(name) self.active=name self:reset() end
 function Loops:exit(code) self.exit_code=code or 0 self.active=nil self:reset() end
 function Loops:set(prm) for k,v in pairs(prm) do self[k]=v end return self end
