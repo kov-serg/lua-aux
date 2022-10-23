@@ -137,6 +137,24 @@ function Matrix_mt.__div(va,vb)
 	end
 	error("operation matrix*"..mt.type.." not implemented")
 end
+function Matrix_mt.__pow(va,vb)
+	if type(vb)=='number' then
+		if vb==math.floor(vb) then
+			vb=vb|0
+			if vb==0 then return matrix(va.dim) end
+			if vb==1 then return matrix(va) end
+			if vb==-1 then return va:inv() end
+			if vb<0 then va=va:inv() vb=-vb end
+			local r=matrix(va.dim)
+			while vb>0 do
+				if vb&1~=0 then r=r*va end
+				vb=vb>>1 if vb>0 then va=va*va end
+			end
+			return r
+		end
+	end
+	error("only integer powers are supported",2)
+end
 local norm=function(x) if type(x)=='number' then return math.abs(x) end return x:norm() end
 function Matrix:det()
 	local n,w,r,s
