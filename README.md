@@ -32,20 +32,30 @@ require "matrix"
 i=complex{0,1}
 print(i,i*i,complex{-1}^0.25)
 
-s1=matrix{ {0, 1}, {1, 0} }
-s2=matrix{ {0,-i}, {i, 0} }
-s3=matrix{ {1, 0}, {0,-1} }
-print("s1*s2",s1*s2)
-print(" i*s3",i*s3)
+-- Pauli matrices
+s1=matrix{ 
+	{0, 1},
+	{1, 0}
+}
+s2=matrix{
+	{0,-i},
+	{i, 0}
+}
+s3=matrix{
+	{1, 0},
+	{0,-1}
+}
+print("s1*s2=",s1*s2)
+print(" i*s3=",i*s3)
 ```
 output:
 ```
 complex{0,1}	complex{-1,0}	complex{0.7071,0.7071}
-s1*s2	matrix{
+s1*s2=	matrix{
 	{complex{  0.0000,  1.0000},complex{  0.0000,  0.0000}},
 	{complex{  0.0000,  0.0000},complex{  0.0000, -1.0000}},
 }
- i*s3	matrix{
+ i*s3=	matrix{
 	{complex{  0.0000,  1.0000},complex{  0.0000,  0.0000}},
 	{complex{  0.0000,  0.0000},complex{  0.0000, -1.0000}},
 }
