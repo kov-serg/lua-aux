@@ -12,7 +12,7 @@ x=vector{1,0,0}
 Rz=matrix.rotateZ(math.pi/3,3)
 print("Rz",Rz)
 x1=Rz*x
-print("x1",x1
+print("x1",x1)
 ```
 output:
 ```
