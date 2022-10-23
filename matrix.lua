@@ -251,7 +251,7 @@ function matrix.rotate(a,dir,n) n=n or 4
 	m:set(3,1, c1*z*x-s*y ):set(3,2, c1*z*y+s*x ):set(3,3, c+c1*z*z  )
 	return m
 end
-function matrix.mirror(dir) n=n or 4
+function matrix.mirror(dir,n) n=n or 4
 	local m,v=matrix(1,n)
 	dir=dir:dir()
 	for y=1,#dir do
