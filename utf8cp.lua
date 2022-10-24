@@ -114,3 +114,22 @@ function utf8_to(cp,unk)
 		return res
 	end
 end
+
+function utf8_from(cp,unk)
+	local tab={}
+	for u,c in pairs(codepage(cp)) do tab[c]=u end
+	if type(unk)~="function" then
+		local ch=unk or "?"
+		unk=function(c) return ch end
+	end
+	return function(s)
+		return (s:gsub(".",function(c)
+			c=string.byte(c,1)
+			local u=tab[c]
+			if u then return utf8.char(u) end
+			if c>127 then return unk(c) end
+			return string.char(c)
+		end))
+	end
+end
+
