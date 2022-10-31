@@ -97,8 +97,23 @@ function mod_muls(m,a,...)
 	return a
 end
 function gcd(a,b)
+	local s=0
+	if a<=0 then if a==0 then return b end a=-a s=s+1 end
+	if b<=0 then if b==0 then return a end b=-b s=s+1 end
 	while b~=0 do a,b=b,a%b end
+	if s>1 then a=-a end
 	return a
+end
+function mod_inv(a,n)
+	local t,t1,r,r1=0,1,n,a
+	while r1~=0 do
+		local q=r//r1
+		t,t1=t1,t-q*t1
+		r,r1=r1,r-q*r1
+	end
+	if r>1 then return nil,r end
+	if t<0 then t=t+n end
+	return t,r
 end
 function is_gen(g,p)
 	for m,n in factors(p-1) do
