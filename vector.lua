@@ -85,6 +85,17 @@ end
 function Vector:dir()
 	return self/self:len()
 end
+function Vector:reorder(...)
+	local res={}
+	for _,i in ipairs(table.pack(...)) do
+		if i<0 then
+			table.insert(res,-self[-i]) 
+		else
+			table.insert(res,self[i]) 
+		end
+	end
+	return vector(res)
+end
 local function tostring(v,fmt)
 	if type(v)=='number' then
 		return string.format(fmt,v)
