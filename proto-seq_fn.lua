@@ -1,4 +1,5 @@
 -- (To-be-closed Variables)[https://www.lua.org/manual/5.4/manual.html#3.3.8] is very dubious feature
+-- it violates many programming principles
 -- here is one possible replacement
 --
 -- example of resource management for sequential functions
@@ -14,6 +15,7 @@ function macros(names)
         end))
     end
 end
+function format(f) return function(...) return string.format(...) end end
 function for_scope(body)
     local list,res={}
     local function auto(close,msg)
@@ -80,12 +82,14 @@ s1=sequence(function(yield)
         print("\tvalue="..value)
         defer(function() print "\tsome defer function" end)
         for i=1,3 do
-            local name=("data_%d"):format(i)
+            local name=format "data_%d"(i)
             print"step2"
             local value_i=auto(xclose) { xopen(name) }
             yield(i)
         end
     end do return table.unpack(scope) end -- scope.end
+    local fn=function() print "step fn" end
+    fn()
     print "step3"
     yield "leave"
     print "last step"
@@ -102,7 +106,7 @@ function seq_fn(text)
     return load(code)()
 end
 
--- same thins but using syntax sugar
+-- same but with macroses
 s2=seq_fn[[
     print "step1"
     yield()
@@ -111,7 +115,7 @@ s2=seq_fn[[
         print("\tvalue="..value)
         @defer print "\tsome defer function" @end
         for i=1,3 do
-            local name=("data_%d"):format(i)
+            local name=format "data_%d"(i)
             print"step2"
             local value_i=auto(xclose) { xopen(name) }
             yield(i)
@@ -125,7 +129,7 @@ s2=seq_fn[[
 ]]
 
 function run(s,n)
-    print(("---run %d times---"):format(n))
+    print(format "---run %d times---"(n) )
     for k=1,n do s:next() end
     print "---done---"
     print( s:done() )
