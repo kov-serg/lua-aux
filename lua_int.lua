@@ -29,9 +29,8 @@ end
 
 local function sbci(a,b,c)
 	local sa,sb,r,rc=a<0,b<0,sbc(a,b,c)
-	return r,rc,sa~=sb and sa~=(r<0)
+	return r,rc, sa~=sb and sa~=(r<0)
 end
-
 
 return {
 	bitlen=bitlen,-- returns 64
