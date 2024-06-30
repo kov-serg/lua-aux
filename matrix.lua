@@ -80,6 +80,10 @@ function Matrix.binary(a,b,fn) need_matrix(b)
 end
 function Matrix:get(y,x) return self.data[x+(y-1)*self.dim] end
 function Matrix:set(y,x,v) self.data[x+(y-1)*self.dim]=v return self end
+function Matrix:add(y,x,v) local ofs=x+(y-1)*self.dim self.data[ofs]=self.data[ofs]+v return self end
+function Matrix:sub(y,x,v) local ofs=x+(y-1)*self.dim self.data[ofs]=self.data[ofs]-v return self end
+function Matrix:mul(y,x,v) local ofs=x+(y-1)*self.dim self.data[ofs]=self.data[ofs]*v return self end
+function Matrix:div(y,x,v) local ofs=x+(y-1)*self.dim self.data[ofs]=self.data[ofs]/v return self end
 function Matrix_mt.__unm(va) return va:unary(function(x) return -x end) end
 function Matrix_mt.__add(va,vb) return va:binary(vb,function(ai,bi) return ai+bi end) end
 function Matrix_mt.__sub(va,vb) return va:binary(vb,function(ai,bi) return ai-bi end) end
@@ -280,7 +284,6 @@ function matrix.mirror(dir,n) n=n or 4
 	end
 	return m
 end
-
 
 --[[
 require "complex"
