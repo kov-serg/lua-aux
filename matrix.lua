@@ -84,6 +84,11 @@ function Matrix:add(y,x,v) local ofs=x+(y-1)*self.dim self.data[ofs]=self.data[o
 function Matrix:sub(y,x,v) local ofs=x+(y-1)*self.dim self.data[ofs]=self.data[ofs]-v return self end
 function Matrix:mul(y,x,v) local ofs=x+(y-1)*self.dim self.data[ofs]=self.data[ofs]*v return self end
 function Matrix:div(y,x,v) local ofs=x+(y-1)*self.dim self.data[ofs]=self.data[ofs]/v return self end
+function Matrix:swap(y1,y2)
+	local n=self.dim
+	local a,b,v=(y1-1)*n,(y2-1)*n,self.data
+	for k=1,n do v[a+k],v[b+k]=v[b+k],v[a+k] end
+end
 function Matrix_mt.__unm(va) return va:unary(function(x) return -x end) end
 function Matrix_mt.__add(va,vb) return va:binary(vb,function(ai,bi) return ai+bi end) end
 function Matrix_mt.__sub(va,vb) return va:binary(vb,function(ai,bi) return ai-bi end) end
