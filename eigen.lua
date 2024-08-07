@@ -416,7 +416,7 @@ function EigenReal:tred2() -- symmetric Householder reduction to tridiagonal for
         g=e[j]+V:get(j,j)*f
         for k=j+1,i-1 do
           g=g+V:get(k,j)*d[k]
-          e:set(k, e[k]+V:get(k,j)*f )
+          e[k]=e[k]+V:get(k,j)*f
         end
         e[j]=g
       end
