@@ -183,7 +183,7 @@ function Matrix:det()
 		for y=x+1,n do tv=norm(w.data[x+(y-1)*n]) if mv<tv then mv=tv mi=y end end
 		if mi~=x then
 			for k=x,n do w.data[k+(x-1)*n],w.data[k+(mi-1)*n]=w.data[k+(mi-1)*n],w.data[k+(x-1)*n] end
-			if (mi+x)%2==1 then s=not s end
+			s=not s
 		end
 		for y=x+1,n do
 			mf=w.data[x+(y-1)*n]/w.data[x+(x-1)*n]
