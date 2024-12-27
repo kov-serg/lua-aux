@@ -1,0 +1,1563 @@
+-- Love 11.5 --
+
+	function love.conf(t_table)
+		-- If a file called conf.lua is present in your game folder (or .love file), it is run before the LÖVE modules are loaded. You can use this file to overwrite the love.conf function, which is later called by the LÖVE 'boot' script. Using the love.conf function, you can set some configuration options, and change things like the default size of the window, which modules are loaded, and other stuff.
+	end
+	function love.directorydropped(path_string)
+		-- Callback function triggered when a directory is dragged and dropped onto the window.
+	end
+	function love.displayrotated(index, orientation_DisplayOrientation)
+		-- Called when the device display orientation changed, for example, user rotated their phone 180 degrees.
+	end
+	function love.draw()
+		-- Callback function used to draw on the screen every frame.
+	end
+	function love.errorhandler(msg_string)
+		-- The error handler, used to display error messages.
+		local  mainLoop_function
+		return mainLoop_function
+	end
+	function love.filedropped(file_DroppedFile)
+		-- Callback function triggered when a file is dragged and dropped onto the window.
+	end
+	function love.focus(focus_bool)
+		-- Callback function triggered when window receives or loses focus.
+	end
+	function love.gamepadaxis(joystick_Joystick, axis_GamepadAxis, value)
+		-- Called when a Joystick's virtual gamepad axis is moved.
+	end
+	function love.gamepadpressed(joystick_Joystick, button_GamepadButton)
+		-- Called when a Joystick's virtual gamepad button is pressed.
+	end
+	function love.gamepadreleased(joystick_Joystick, button_GamepadButton)
+		-- Called when a Joystick's virtual gamepad button is released.
+	end
+	function love.joystickadded(joystick_Joystick)
+		-- Called when a Joystick is connected.
+	end
+	function love.joystickaxis(joystick_Joystick, axis, value)
+		-- Called when a joystick axis moves.
+	end
+	function love.joystickhat(joystick_Joystick, hat, direction_JoystickHat)
+		-- Called when a joystick hat direction changes.
+	end
+	function love.joystickpressed(joystick_Joystick, button)
+		-- Called when a joystick button is pressed.
+	end
+	function love.joystickreleased(joystick_Joystick, button)
+		-- Called when a joystick button is released.
+	end
+	function love.joystickremoved(joystick_Joystick)
+		-- Called when a Joystick is disconnected.
+	end
+	function love.keypressed(key_KeyConstant, scancode_Scancode, isrepeat_bool)
+		-- Callback function triggered when a key is pressed.
+	end
+	function love.keypressed(key_KeyConstant, isrepeat_bool)
+		-- Callback function triggered when a key is pressed.
+	end
+	function love.keyreleased(key_KeyConstant, scancode_Scancode)
+		-- Callback function triggered when a keyboard key is released.
+	end
+	function love.load(arg_table, unfilteredArg_table)
+		-- This function is called exactly once at the beginning of the game.
+	end
+	function love.lowmemory()
+		-- Callback function triggered when the system is running out of memory on mobile devices.
+		-- Mobile operating systems may forcefully kill the game if it uses too much memory, so any non-critical resource should be removed if possible (by setting all variables referencing the resources to '''nil'''), when this event is triggered. Sounds and images in particular tend to use the most memory.
+	end
+	function love.mousefocus(focus_bool)
+		-- Callback function triggered when window receives or loses mouse focus.
+	end
+	function love.mousemoved(x, y, dx, dy, istouch_bool)
+		-- Callback function triggered when the mouse is moved.
+	end
+	function love.mousepressed(x, y, button, istouch_bool, presses)
+		-- Callback function triggered when a mouse button is pressed.
+	end
+	function love.mousereleased(x, y, button, istouch_bool, presses)
+		-- Callback function triggered when a mouse button is released.
+	end
+	function love.quit()
+		-- Callback function triggered when the game is closed.
+		local  r_bool
+		return r_bool
+	end
+	function love.resize(w, h)
+		-- Called when the window is resized, for example if the user resizes the window, or if love.window.setMode is called with an unsupported width or height in fullscreen and the window chooses the closest appropriate size.
+	end
+	function love.run()
+		-- The main function, containing the main loop. A sensible default is used when left out.
+		local  mainLoop_function
+		return mainLoop_function
+	end
+	function love.textedited(text_string, start, length)
+		-- Called when the candidate text for an IME (Input Method Editor) has changed.
+		-- The candidate text is not the final text that the user will eventually choose. Use love.textinput for that.
+	end
+	function love.textinput(text_string)
+		-- Called when text has been entered by the user. For example if shift-2 is pressed on an American keyboard layout, the text '@' will be generated.
+	end
+	function love.threaderror(thread_Thread, errorstr_string)
+		-- Callback function triggered when a Thread encounters an error.
+	end
+	function love.touchmoved(id_light userdata, x, y, dx, dy, pressure)
+		-- Callback function triggered when a touch press moves inside the touch screen.
+	end
+	function love.touchpressed(id_light userdata, x, y, dx, dy, pressure)
+		-- Callback function triggered when the touch screen is touched.
+	end
+	function love.touchreleased(id_light userdata, x, y, dx, dy, pressure)
+		-- Callback function triggered when the touch screen stops being touched.
+	end
+	function love.update(dt)
+		-- Callback function used to update the state of the game every frame.
+	end
+	function love.visible(visible_bool)
+		-- Callback function triggered when window is minimized/hidden or unminimized by the user.
+	end
+	function love.wheelmoved(x, y)
+		-- Callback function triggered when the mouse wheel is moved.
+	end
+
+	local major, minor, revision, codename_string = getVersion()
+	local enabled_bool = hasDeprecationOutput()
+	local compatible_bool = isVersionCompatible(version_string)
+	local compatible_bool = isVersionCompatible(major, minor, revision)
+	setDeprecationOutput(enable_bool)
+
+	Data = object(Object) -- The superclass of all data.
+	local clone_Data = Data:clone()
+	local pointer_cdata = Data:getFFIPointer()
+	local pointer_light userdata = Data:getPointer()
+	local size = Data:getSize()
+	local data_string = Data:getString()
+
+	Object = object() -- The superclass of all LÖVE types.
+	local success_bool = Object:release()
+	local type_string = Object:type()
+	local b_bool = Object:typeOf(name_string)
+
+::audio:: -- Provides an interface to create noise with the user's speakers.
+
+	local effects_table = love.audio.getActiveEffects()
+	local count = love.audio.getActiveSourceCount()
+	local model_DistanceModel = love.audio.getDistanceModel()
+	local scale = love.audio.getDopplerScale()
+	local settings_table = love.audio.getEffect(name_string)
+	local maximum = love.audio.getMaxSceneEffects()
+	local maximum = love.audio.getMaxSourceEffects()
+	local fx, fy, fz, ux, uy, uz = love.audio.getOrientation()
+	local x, y, z = love.audio.getPosition()
+	local devices_table = love.audio.getRecordingDevices()
+	local x, y, z = love.audio.getVelocity()
+	local volume = love.audio.getVolume()
+	local supported_bool = love.audio.isEffectsSupported()
+	local source_Source = love.audio.newQueueableSource(samplerate, bitdepth, channels, buffercount)
+	local source_Source = love.audio.newSource(filename_string, type_SourceType)
+	local source_Source = love.audio.newSource(file_File, type_SourceType)
+	local source_Source = love.audio.newSource(decoder_Decoder, type_SourceType)
+	local source_Source = love.audio.newSource(data_FileData, type_SourceType)
+	local source_Source = love.audio.newSource(data_SoundData)
+	local Sources_table = love.audio.pause()
+	love.audio.pause(source_Source, ...)
+	love.audio.pause(sources_table)
+	love.audio.play(source_Source)
+	love.audio.play(sources_table)
+	love.audio.play(source1_Source, source2_Source, ...)
+	love.audio.setDistanceModel(model_DistanceModel)
+	love.audio.setDopplerScale(scale)
+	local success_bool = love.audio.setEffect(name_string, settings_table)
+	local success_bool = love.audio.setEffect(name_string, enabled_bool)
+	local success_bool = love.audio.setMixWithSystem(mix_bool)
+	love.audio.setOrientation(fx, fy, fz, ux, uy, uz)
+	love.audio.setPosition(x, y, z)
+	love.audio.setVelocity(x, y, z)
+	love.audio.setVolume(volume)
+	love.audio.stop()
+	love.audio.stop(source_Source)
+	love.audio.stop(source1_Source, source2_Source, ...)
+	love.audio.stop(sources_table)
+
+	RecordingDevice = object(Object) -- Represents an audio input device capable of recording sounds.
+	local bits = RecordingDevice:getBitDepth()
+	local channels = RecordingDevice:getChannelCount()
+	local data_SoundData = RecordingDevice:getData()
+	local name_string = RecordingDevice:getName()
+	local samples = RecordingDevice:getSampleCount()
+	local rate = RecordingDevice:getSampleRate()
+	local recording_bool = RecordingDevice:isRecording()
+	local success_bool = RecordingDevice:start(samplecount, samplerate, bitdepth, channels)
+	local data_SoundData = RecordingDevice:stop()
+
+	Source = object(Object) -- A Source represents audio you can play back.
+	-- You can do interesting things with Sources, like set the volume, pitch, and its position relative to the listener. Please note that positional audio only works for mono (i.e. non-stereo) sources.
+	-- The Source controls (play/pause/stop) act according to the following state table.
+	local source_Source = Source:clone()
+	local effects_table = Source:getActiveEffects()
+	local amount = Source:getAirAbsorption()
+	local ref, max = Source:getAttenuationDistances()
+	local channels = Source:getChannelCount()
+	local innerAngle, outerAngle, outerVolume = Source:getCone()
+	local x, y, z = Source:getDirection()
+	local duration = Source:getDuration(unit_TimeUnit)
+	local filtersettings_table = Source:getEffect(name_string, filtersettings_table)
+	local settings_table = Source:getFilter()
+	local buffers = Source:getFreeBufferCount()
+	local pitch = Source:getPitch()
+	local x, y, z = Source:getPosition()
+	local rolloff = Source:getRolloff()
+	local sourcetype_SourceType = Source:getType()
+	local x, y, z = Source:getVelocity()
+	local volume = Source:getVolume()
+	local min, max = Source:getVolumeLimits()
+	local loop_bool = Source:isLooping()
+	local playing_bool = Source:isPlaying()
+	local relative_bool = Source:isRelative()
+	Source:pause()
+	local success_bool = Source:play()
+	local success_bool = Source:queue(sounddata_SoundData)
+	Source:seek(offset, unit_TimeUnit)
+	Source:setAirAbsorption(amount)
+	Source:setAttenuationDistances(ref, max)
+	Source:setCone(innerAngle, outerAngle, outerVolume)
+	Source:setDirection(x, y, z)
+	local success_bool = Source:setEffect(name_string, enable_bool)
+	local success_bool = Source:setEffect(name_string, filtersettings_table)
+	local success_bool = Source:setFilter(settings_table)
+	Source:setFilter()
+	Source:setLooping(loop_bool)
+	Source:setPitch(pitch)
+	Source:setPosition(x, y, z)
+	Source:setRelative(enable_bool)
+	Source:setRolloff(rolloff)
+	Source:setVelocity(x, y, z)
+	Source:setVolume(volume)
+	Source:setVolumeLimits(min, max)
+	Source:stop()
+	local position = Source:tell(unit_TimeUnit)
+
+	local DistanceModel_enum = { "none", "inverse", "inverseclamped", "linear", "linearclamped", "exponent", "exponentclamped" }
+	local EffectType_enum = { "chorus", "compressor", "distortion", "echo", "equalizer", "flanger", "reverb", "ringmodulator" }
+	local EffectWaveform_enum = { "sawtooth", "sine", "square", "triangle" }
+	local FilterType_enum = { "lowpass", "highpass", "bandpass" }
+	local SourceType_enum = { "static", "stream", "queue" }
+	local TimeUnit_enum = { "seconds", "samples" }
+
+::data:: -- Provides functionality for creating and transforming data.
+
+	local compressedData_CompressedData or string = love.data.compress(container_ContainerType, format_CompressedDataFormat, rawstring_string, level)
+	local compressedData_CompressedData or string = love.data.compress(container_ContainerType, format_CompressedDataFormat, data_Data, level)
+	local decoded_ByteData or string = love.data.decode(container_ContainerType, format_EncodeFormat, sourceString_string)
+	local decoded_ByteData or string = love.data.decode(container_ContainerType, format_EncodeFormat, sourceData_Data)
+	local decompressedData_Data or string = love.data.decompress(container_ContainerType, compressedData_CompressedData)
+	local decompressedData_Data or string = love.data.decompress(container_ContainerType, format_CompressedDataFormat, compressedString_string)
+	local decompressedData_Data or string = love.data.decompress(container_ContainerType, format_CompressedDataFormat, data_Data)
+	local encoded_ByteData or string = love.data.encode(container_ContainerType, format_EncodeFormat, sourceString_string, linelength)
+	local encoded_ByteData or string = love.data.encode(container_ContainerType, format_EncodeFormat, sourceData_Data, linelength)
+	local size = love.data.getPackedSize(format_string)
+	local rawdigest_string = love.data.hash(hashFunction_HashFunction, string_string)
+	local rawdigest_string = love.data.hash(hashFunction_HashFunction, data_Data)
+	local bytedata_ByteData = love.data.newByteData(datastring_string)
+	local bytedata_ByteData = love.data.newByteData(Data_Data, offset, size)
+	local bytedata_ByteData = love.data.newByteData(size)
+	local view_Data = love.data.newDataView(data_Data, offset, size)
+	local data_Data or string = love.data.pack(container_ContainerType, format_string, v1_number or boolean or string, ...)
+	local v1_number or boolean or string, ..., index = love.data.unpack(format_string, datastring_string, pos)
+	local v1_number or boolean or string, ..., index = love.data.unpack(format_string, data_Data, pos)
+
+	ByteData = object(Object,Data) -- Data object containing arbitrary bytes in an contiguous memory.
+	-- There are currently no LÖVE functions provided for manipulating the contents of a ByteData, but Data:getPointer can be used with LuaJIT's FFI to access and write to the contents directly.
+	CompressedData = object(Data,Object) -- Represents byte data compressed using a specific algorithm.
+	-- love.data.decompress can be used to de-compress the data (or love.math.decompress in 0.10.2 or earlier).
+	local format_CompressedDataFormat = CompressedData:getFormat()
+
+	local CompressedDataFormat_enum = { "lz4", "zlib", "gzip", "deflate" }
+	local ContainerType_enum = { "data", "string" }
+	local EncodeFormat_enum = { "base64", "hex" }
+	local HashFunction_enum = { "md5", "sha1", "sha224", "sha256", "sha384", "sha512" }
+
+::event:: -- Manages events, like keypresses.
+
+	love.event.clear()
+	local i_function = love.event.poll()
+	love.event.pump()
+	love.event.push(n_Event, a_Variant, b_Variant, c_Variant, d_Variant, e_Variant, f_Variant, ...)
+	love.event.quit(exitstatus)
+	love.event.quit('restart'_string)
+	local n_Event, a_Variant, b_Variant, c_Variant, d_Variant, e_Variant, f_Variant, ... = love.event.wait()
+
+	local Event_enum = { "focus", "joystickpressed", "joystickreleased", "keypressed", "keyreleased", "mousepressed", "mousereleased", "quit", "resize", "visible", "mousefocus", "threaderror", "joystickadded", "joystickremoved", "joystickaxis", "joystickhat", "gamepadpressed", "gamepadreleased", "gamepadaxis", "textinput", "mousemoved", "lowmemory", "textedited", "wheelmoved", "touchpressed", "touchreleased", "touchmoved", "directorydropped", "filedropped", "jp", "jr", "kp", "kr", "mp", "mr", "q", "f" }
+
+::filesystem:: -- Provides an interface to the user's filesystem.
+
+	local success_bool, errormsg_string = love.filesystem.append(name_string, data_string, size)
+	local success_bool, errormsg_string = love.filesystem.append(name_string, data_Data, size)
+	local enable_bool = love.filesystem.areSymlinksEnabled()
+	local success_bool = love.filesystem.createDirectory(name_string)
+	local path_string = love.filesystem.getAppdataDirectory()
+	local paths_string = love.filesystem.getCRequirePath()
+	local files_table = love.filesystem.getDirectoryItems(dir_string)
+	local files_table = love.filesystem.getDirectoryItems(dir_string, callback_function)
+	local name_string = love.filesystem.getIdentity()
+	local info_table = love.filesystem.getInfo(path_string, filtertype_FileType)
+	local info_table = love.filesystem.getInfo(path_string, info_table)
+	local info_table = love.filesystem.getInfo(path_string, filtertype_FileType, info_table)
+	local realdir_string = love.filesystem.getRealDirectory(filepath_string)
+	local paths_string = love.filesystem.getRequirePath()
+	local dir_string = love.filesystem.getSaveDirectory()
+	local path_string = love.filesystem.getSource()
+	local path_string = love.filesystem.getSourceBaseDirectory()
+	local path_string = love.filesystem.getUserDirectory()
+	local cwd_string = love.filesystem.getWorkingDirectory()
+	love.filesystem.init(appname_string)
+	local fused_bool = love.filesystem.isFused()
+	local iterator_function = love.filesystem.lines(name_string)
+	local chunk_function, errormsg_string = love.filesystem.load(name_string)
+	local success_bool = love.filesystem.mount(archive_string, mountpoint_string, appendToPath_bool)
+	local success_bool = love.filesystem.mount(filedata_FileData, mountpoint_string, appendToPath_bool)
+	local success_bool = love.filesystem.mount(data_Data, archivename_string, mountpoint_string, appendToPath_bool)
+	local file_File = love.filesystem.newFile(filename_string)
+	local file_File, errorstr_string = love.filesystem.newFile(filename_string, mode_FileMode)
+	local data_FileData = love.filesystem.newFileData(contents_string, name_string)
+	local data_FileData = love.filesystem.newFileData(originaldata_Data, name_string)
+	local data_FileData, err_string = love.filesystem.newFileData(filepath_string)
+	local contents_string, size, contents_nil, error_string = love.filesystem.read(name_string, size)
+	local contents_FileData or string, size, contents_nil, error_string = love.filesystem.read(container_ContainerType, name_string, size)
+	local success_bool = love.filesystem.remove(name_string)
+	love.filesystem.setCRequirePath(paths_string)
+	love.filesystem.setIdentity(name_string)
+	love.filesystem.setIdentity(name_string)
+	love.filesystem.setRequirePath(paths_string)
+	love.filesystem.setSource(path_string)
+	love.filesystem.setSymlinksEnabled(enable_bool)
+	local success_bool = love.filesystem.unmount(archive_string)
+	local success_bool, message_string = love.filesystem.write(name_string, data_string, size)
+	local success_bool, message_string = love.filesystem.write(name_string, data_Data, size)
+
+	DroppedFile = object(File,Object) -- Represents a file dropped onto the window.
+	-- Note that the DroppedFile type can only be obtained from love.filedropped callback, and can't be constructed manually by the user.
+	File = object(Object) -- Represents a file on the filesystem. A function that takes a file path can also take a File.
+	local success_bool = File:close()
+	local success_bool, err_string = File:flush()
+	local mode_BufferMode, size = File:getBuffer()
+	local filename_string = File:getFilename()
+	local mode_FileMode = File:getMode()
+	local size = File:getSize()
+	local eof_bool = File:isEOF()
+	local open_bool = File:isOpen()
+	local iterator_function = File:lines()
+	local ok_bool, err_string = File:open(mode_FileMode)
+	local contents_string, size = File:read(bytes)
+	local contents_FileData or string, size = File:read(container_ContainerType, bytes)
+	local success_bool = File:seek(pos)
+	local success_bool, errorstr_string = File:setBuffer(mode_BufferMode, size)
+	local pos = File:tell()
+	local success_bool, err_string = File:write(data_string, size)
+	local success_bool, errorstr_string = File:write(data_Data, size)
+
+	FileData = object(Data,Object) -- Data representing the contents of a file.
+	local ext_string = FileData:getExtension()
+	local name_string = FileData:getFilename()
+
+	local BufferMode_enum = { "none", "line", "full" }
+	local FileDecoder_enum = { "file", "base64" }
+	local FileMode_enum = { "r", "w", "a", "c" }
+	local FileType_enum = { "file", "directory", "symlink", "other" }
+
+::font:: -- Allows you to work with fonts.
+
+	local rasterizer_Rasterizer = love.font.newBMFontRasterizer(imageData_ImageData, glyphs_string, dpiscale)
+	local rasterizer_Rasterizer = love.font.newBMFontRasterizer(fileName_string, glyphs_string, dpiscale)
+	love.font.newGlyphData(rasterizer_Rasterizer, glyph)
+	local rasterizer_Rasterizer = love.font.newImageRasterizer(imageData_ImageData, glyphs_string, extraSpacing, dpiscale)
+	local rasterizer_Rasterizer = love.font.newRasterizer(filename_string)
+	local rasterizer_Rasterizer = love.font.newRasterizer(data_FileData)
+	local rasterizer_Rasterizer = love.font.newRasterizer(size, hinting_HintingMode, dpiscale)
+	local rasterizer_Rasterizer = love.font.newRasterizer(fileName_string, size, hinting_HintingMode, dpiscale)
+	local rasterizer_Rasterizer = love.font.newRasterizer(fileData_FileData, size, hinting_HintingMode, dpiscale)
+	local rasterizer_Rasterizer = love.font.newRasterizer(imageData_ImageData, glyphs_string, dpiscale)
+	local rasterizer_Rasterizer = love.font.newRasterizer(fileName_string, glyphs_string, dpiscale)
+	local rasterizer_Rasterizer = love.font.newTrueTypeRasterizer(size, hinting_HintingMode, dpiscale)
+	local rasterizer_Rasterizer = love.font.newTrueTypeRasterizer(fileName_string, size, hinting_HintingMode, dpiscale)
+	local rasterizer_Rasterizer = love.font.newTrueTypeRasterizer(fileData_FileData, size, hinting_HintingMode, dpiscale)
+
+	GlyphData = object(Data,Object) -- A GlyphData represents a drawable symbol of a font Rasterizer.
+	local advance = GlyphData:getAdvance()
+	local bx, by = GlyphData:getBearing()
+	local x, y, width, height = GlyphData:getBoundingBox()
+	local width, height = GlyphData:getDimensions()
+	local format_PixelFormat = GlyphData:getFormat()
+	local glyph = GlyphData:getGlyph()
+	local glyph_string = GlyphData:getGlyphString()
+	local height = GlyphData:getHeight()
+	local width = GlyphData:getWidth()
+
+	Rasterizer = object(Object) -- A Rasterizer handles font rendering, containing the font data (image or TrueType font) and drawable glyphs.
+	local advance = Rasterizer:getAdvance()
+	local height = Rasterizer:getAscent()
+	local height = Rasterizer:getDescent()
+	local count = Rasterizer:getGlyphCount()
+	local glyphData_GlyphData = Rasterizer:getGlyphData(glyph_string)
+	local glyphData_GlyphData = Rasterizer:getGlyphData(glyphNumber)
+	local height = Rasterizer:getHeight()
+	local height = Rasterizer:getLineHeight()
+	local hasGlyphs_bool = Rasterizer:hasGlyphs(glyph1_string or number, glyph2_string or number, ...)
+
+	local HintingMode_enum = { "normal", "light", "mono", "none" }
+
+::graphics:: -- The primary responsibility for the love.graphics module is the drawing of lines, shapes, text, Images and other Drawable objects onto the screen. Its secondary responsibilities include loading external files (including Images and Fonts) into memory, creating specialized objects (such as ParticleSystems or Canvases) and managing screen geometry.
+	-- LÖVE's coordinate system is rooted in the upper-left corner of the screen, which is at location (0, 0). The x axis is horizontal: larger values are further to the right. The y axis is vertical: larger values are further towards the bottom.
+	-- In many cases, you draw images or shapes in terms of their upper-left corner.
+	-- Many of the functions are used to manipulate the graphics coordinate system, which is essentially the way coordinates are mapped to the display. You can change the position, scale, and even rotation in this way.
+
+	love.graphics.applyTransform(transform_Transform)
+	love.graphics.arc(drawmode_DrawMode, x, y, radius, angle1, angle2, segments)
+	love.graphics.arc(drawmode_DrawMode, arctype_ArcType, x, y, radius, angle1, angle2, segments)
+	love.graphics.captureScreenshot(filename_string)
+	love.graphics.captureScreenshot(callback_function)
+	love.graphics.captureScreenshot(channel_Channel)
+	love.graphics.circle(mode_DrawMode, x, y, radius)
+	love.graphics.circle(mode_DrawMode, x, y, radius, segments)
+	love.graphics.clear()
+	love.graphics.clear(r, g, b, a, clearstencil_bool, cleardepth_bool)
+	love.graphics.clear(color_table, ..., clearstencil_bool, cleardepth_bool)
+	love.graphics.clear(clearcolor_bool, clearstencil_bool, cleardepth_bool)
+	love.graphics.discard(discardcolor_bool, discardstencil_bool)
+	love.graphics.discard(discardcolors_table, discardstencil_bool)
+	love.graphics.draw(drawable_Drawable, x, y, r, sx, sy, ox, oy, kx, ky)
+	love.graphics.draw(texture_Texture, quad_Quad, x, y, r, sx, sy, ox, oy, kx, ky)
+	love.graphics.draw(drawable_Drawable, transform_Transform)
+	love.graphics.draw(texture_Texture, quad_Quad, transform_Transform)
+	love.graphics.drawInstanced(mesh_Mesh, instancecount, x, y, r, sx, sy, ox, oy, kx, ky)
+	love.graphics.drawInstanced(mesh_Mesh, instancecount, transform_Transform)
+	love.graphics.drawLayer(texture_Texture, layerindex, x, y, r, sx, sy, ox, oy, kx, ky)
+	love.graphics.drawLayer(texture_Texture, layerindex, quad_Quad, x, y, r, sx, sy, ox, oy, kx, ky)
+	love.graphics.drawLayer(texture_Texture, layerindex, transform_Transform)
+	love.graphics.drawLayer(texture_Texture, layerindex, quad_Quad, transform_Transform)
+	love.graphics.ellipse(mode_DrawMode, x, y, radiusx, radiusy)
+	love.graphics.ellipse(mode_DrawMode, x, y, radiusx, radiusy, segments)
+	love.graphics.flushBatch()
+	local r, g, b, a = love.graphics.getBackgroundColor()
+	local mode_BlendMode, alphamode_BlendAlphaMode = love.graphics.getBlendMode()
+	local canvas_Canvas = love.graphics.getCanvas()
+	local formats_table = love.graphics.getCanvasFormats()
+	local formats_table = love.graphics.getCanvasFormats(readable_bool)
+	local r, g, b, a = love.graphics.getColor()
+	local r_bool, g_bool, b_bool, a_bool = love.graphics.getColorMask()
+	local scale = love.graphics.getDPIScale()
+	local min_FilterMode, mag_FilterMode, anisotropy = love.graphics.getDefaultFilter()
+	local comparemode_CompareMode, write_bool = love.graphics.getDepthMode()
+	local width, height = love.graphics.getDimensions()
+	local font_Font = love.graphics.getFont()
+	local winding_VertexWinding = love.graphics.getFrontFaceWinding()
+	local height = love.graphics.getHeight()
+	local formats_table = love.graphics.getImageFormats()
+	local join_LineJoin = love.graphics.getLineJoin()
+	local style_LineStyle = love.graphics.getLineStyle()
+	local width = love.graphics.getLineWidth()
+	local mode_CullMode = love.graphics.getMeshCullMode()
+	local pixelwidth, pixelheight = love.graphics.getPixelDimensions()
+	local pixelheight = love.graphics.getPixelHeight()
+	local pixelwidth = love.graphics.getPixelWidth()
+	local size = love.graphics.getPointSize()
+	local name_string, version_string, vendor_string, device_string = love.graphics.getRendererInfo()
+	local x, y, width, height = love.graphics.getScissor()
+	local shader_Shader = love.graphics.getShader()
+	local depth = love.graphics.getStackDepth()
+	local stats_table = love.graphics.getStats()
+	local stats_table = love.graphics.getStats(stats_table)
+	local comparemode_CompareMode, comparevalue = love.graphics.getStencilTest()
+	local features_table = love.graphics.getSupported()
+	local limits_table = love.graphics.getSystemLimits()
+	local texturetypes_table = love.graphics.getTextureTypes()
+	local width = love.graphics.getWidth()
+	love.graphics.intersectScissor(x, y, width, height)
+	local globalX, globalY = love.graphics.inverseTransformPoint(screenX, screenY)
+	local active_bool = love.graphics.isActive()
+	local gammacorrect_bool = love.graphics.isGammaCorrect()
+	local wireframe_bool = love.graphics.isWireframe()
+	love.graphics.line(x1, y1, x2, y2, ...)
+	love.graphics.line(points_table)
+	local image_Image = love.graphics.newArrayImage(slices_table, settings_table)
+	local canvas_Canvas = love.graphics.newCanvas()
+	local canvas_Canvas = love.graphics.newCanvas(width, height)
+	local canvas_Canvas = love.graphics.newCanvas(width, height, settings_table)
+	local canvas_Canvas = love.graphics.newCanvas(width, height, layers, settings_table)
+	local image_Image = love.graphics.newCubeImage(filename_string, settings_table)
+	local image_Image = love.graphics.newCubeImage(faces_table, settings_table)
+	local font_Font = love.graphics.newFont(filename_string)
+	local font_Font = love.graphics.newFont(filename_string, size, hinting_HintingMode, dpiscale)
+	local font_Font = love.graphics.newFont(filename_string, imagefilename_string)
+	local font_Font = love.graphics.newFont(size, hinting_HintingMode, dpiscale)
+	local image_Image = love.graphics.newImage(filename_string, settings_table)
+	local image_Image = love.graphics.newImage(fileData_FileData, settings_table)
+	local image_Image = love.graphics.newImage(imageData_ImageData, settings_table)
+	local image_Image = love.graphics.newImage(compressedImageData_CompressedImageData, settings_table)
+	local font_Font = love.graphics.newImageFont(filename_string, glyphs_string)
+	local font_Font = love.graphics.newImageFont(imageData_ImageData, glyphs_string)
+	local font_Font = love.graphics.newImageFont(filename_string, glyphs_string, extraspacing)
+	local mesh_Mesh = love.graphics.newMesh(vertices_table, mode_MeshDrawMode, usage_SpriteBatchUsage)
+	local mesh_Mesh = love.graphics.newMesh(vertexcount, mode_MeshDrawMode, usage_SpriteBatchUsage)
+	local mesh_Mesh = love.graphics.newMesh(vertexformat_table, vertices_table, mode_MeshDrawMode, usage_SpriteBatchUsage)
+	local mesh_Mesh = love.graphics.newMesh(vertexformat_table, vertexcount, mode_MeshDrawMode, usage_SpriteBatchUsage)
+	local mesh_Mesh = love.graphics.newMesh(vertexcount, texture_Texture, mode_MeshDrawMode)
+	local system_ParticleSystem = love.graphics.newParticleSystem(image_Image, buffer)
+	local system_ParticleSystem = love.graphics.newParticleSystem(texture_Texture, buffer)
+	local quad_Quad = love.graphics.newQuad(x, y, width, height, sw, sh)
+	local quad_Quad = love.graphics.newQuad(x, y, width, height, texture_Texture)
+	local shader_Shader = love.graphics.newShader(code_string)
+	local shader_Shader = love.graphics.newShader(pixelcode_string, vertexcode_string)
+	local spriteBatch_SpriteBatch = love.graphics.newSpriteBatch(image_Image, maxsprites)
+	local spriteBatch_SpriteBatch = love.graphics.newSpriteBatch(image_Image, maxsprites, usage_SpriteBatchUsage)
+	local spriteBatch_SpriteBatch = love.graphics.newSpriteBatch(texture_Texture, maxsprites, usage_SpriteBatchUsage)
+	local text_Text = love.graphics.newText(font_Font, textstring_string)
+	local text_Text = love.graphics.newText(font_Font, coloredtext_table)
+	local video_Video = love.graphics.newVideo(filename_string)
+	local video_Video = love.graphics.newVideo(videostream_VideoStream)
+	local video_Video = love.graphics.newVideo(filename_string, settings_table)
+	local video_Video = love.graphics.newVideo(filename_string, loadaudio_bool)
+	local video_Video = love.graphics.newVideo(videostream_VideoStream, loadaudio_bool)
+	local image_Image = love.graphics.newVolumeImage(layers_table, settings_table)
+	love.graphics.origin()
+	love.graphics.points(x, y, ...)
+	love.graphics.points(points_table)
+	love.graphics.points(points_table)
+	love.graphics.polygon(mode_DrawMode, ...)
+	love.graphics.polygon(mode_DrawMode, vertices_table)
+	love.graphics.pop()
+	love.graphics.present()
+	love.graphics.print(text_string, x, y, r, sx, sy, ox, oy, kx, ky)
+	love.graphics.print(coloredtext_table, x, y, angle, sx, sy, ox, oy, kx, ky)
+	love.graphics.print(text_string, transform_Transform)
+	love.graphics.print(coloredtext_table, transform_Transform)
+	love.graphics.print(text_string, font_Font, transform_Transform)
+	love.graphics.print(coloredtext_table, font_Font, transform_Transform)
+	love.graphics.printf(text_string, x, y, limit, align_AlignMode, r, sx, sy, ox, oy, kx, ky)
+	love.graphics.printf(text_string, font_Font, x, y, limit, align_AlignMode, r, sx, sy, ox, oy, kx, ky)
+	love.graphics.printf(text_string, transform_Transform, limit, align_AlignMode)
+	love.graphics.printf(text_string, font_Font, transform_Transform, limit, align_AlignMode)
+	love.graphics.printf(coloredtext_table, x, y, limit, align_AlignMode, angle, sx, sy, ox, oy, kx, ky)
+	love.graphics.printf(coloredtext_table, font_Font, x, y, limit, align_AlignMode, angle, sx, sy, ox, oy, kx, ky)
+	love.graphics.printf(coloredtext_table, transform_Transform, limit, align_AlignMode)
+	love.graphics.printf(coloredtext_table, font_Font, transform_Transform, limit, align_AlignMode)
+	love.graphics.push()
+	love.graphics.push(stack_StackType)
+	love.graphics.rectangle(mode_DrawMode, x, y, width, height)
+	love.graphics.rectangle(mode_DrawMode, x, y, width, height, rx, ry, segments)
+	love.graphics.replaceTransform(transform_Transform)
+	love.graphics.reset()
+	love.graphics.rotate(angle)
+	love.graphics.scale(sx, sy)
+	love.graphics.setBackgroundColor(red, green, blue, alpha)
+	love.graphics.setBackgroundColor(rgba_table)
+	love.graphics.setBlendMode(mode_BlendMode)
+	love.graphics.setBlendMode(mode_BlendMode, alphamode_BlendAlphaMode)
+	love.graphics.setCanvas(canvas_Canvas, mipmap)
+	love.graphics.setCanvas()
+	love.graphics.setCanvas(canvas1_Canvas, canvas2_Canvas, ...)
+	love.graphics.setCanvas(canvas_Canvas, slice, mipmap)
+	love.graphics.setCanvas(setup_table)
+	love.graphics.setColor(red, green, blue, alpha)
+	love.graphics.setColor(rgba_table)
+	love.graphics.setColorMask(red_bool, green_bool, blue_bool, alpha_bool)
+	love.graphics.setColorMask()
+	love.graphics.setDefaultFilter(min_FilterMode, mag_FilterMode, anisotropy)
+	love.graphics.setDepthMode(comparemode_CompareMode, write_bool)
+	love.graphics.setDepthMode()
+	love.graphics.setFont(font_Font)
+	love.graphics.setFrontFaceWinding(winding_VertexWinding)
+	love.graphics.setLineJoin(join_LineJoin)
+	love.graphics.setLineStyle(style_LineStyle)
+	love.graphics.setLineWidth(width)
+	love.graphics.setMeshCullMode(mode_CullMode)
+	local font_Font = love.graphics.setNewFont(size)
+	local font_Font = love.graphics.setNewFont(filename_string, size)
+	local font_Font = love.graphics.setNewFont(file_File, size)
+	local font_Font = love.graphics.setNewFont(data_Data, size)
+	local font_Font = love.graphics.setNewFont(rasterizer_Rasterizer)
+	love.graphics.setPointSize(size)
+	love.graphics.setScissor(x, y, width, height)
+	love.graphics.setScissor()
+	love.graphics.setShader(shader_Shader)
+	love.graphics.setShader()
+	love.graphics.setStencilTest(comparemode_CompareMode, comparevalue)
+	love.graphics.setStencilTest()
+	love.graphics.setWireframe(enable_bool)
+	love.graphics.shear(kx, ky)
+	love.graphics.stencil(stencilfunction_function, action_StencilAction, value, keepvalues_bool)
+	local screenX, screenY = love.graphics.transformPoint(globalX, globalY)
+	love.graphics.translate(dx, dy)
+	local status_bool, message_string = love.graphics.validateShader(gles_bool, code_string)
+	local status_bool, message_string = love.graphics.validateShader(gles_bool, pixelcode_string, vertexcode_string)
+
+	Canvas = object(Texture,Drawable,Object) -- A Canvas is used for off-screen rendering. Think of it as an invisible screen that you can draw to, but that will not be visible until you draw it to the actual visible screen. It is also known as "render to texture".
+	-- By drawing things that do not change position often (such as background items) to the Canvas, and then drawing the entire Canvas instead of each item,  you can reduce the number of draw operations performed each frame.
+	-- In versions prior to love.graphics.isSupported("canvas") could be used to check for support at runtime.
+	Canvas:generateMipmaps()
+	local samples = Canvas:getMSAA()
+	local mode_MipmapMode = Canvas:getMipmapMode()
+	local data_ImageData = Canvas:newImageData()
+	local data_ImageData = Canvas:newImageData(slice, mipmap, x, y, width, height)
+	Canvas:renderTo(func_function, ...)
+
+	Drawable = object(Object) -- Superclass for all things that can be drawn on screen. This is an abstract type that can't be created directly.
+	Font = object(Object) -- Defines the shape of characters that can be drawn onto the screen.
+	local ascent = Font:getAscent()
+	local baseline = Font:getBaseline()
+	local dpiscale = Font:getDPIScale()
+	local descent = Font:getDescent()
+	local min_FilterMode, mag_FilterMode, anisotropy = Font:getFilter()
+	local height = Font:getHeight()
+	local kerning = Font:getKerning(leftchar_string, rightchar_string)
+	local kerning = Font:getKerning(leftglyph, rightglyph)
+	local height = Font:getLineHeight()
+	local width = Font:getWidth(text_string)
+	local width, wrappedtext_table = Font:getWrap(text_string, wraplimit)
+	local hasglyph_bool = Font:hasGlyphs(text_string)
+	local hasglyph_bool = Font:hasGlyphs(character1_string, character2_string)
+	local hasglyph_bool = Font:hasGlyphs(codepoint1, codepoint2)
+	Font:setFallbacks(fallbackfont1_Font, ...)
+	Font:setFilter(min_FilterMode, mag_FilterMode, anisotropy)
+	Font:setLineHeight(height)
+
+	Image = object(Texture,Drawable,Object) -- Drawable image type.
+	local compressed_bool = Image:isCompressed()
+	local linear_bool = Image:isFormatLinear()
+	Image:replacePixels(data_ImageData, slice, mipmap, x, y, reloadmipmaps_bool)
+
+	Mesh = object(Drawable,Object) -- A 2D polygon mesh used for drawing arbitrary textured shapes.
+	Mesh:attachAttribute(name_string, mesh_Mesh)
+	Mesh:attachAttribute(name_string, mesh_Mesh, step_VertexAttributeStep, attachname_string)
+	local success_bool = Mesh:detachAttribute(name_string)
+	Mesh:flush()
+	local mode_MeshDrawMode = Mesh:getDrawMode()
+	local min, max = Mesh:getDrawRange()
+	local texture_Texture = Mesh:getTexture()
+	local attributecomponent, ... = Mesh:getVertex(index)
+	local x, y, u, v, r, g, b, a = Mesh:getVertex(index)
+	local value1, value2, ... = Mesh:getVertexAttribute(vertexindex, attributeindex)
+	local count = Mesh:getVertexCount()
+	local format_table = Mesh:getVertexFormat()
+	local map_table = Mesh:getVertexMap()
+	local enabled_bool = Mesh:isAttributeEnabled(name_string)
+	Mesh:setAttributeEnabled(name_string, enable_bool)
+	Mesh:setDrawMode(mode_MeshDrawMode)
+	Mesh:setDrawRange(start, count)
+	Mesh:setDrawRange()
+	Mesh:setTexture(texture_Texture)
+	Mesh:setTexture()
+	Mesh:setVertex(index, attributecomponent, ...)
+	Mesh:setVertex(index, vertex_table)
+	Mesh:setVertex(index, x, y, u, v, r, g, b, a)
+	Mesh:setVertex(index, vertex_table)
+	Mesh:setVertexAttribute(vertexindex, attributeindex, value1, value2, ...)
+	Mesh:setVertexMap(map_table)
+	Mesh:setVertexMap(vi1, vi2, vi3)
+	Mesh:setVertexMap(data_Data, datatype_IndexDataType)
+	Mesh:setVertices(vertices_table, startvertex, count)
+	Mesh:setVertices(data_Data, startvertex)
+	Mesh:setVertices(vertices_table)
+
+	ParticleSystem = object(Drawable,Object) -- A ParticleSystem can be used to create particle effects like fire or smoke.
+	-- The particle system has to be created using update it in the update callback to see any changes in the particles emitted.
+	-- The particle system won't create any particles unless you call setParticleLifetime and setEmissionRate.
+	local particlesystem_ParticleSystem = ParticleSystem:clone()
+	ParticleSystem:emit(numparticles)
+	local size = ParticleSystem:getBufferSize()
+	local r1, g1, b1, a1, r2, g2, b2, a2, r8, g8, b8, a8 = ParticleSystem:getColors()
+	local count = ParticleSystem:getCount()
+	local direction = ParticleSystem:getDirection()
+	local distribution_AreaSpreadDistribution, dx, dy, angle, directionRelativeToCenter_bool = ParticleSystem:getEmissionArea()
+	local rate = ParticleSystem:getEmissionRate()
+	local life = ParticleSystem:getEmitterLifetime()
+	local mode_ParticleInsertMode = ParticleSystem:getInsertMode()
+	local xmin, ymin, xmax, ymax = ParticleSystem:getLinearAcceleration()
+	local min, max = ParticleSystem:getLinearDamping()
+	local ox, oy = ParticleSystem:getOffset()
+	local min, max = ParticleSystem:getParticleLifetime()
+	local x, y = ParticleSystem:getPosition()
+	local quads_table = ParticleSystem:getQuads()
+	local min, max = ParticleSystem:getRadialAcceleration()
+	local min, max = ParticleSystem:getRotation()
+	local variation = ParticleSystem:getSizeVariation()
+	local size1, size2, size8 = ParticleSystem:getSizes()
+	local min, max = ParticleSystem:getSpeed()
+	local min, max, variation = ParticleSystem:getSpin()
+	local variation = ParticleSystem:getSpinVariation()
+	local spread = ParticleSystem:getSpread()
+	local min, max = ParticleSystem:getTangentialAcceleration()
+	local texture_Texture = ParticleSystem:getTexture()
+	local enable_bool = ParticleSystem:hasRelativeRotation()
+	local active_bool = ParticleSystem:isActive()
+	local paused_bool = ParticleSystem:isPaused()
+	local stopped_bool = ParticleSystem:isStopped()
+	ParticleSystem:moveTo(x, y)
+	ParticleSystem:pause()
+	ParticleSystem:reset()
+	ParticleSystem:setBufferSize(size)
+	ParticleSystem:setColors(r1, g1, b1, a1, ...)
+	ParticleSystem:setColors(rgba1_table, ...)
+	ParticleSystem:setDirection(direction)
+	ParticleSystem:setEmissionArea(distribution_AreaSpreadDistribution, dx, dy, angle, directionRelativeToCenter_bool)
+	ParticleSystem:setEmissionRate(rate)
+	ParticleSystem:setEmitterLifetime(life)
+	ParticleSystem:setInsertMode(mode_ParticleInsertMode)
+	ParticleSystem:setLinearAcceleration(xmin, ymin, xmax, ymax)
+	ParticleSystem:setLinearDamping(min, max)
+	ParticleSystem:setOffset(x, y)
+	ParticleSystem:setParticleLifetime(min, max)
+	ParticleSystem:setPosition(x, y)
+	ParticleSystem:setQuads(quad1_Quad, ...)
+	ParticleSystem:setQuads(quads_table)
+	ParticleSystem:setRadialAcceleration(min, max)
+	ParticleSystem:setRelativeRotation(enable_bool)
+	ParticleSystem:setRotation(min, max)
+	ParticleSystem:setSizeVariation(variation)
+	ParticleSystem:setSizes(size1, size2, size8)
+	ParticleSystem:setSpeed(min, max)
+	ParticleSystem:setSpin(min, max)
+	ParticleSystem:setSpinVariation(variation)
+	ParticleSystem:setSpread(spread)
+	ParticleSystem:setTangentialAcceleration(min, max)
+	ParticleSystem:setTexture(texture_Texture)
+	ParticleSystem:start()
+	ParticleSystem:stop()
+	ParticleSystem:update(dt)
+
+	Quad = object(Object) -- A quadrilateral (a polygon with four sides and four corners) with texture coordinate information.
+	-- Quads can be used to select part of a texture to draw. In this way, one large texture atlas can be loaded, and then split up into sub-images.
+	local sw, sh = Quad:getTextureDimensions()
+	local x, y, w, h = Quad:getViewport()
+	Quad:setViewport(x, y, w, h, sw, sh)
+
+	Shader = object(Object) -- A Shader is used for advanced hardware-accelerated pixel or vertex manipulation. These effects are written in a language based on GLSL (OpenGL Shading Language) with a few things simplified for easier coding.
+	-- Potential uses for shaders include HDR/bloom, motion blur, grayscale/invert/sepia/any kind of color effect, reflection/refraction, distortions, bump mapping, and much more! Here is a collection of basic shaders and good starting point to learn: https://github.com/vrld/moonshine
+	local warnings_string = Shader:getWarnings()
+	local hasuniform_bool = Shader:hasUniform(name_string)
+	Shader:send(name_string, number, ...)
+	Shader:send(name_string, vector_table, ...)
+	Shader:send(name_string, matrix_table, ...)
+	Shader:send(name_string, texture_Texture)
+	Shader:send(name_string, boolean_bool, ...)
+	Shader:send(name_string, matrixlayout_MatrixLayout, matrix_table, ...)
+	Shader:send(name_string, data_Data, offset, size)
+	Shader:send(name_string, data_Data, matrixlayout_MatrixLayout, offset, size)
+	Shader:send(name_string, matrixlayout_MatrixLayout, data_Data, offset, size)
+	Shader:sendColor(name_string, color_table, ...)
+
+	SpriteBatch = object(Drawable,Object) -- Using a single image, draw any number of identical copies of the image using a single call to love.graphics.draw(). This can be used, for example, to draw repeating copies of a single background image with high performance.
+	-- A SpriteBatch can be even more useful when the underlying image is a texture atlas (a single image file containing many independent images); by adding Quads to the batch, different sub-images from within the atlas can be drawn.
+	local id = SpriteBatch:add(x, y, r, sx, sy, ox, oy, kx, ky)
+	local id = SpriteBatch:add(quad_Quad, x, y, r, sx, sy, ox, oy, kx, ky)
+	local spriteindex = SpriteBatch:addLayer(layerindex, x, y, r, sx, sy, ox, oy, kx, ky)
+	local spriteindex = SpriteBatch:addLayer(layerindex, quad_Quad, x, y, r, sx, sy, ox, oy, kx, ky)
+	local spriteindex = SpriteBatch:addLayer(layerindex, transform_Transform)
+	local spriteindex = SpriteBatch:addLayer(layerindex, quad_Quad, transform_Transform)
+	SpriteBatch:attachAttribute(name_string, mesh_Mesh)
+	SpriteBatch:clear()
+	SpriteBatch:flush()
+	local size = SpriteBatch:getBufferSize()
+	local r, g, b, a = SpriteBatch:getColor()
+	local count = SpriteBatch:getCount()
+	local texture_Texture = SpriteBatch:getTexture()
+	SpriteBatch:set(spriteindex, x, y, r, sx, sy, ox, oy, kx, ky)
+	SpriteBatch:set(spriteindex, quad_Quad, x, y, r, sx, sy, ox, oy, kx, ky)
+	SpriteBatch:setColor(r, g, b, a)
+	SpriteBatch:setColor()
+	SpriteBatch:setDrawRange(start, count)
+	SpriteBatch:setDrawRange()
+	SpriteBatch:setLayer(spriteindex, layerindex, x, y, r, sx, sy, ox, oy, kx, ky)
+	SpriteBatch:setLayer(spriteindex, layerindex, quad_Quad, x, y, r, sx, sy, ox, oy, kx, ky)
+	SpriteBatch:setLayer(spriteindex, layerindex, transform_Transform)
+	SpriteBatch:setLayer(spriteindex, layerindex, quad_Quad, transform_Transform)
+	SpriteBatch:setTexture(texture_Texture)
+
+	Text = object(Drawable,Object) -- Drawable text.
+	local index = Text:add(textstring_string, x, y, angle, sx, sy, ox, oy, kx, ky)
+	local index = Text:add(coloredtext_table, x, y, angle, sx, sy, ox, oy, kx, ky)
+	local index = Text:addf(textstring_string, wraplimit, align_AlignMode, x, y, angle, sx, sy, ox, oy, kx, ky)
+	local index = Text:addf(coloredtext_table, wraplimit, align_AlignMode, x, y, angle, sx, sy, ox, oy, kx, ky)
+	Text:clear()
+	local width, height = Text:getDimensions()
+	local width, height = Text:getDimensions(index)
+	local font_Font = Text:getFont()
+	local  height  = Text:getHeight()
+	local height = Text:getHeight(index)
+	local width = Text:getWidth()
+	local width = Text:getWidth(index)
+	Text:set(textstring_string)
+	Text:set(coloredtext_table)
+	Text:setFont(font_Font)
+	Text:setf(textstring_string, wraplimit, align_AlignMode)
+	Text:setf(coloredtext_table, wraplimit, align_AlignMode)
+
+	Texture = object(Drawable,Object) -- Superclass for drawable objects which represent a texture. All Textures can be drawn with Quads. This is an abstract type that can't be created directly.
+	local dpiscale = Texture:getDPIScale()
+	local depth = Texture:getDepth()
+	local compare_CompareMode = Texture:getDepthSampleMode()
+	local width, height = Texture:getDimensions()
+	local min_FilterMode, mag_FilterMode, anisotropy = Texture:getFilter()
+	local format_PixelFormat = Texture:getFormat()
+	local height = Texture:getHeight()
+	local layers = Texture:getLayerCount()
+	local mipmaps = Texture:getMipmapCount()
+	local mode_FilterMode, sharpness = Texture:getMipmapFilter()
+	local pixelwidth, pixelheight = Texture:getPixelDimensions()
+	local pixelheight = Texture:getPixelHeight()
+	local pixelwidth = Texture:getPixelWidth()
+	local texturetype_TextureType = Texture:getTextureType()
+	local width = Texture:getWidth()
+	local horiz_WrapMode, vert_WrapMode, depth_WrapMode = Texture:getWrap()
+	local readable_bool = Texture:isReadable()
+	Texture:setDepthSampleMode(compare_CompareMode)
+	Texture:setFilter(min_FilterMode, mag_FilterMode, anisotropy)
+	Texture:setMipmapFilter(filtermode_FilterMode, sharpness)
+	Texture:setMipmapFilter()
+	Texture:setWrap(horiz_WrapMode, vert_WrapMode, depth_WrapMode)
+
+	Video = object(Drawable,Object) -- A drawable video.
+	local width, height = Video:getDimensions()
+	local min_FilterMode, mag_FilterMode, anisotropy = Video:getFilter()
+	local height = Video:getHeight()
+	local source_Source = Video:getSource()
+	local stream_VideoStream = Video:getStream()
+	local width = Video:getWidth()
+	local playing_bool = Video:isPlaying()
+	Video:pause()
+	Video:play()
+	Video:rewind()
+	Video:seek(offset)
+	Video:setFilter(min_FilterMode, mag_FilterMode, anisotropy)
+	Video:setSource(source_Source)
+	local seconds = Video:tell()
+
+	local AlignMode_enum = { "center", "left", "right", "justify" }
+	local ArcType_enum = { "pie", "open", "closed" }
+	local AreaSpreadDistribution_enum = { "uniform", "normal", "ellipse", "borderellipse", "borderrectangle", "none" }
+	local BlendAlphaMode_enum = { "alphamultiply", "premultiplied" }
+	local BlendMode_enum = { "alpha", "replace", "screen", "add", "subtract", "multiply", "lighten", "darken", "additive", "subtractive", "multiplicative", "premultiplied" }
+	local CompareMode_enum = { "equal", "notequal", "less", "lequal", "gequal", "greater", "never", "always" }
+	local CullMode_enum = { "back", "front", "none" }
+	local DrawMode_enum = { "fill", "line" }
+	local FilterMode_enum = { "linear", "nearest" }
+	local GraphicsFeature_enum = { "clampzero", "lighten", "multicanvasformats", "glsl3", "instancing", "fullnpot", "pixelshaderhighp", "shaderderivatives" }
+	local GraphicsLimit_enum = { "pointsize", "texturesize", "multicanvas", "canvasmsaa", "texturelayers", "volumetexturesize", "cubetexturesize", "anisotropy" }
+	local IndexDataType_enum = { "uint16", "uint32" }
+	local LineJoin_enum = { "miter", "none", "bevel" }
+	local LineStyle_enum = { "rough", "smooth" }
+	local MeshDrawMode_enum = { "fan", "strip", "triangles", "points" }
+	local MipmapMode_enum = { "none", "auto", "manual" }
+	local ParticleInsertMode_enum = { "top", "bottom", "random" }
+	local SpriteBatchUsage_enum = { "dynamic", "static", "stream" }
+	local StackType_enum = { "transform", "all" }
+	local StencilAction_enum = { "replace", "increment", "decrement", "incrementwrap", "decrementwrap", "invert" }
+	local TextureType_enum = { "2d", "array", "cube", "volume" }
+	local VertexAttributeStep_enum = { "pervertex", "perinstance" }
+	local VertexWinding_enum = { "cw", "ccw" }
+	local WrapMode_enum = { "clamp", "repeat", "mirroredrepeat", "clampzero" }
+
+::image:: -- Provides an interface to decode encoded image data.
+
+	local compressed_bool = love.image.isCompressed(filename_string)
+	local compressed_bool = love.image.isCompressed(fileData_FileData)
+	local compressedImageData_CompressedImageData = love.image.newCompressedData(filename_string)
+	local compressedImageData_CompressedImageData = love.image.newCompressedData(fileData_FileData)
+	local imageData_ImageData = love.image.newImageData(width, height)
+	local imageData_ImageData = love.image.newImageData(width, height, format_PixelFormat, data_string)
+	local imageData_ImageData = love.image.newImageData(width, height, data_string)
+	local imageData_ImageData = love.image.newImageData(filename_string)
+	local imageData_ImageData = love.image.newImageData(filedata_FileData)
+
+	CompressedImageData = object(Data,Object) -- Represents compressed image data designed to stay compressed in RAM.
+	-- CompressedImageData encompasses standard compressed texture formats such as  DXT1, DXT5, and BC5 / 3Dc.
+	-- You can't draw CompressedImageData directly to the screen. See Image for that.
+	local width, height = CompressedImageData:getDimensions()
+	local width, height = CompressedImageData:getDimensions(level)
+	local format_CompressedImageFormat = CompressedImageData:getFormat()
+	local height = CompressedImageData:getHeight()
+	local height = CompressedImageData:getHeight(level)
+	local mipmaps = CompressedImageData:getMipmapCount()
+	local width = CompressedImageData:getWidth()
+	local width = CompressedImageData:getWidth(level)
+
+	ImageData = object(Data,Object) -- Raw (decoded) image data.
+	-- You can't draw ImageData directly to screen. See Image for that.
+	local filedata_FileData = ImageData:encode(format_ImageFormat, filename_string)
+	ImageData:encode(outFile_string)
+	ImageData:encode(outFile_string, format_ImageFormat)
+	local width, height = ImageData:getDimensions()
+	local height = ImageData:getHeight()
+	local r, g, b, a = ImageData:getPixel(x, y)
+	local width = ImageData:getWidth()
+	ImageData:mapPixel(pixelFunction_function, x, y, width, height)
+	ImageData:paste(source_ImageData, dx, dy, sx, sy, sw, sh)
+	ImageData:setPixel(x, y, r, g, b, a)
+	ImageData:setPixel(x, y, color_table)
+	local format_PixelFormat = ImageData:getFormat()
+
+	local CompressedImageFormat_enum = { "DXT1", "DXT3", "DXT5", "BC4", "BC4s", "BC5", "BC5s", "BC6h", "BC6hs", "BC7", "ETC1", "ETC2rgb", "ETC2rgba", "ETC2rgba1", "EACr", "EACrs", "EACrg", "EACrgs", "PVR1rgb2", "PVR1rgb4", "PVR1rgba2", "PVR1rgba4", "ASTC4x4", "ASTC5x4", "ASTC5x5", "ASTC6x5", "ASTC6x6", "ASTC8x5", "ASTC8x6", "ASTC8x8", "ASTC10x5", "ASTC10x6", "ASTC10x8", "ASTC10x10", "ASTC12x10", "ASTC12x12" }
+	local ImageFormat_enum = { "tga", "png", "jpg", "bmp" }
+	local PixelFormat_enum = { "unknown", "normal", "hdr", "r8", "rg8", "rgba8", "srgba8", "r16", "rg16", "rgba16", "r16f", "rg16f", "rgba16f", "r32f", "rg32f", "rgba32f", "la8", "rgba4", "rgb5a1", "rgb565", "rgb10a2", "rg11b10f", "stencil8", "depth16", "depth24", "depth32f", "depth24stencil8", "depth32fstencil8", "DXT1", "DXT3", "DXT5", "BC4", "BC4s", "BC5", "BC5s", "BC6h", "BC6hs", "BC7", "ETC1", "ETC2rgb", "ETC2rgba", "ETC2rgba1", "EACr", "EACrs", "EACrg", "EACrgs", "PVR1rgb2", "PVR1rgb4", "PVR1rgba2", "PVR1rgba4", "ASTC4x4", "ASTC5x4", "ASTC5x5", "ASTC6x5", "ASTC6x6", "ASTC8x5", "ASTC8x6", "ASTC8x8", "ASTC10x5", "ASTC10x6", "ASTC10x8", "ASTC10x10", "ASTC12x10", "ASTC12x12" }
+
+::joystick:: -- Provides an interface to the user's joystick.
+
+	local mappingstring_string = love.joystick.getGamepadMappingString(guid_string)
+	local joystickcount = love.joystick.getJoystickCount()
+	local joysticks_table = love.joystick.getJoysticks()
+	love.joystick.loadGamepadMappings(filename_string)
+	love.joystick.loadGamepadMappings(mappings_string)
+	local mappings_string = love.joystick.saveGamepadMappings(filename_string)
+	local mappings_string = love.joystick.saveGamepadMappings()
+	local success_bool = love.joystick.setGamepadMapping(guid_string, button_GamepadButton, inputtype_JoystickInputType, inputindex, hatdir_JoystickHat)
+	local success_bool = love.joystick.setGamepadMapping(guid_string, axis_GamepadAxis, inputtype_JoystickInputType, inputindex, hatdir_JoystickHat)
+
+	Joystick = object(Object) -- Represents a physical joystick.
+	local axisDir1, axisDir2, axisDirN = Joystick:getAxes()
+	local direction = Joystick:getAxis(axis)
+	local axes = Joystick:getAxisCount()
+	local buttons = Joystick:getButtonCount()
+	local vendorID, productID, productVersion = Joystick:getDeviceInfo()
+	local guid_string = Joystick:getGUID()
+	local direction = Joystick:getGamepadAxis(axis_GamepadAxis)
+	local inputtype_JoystickInputType, inputindex, hatdirection_JoystickHat = Joystick:getGamepadMapping(axis_GamepadAxis)
+	local inputtype_JoystickInputType, inputindex, hatdirection_JoystickHat = Joystick:getGamepadMapping(button_GamepadButton)
+	local mappingstring_string = Joystick:getGamepadMappingString()
+	local direction_JoystickHat = Joystick:getHat(hat)
+	local hats = Joystick:getHatCount()
+	local id, instanceid = Joystick:getID()
+	local name_string = Joystick:getName()
+	local left, right = Joystick:getVibration()
+	local connected_bool = Joystick:isConnected()
+	local anyDown_bool = Joystick:isDown(buttonN)
+	local isgamepad_bool = Joystick:isGamepad()
+	local anyDown_bool = Joystick:isGamepadDown(buttonN_GamepadButton)
+	local supported_bool = Joystick:isVibrationSupported()
+	local success_bool = Joystick:setVibration(left, right)
+	local success_bool = Joystick:setVibration()
+	local success_bool = Joystick:setVibration(left, right, duration)
+
+	local GamepadAxis_enum = { "leftx", "lefty", "rightx", "righty", "triggerleft", "triggerright" }
+	local GamepadButton_enum = { "a", "b", "x", "y", "back", "guide", "start", "leftstick", "rightstick", "leftshoulder", "rightshoulder", "dpup", "dpdown", "dpleft", "dpright" }
+	local JoystickHat_enum = { "c", "d", "l", "ld", "lu", "r", "rd", "ru", "u" }
+	local JoystickInputType_enum = { "axis", "button", "hat" }
+
+::keyboard:: -- Provides an interface to the user's keyboard.
+
+	local key_KeyConstant = love.keyboard.getKeyFromScancode(scancode_Scancode)
+	local scancode_Scancode = love.keyboard.getScancodeFromKey(key_KeyConstant)
+	local enabled_bool = love.keyboard.hasKeyRepeat()
+	local supported_bool = love.keyboard.hasScreenKeyboard()
+	local enabled_bool = love.keyboard.hasTextInput()
+	local down_bool = love.keyboard.isDown(key_KeyConstant)
+	local anyDown_bool = love.keyboard.isDown(key_KeyConstant, ...)
+	local down_bool = love.keyboard.isScancodeDown(scancode_Scancode, ...)
+	love.keyboard.setKeyRepeat(enable_bool)
+	love.keyboard.setTextInput(enable_bool)
+	love.keyboard.setTextInput(enable_bool, x, y, w, h)
+
+	local KeyConstant_enum = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "space", "!", "\"", "#", "$", "&", "'", "(", ")", "*", "+", ",", "-", ".", "/", ":", ";", "<", "=", ">", "?", "@", "[", "\\", "]", "^", "_", "`", "kp0", "kp1", "kp2", "kp3", "kp4", "kp5", "kp6", "kp7", "kp8", "kp9", "kp.", "kp/", "kp*", "kp-", "kp+", "kpenter", "kp=", "up", "down", "right", "left", "home", "end", "pageup", "pagedown", "insert", "backspace", "tab", "clear", "return", "delete", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12", "f13", "f14", "f15", "numlock", "capslock", "scrollock", "rshift", "lshift", "rctrl", "lctrl", "ralt", "lalt", "rmeta", "lmeta", "lsuper", "rsuper", "mode", "compose", "pause", "escape", "help", "print", "sysreq", "break", "menu", "power", "euro", "undo", "www", "mail", "calculator", "appsearch", "apphome", "appback", "appforward", "apprefresh", "appbookmarks" }
+	local Scancode_enum = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "return", "escape", "backspace", "tab", "space", "-", "=", "[", "]", "\\", "nonus#", ";", "'", "`", ",", ".", "/", "capslock", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12", "f13", "f14", "f15", "f16", "f17", "f18", "f19", "f20", "f21", "f22", "f23", "f24", "lctrl", "lshift", "lalt", "lgui", "rctrl", "rshift", "ralt", "rgui", "printscreen", "scrolllock", "pause", "insert", "home", "numlock", "pageup", "delete", "end", "pagedown", "right", "left", "down", "up", "nonusbackslash", "application", "execute", "help", "menu", "select", "stop", "again", "undo", "cut", "copy", "paste", "find", "kp/", "kp*", "kp-", "kp+", "kp=", "kpenter", "kp1", "kp2", "kp3", "kp4", "kp5", "kp6", "kp7", "kp8", "kp9", "kp0", "kp.", "international1", "international2", "international3", "international4", "international5", "international6", "international7", "international8", "international9", "lang1", "lang2", "lang3", "lang4", "lang5", "mute", "volumeup", "volumedown", "audionext", "audioprev", "audiostop", "audioplay", "audiomute", "mediaselect", "www", "mail", "calculator", "computer", "acsearch", "achome", "acback", "acforward", "acstop", "acrefresh", "acbookmarks", "power", "brightnessdown", "brightnessup", "displayswitch", "kbdillumtoggle", "kbdillumdown", "kbdillumup", "eject", "sleep", "alterase", "sysreq", "cancel", "clear", "prior", "return2", "separator", "out", "oper", "clearagain", "crsel", "exsel", "kp00", "kp000", "thsousandsseparator", "decimalseparator", "currencyunit", "currencysubunit", "app1", "app2", "unknown" }
+
+::math:: -- Provides system-independent mathematical functions.
+
+	local r, g, b, a = love.math.colorFromBytes(rb, gb, bb, ab)
+	local rb, gb, bb, ab = love.math.colorToBytes(r, g, b, a)
+	local lr, lg, lb = love.math.gammaToLinear(r, g, b)
+	local lr, lg, lb = love.math.gammaToLinear(color_table)
+	local lc = love.math.gammaToLinear(c)
+	local low, high = love.math.getRandomSeed()
+	local state_string = love.math.getRandomState()
+	local convex_bool = love.math.isConvex(vertices_table)
+	local convex_bool = love.math.isConvex(x1, y1, x2, y2, ...)
+	local cr, cg, cb = love.math.linearToGamma(lr, lg, lb)
+	local cr, cg, cb = love.math.linearToGamma(color_table)
+	local c = love.math.linearToGamma(lc)
+	local curve_BezierCurve = love.math.newBezierCurve(vertices_table)
+	local curve_BezierCurve = love.math.newBezierCurve(x1, y1, x2, y2, ...)
+	local rng_RandomGenerator = love.math.newRandomGenerator()
+	local rng_RandomGenerator = love.math.newRandomGenerator(seed)
+	local rng_RandomGenerator = love.math.newRandomGenerator(low, high)
+	local transform_Transform = love.math.newTransform()
+	local transform_Transform = love.math.newTransform(x, y, angle, sx, sy, ox, oy, kx, ky)
+	local value = love.math.noise(x)
+	local value = love.math.noise(x, y)
+	local value = love.math.noise(x, y, z)
+	local value = love.math.noise(x, y, z, w)
+	local number = love.math.random()
+	local number = love.math.random(max)
+	local number = love.math.random(min, max)
+	local number = love.math.randomNormal(stddev, mean)
+	love.math.setRandomSeed(seed)
+	love.math.setRandomSeed(low, high)
+	love.math.setRandomState(state_string)
+	local triangles_table = love.math.triangulate(polygon_table)
+	local triangles_table = love.math.triangulate(x1, y1, x2, y2, x3, y3)
+
+	BezierCurve = object(Object) -- A Bézier curve object that can evaluate and render Bézier curves of arbitrary degree.
+	-- For more information on Bézier curves check this great article on Wikipedia.
+	local x, y = BezierCurve:evaluate(t)
+	local x, y = BezierCurve:getControlPoint(i)
+	local count = BezierCurve:getControlPointCount()
+	local degree = BezierCurve:getDegree()
+	local derivative_BezierCurve = BezierCurve:getDerivative()
+	local curve_BezierCurve = BezierCurve:getSegment(startpoint, endpoint)
+	BezierCurve:insertControlPoint(x, y, i)
+	BezierCurve:removeControlPoint(index)
+	local coordinates_table = BezierCurve:render(depth)
+	local coordinates_table = BezierCurve:renderSegment(startpoint, endpoint, depth)
+	BezierCurve:rotate(angle, ox, oy)
+	BezierCurve:scale(s, ox, oy)
+	BezierCurve:setControlPoint(i, x, y)
+	BezierCurve:translate(dx, dy)
+
+	RandomGenerator = object(Object) -- A random number generation object which has its own random state.
+	local low, high = RandomGenerator:getSeed()
+	local state_string = RandomGenerator:getState()
+	local number = RandomGenerator:random()
+	local number = RandomGenerator:random(max)
+	local number = RandomGenerator:random(min, max)
+	local number = RandomGenerator:randomNormal(stddev, mean)
+	RandomGenerator:setSeed(seed)
+	RandomGenerator:setSeed(low, high)
+	RandomGenerator:setState(state_string)
+
+	Transform = object(Object) -- Object containing a coordinate system transformation.
+	-- The love.graphics module has several functions and function variants which accept Transform objects.
+	local transform_Transform = Transform:apply(other_Transform)
+	local clone_Transform = Transform:clone()
+	local e1_1, e1_2, e1_3, e1_4, e2_1, e2_2, e2_3, e2_4, e3_1, e3_2, e3_3, e3_4, e4_1, e4_2, e4_3, e4_4 = Transform:getMatrix()
+	local inverse_Transform = Transform:inverse()
+	local globalX, globalY = Transform:inverseTransformPoint(localX, localY)
+	local affine_bool = Transform:isAffine2DTransform()
+	local transform_Transform = Transform:reset()
+	local transform_Transform = Transform:rotate(angle)
+	local transform_Transform = Transform:scale(sx, sy)
+	local transform_Transform = Transform:setMatrix(e1_1, e1_2, e1_3, e1_4, e2_1, e2_2, e2_3, e2_4, e3_1, e3_2, e3_3, e3_4, e4_1, e4_2, e4_3, e4_4)
+	local transform_Transform = Transform:setMatrix(layout_MatrixLayout, e1_1, e1_2, e1_3, e1_4, e2_1, e2_2, e2_3, e2_4, e3_1, e3_2, e3_3, e3_4, e4_1, e4_2, e4_3, e4_4)
+	local transform_Transform = Transform:setMatrix(layout_MatrixLayout, matrix_table)
+	local transform_Transform = Transform:setMatrix(layout_MatrixLayout, matrix_table)
+	local transform_Transform = Transform:setTransformation(x, y, angle, sx, sy, ox, oy, kx, ky)
+	local transform_Transform = Transform:shear(kx, ky)
+	local localX, localY = Transform:transformPoint(globalX, globalY)
+	local transform_Transform = Transform:translate(dx, dy)
+
+	local MatrixLayout_enum = { "row", "column" }
+
+::mouse:: -- Provides an interface to the user's mouse.
+
+	local cursor_Cursor = love.mouse.getCursor()
+	local x, y = love.mouse.getPosition()
+	local enabled_bool = love.mouse.getRelativeMode()
+	local cursor_Cursor = love.mouse.getSystemCursor(ctype_CursorType)
+	local x = love.mouse.getX()
+	local y = love.mouse.getY()
+	local supported_bool = love.mouse.isCursorSupported()
+	local down_bool = love.mouse.isDown(button, ...)
+	local grabbed_bool = love.mouse.isGrabbed()
+	local visible_bool = love.mouse.isVisible()
+	local cursor_Cursor = love.mouse.newCursor(imageData_ImageData, hotx, hoty)
+	local cursor_Cursor = love.mouse.newCursor(filename_string, hotx, hoty)
+	local cursor_Cursor = love.mouse.newCursor(fileData_FileData, hotx, hoty)
+	love.mouse.setCursor(cursor_Cursor)
+	love.mouse.setCursor()
+	love.mouse.setGrabbed(grab_bool)
+	love.mouse.setPosition(x, y)
+	love.mouse.setRelativeMode(enable_bool)
+	love.mouse.setVisible(visible_bool)
+	love.mouse.setX(x)
+	love.mouse.setY(y)
+
+	Cursor = object(Object) -- Represents a hardware cursor.
+	local ctype_CursorType = Cursor:getType()
+
+	local CursorType_enum = { "image", "arrow", "ibeam", "wait", "waitarrow", "crosshair", "sizenwse", "sizenesw", "sizewe", "sizens", "sizeall", "no", "hand" }
+
+::physics:: -- Can simulate 2D rigid body physics in a realistic manner. This module is based on Box2D, and this API corresponds to the Box2D API as closely as possible.
+
+	local distance, x1, y1, x2, y2 = love.physics.getDistance(fixture1_Fixture, fixture2_Fixture)
+	local scale = love.physics.getMeter()
+	local body_Body = love.physics.newBody(world_World, x, y, type_BodyType)
+	local shape_ChainShape = love.physics.newChainShape(loop_bool, x1, y1, x2, y2, ...)
+	local shape_ChainShape = love.physics.newChainShape(loop_bool, points_table)
+	local shape_CircleShape = love.physics.newCircleShape(radius)
+	local shape_CircleShape = love.physics.newCircleShape(x, y, radius)
+	local joint_DistanceJoint = love.physics.newDistanceJoint(body1_Body, body2_Body, x1, y1, x2, y2, collideConnected_bool)
+	local shape_EdgeShape = love.physics.newEdgeShape(x1, y1, x2, y2)
+	local fixture_Fixture = love.physics.newFixture(body_Body, shape_Shape, density)
+	local joint_FrictionJoint = love.physics.newFrictionJoint(body1_Body, body2_Body, x, y, collideConnected_bool)
+	local joint_FrictionJoint = love.physics.newFrictionJoint(body1_Body, body2_Body, x1, y1, x2, y2, collideConnected_bool)
+	local joint_GearJoint = love.physics.newGearJoint(joint1_Joint, joint2_Joint, ratio, collideConnected_bool)
+	local joint_MotorJoint = love.physics.newMotorJoint(body1_Body, body2_Body, correctionFactor)
+	local joint_MotorJoint = love.physics.newMotorJoint(body1_Body, body2_Body, correctionFactor, collideConnected_bool)
+	local joint_MouseJoint = love.physics.newMouseJoint(body_Body, x, y)
+	local shape_PolygonShape = love.physics.newPolygonShape(x1, y1, x2, y2, x3, y3, ...)
+	local shape_PolygonShape = love.physics.newPolygonShape(vertices_table)
+	local joint_PrismaticJoint = love.physics.newPrismaticJoint(body1_Body, body2_Body, x, y, ax, ay, collideConnected_bool)
+	local joint_PrismaticJoint = love.physics.newPrismaticJoint(body1_Body, body2_Body, x1, y1, x2, y2, ax, ay, collideConnected_bool)
+	local joint_PrismaticJoint = love.physics.newPrismaticJoint(body1_Body, body2_Body, x1, y1, x2, y2, ax, ay, collideConnected_bool, referenceAngle)
+	local joint_PulleyJoint = love.physics.newPulleyJoint(body1_Body, body2_Body, gx1, gy1, gx2, gy2, x1, y1, x2, y2, ratio, collideConnected_bool)
+	local shape_PolygonShape = love.physics.newRectangleShape(width, height)
+	local shape_PolygonShape = love.physics.newRectangleShape(x, y, width, height, angle)
+	local joint_RevoluteJoint = love.physics.newRevoluteJoint(body1_Body, body2_Body, x, y, collideConnected_bool)
+	local joint_RevoluteJoint = love.physics.newRevoluteJoint(body1_Body, body2_Body, x1, y1, x2, y2, collideConnected_bool, referenceAngle)
+	local joint_RopeJoint = love.physics.newRopeJoint(body1_Body, body2_Body, x1, y1, x2, y2, maxLength, collideConnected_bool)
+	local joint_WeldJoint = love.physics.newWeldJoint(body1_Body, body2_Body, x, y, collideConnected_bool)
+	local joint_WeldJoint = love.physics.newWeldJoint(body1_Body, body2_Body, x1, y1, x2, y2, collideConnected_bool)
+	local joint_WeldJoint = love.physics.newWeldJoint(body1_Body, body2_Body, x1, y1, x2, y2, collideConnected_bool, referenceAngle)
+	local joint_WheelJoint = love.physics.newWheelJoint(body1_Body, body2_Body, x, y, ax, ay, collideConnected_bool)
+	local joint_WheelJoint = love.physics.newWheelJoint(body1_Body, body2_Body, x1, y1, x2, y2, ax, ay, collideConnected_bool)
+	local world_World = love.physics.newWorld(xg, yg, sleep_bool)
+	love.physics.setMeter(scale)
+
+	Body = object(Object) -- Bodies are objects with velocity and position.
+	Body:applyAngularImpulse(impulse)
+	Body:applyForce(fx, fy)
+	Body:applyForce(fx, fy, x, y)
+	Body:applyLinearImpulse(ix, iy)
+	Body:applyLinearImpulse(ix, iy, x, y)
+	Body:applyTorque(torque)
+	Body:destroy()
+	local angle = Body:getAngle()
+	local damping = Body:getAngularDamping()
+	local w = Body:getAngularVelocity()
+	local contacts_table = Body:getContacts()
+	local fixtures_table = Body:getFixtures()
+	local scale = Body:getGravityScale()
+	local inertia = Body:getInertia()
+	local joints_table = Body:getJoints()
+	local damping = Body:getLinearDamping()
+	local x, y = Body:getLinearVelocity()
+	local vx, vy = Body:getLinearVelocityFromLocalPoint(x, y)
+	local vx, vy = Body:getLinearVelocityFromWorldPoint(x, y)
+	local x, y = Body:getLocalCenter()
+	local localX, localY = Body:getLocalPoint(worldX, worldY)
+	local x1, y1, x2, y2, ... = Body:getLocalPoints(x1, y1, x2, y2, ...)
+	local localX, localY = Body:getLocalVector(worldX, worldY)
+	local mass = Body:getMass()
+	local x, y, mass, inertia = Body:getMassData()
+	local x, y = Body:getPosition()
+	local x, y, angle = Body:getTransform()
+	local type_BodyType = Body:getType()
+	local value_any = Body:getUserData()
+	local world_World = Body:getWorld()
+	local x, y = Body:getWorldCenter()
+	local worldX, worldY = Body:getWorldPoint(localX, localY)
+	local x1, y1, x2, y2 = Body:getWorldPoints(x1, y1, x2, y2)
+	local worldX, worldY = Body:getWorldVector(localX, localY)
+	local x = Body:getX()
+	local y = Body:getY()
+	local status_bool = Body:isActive()
+	local status_bool = Body:isAwake()
+	local status_bool = Body:isBullet()
+	local destroyed_bool = Body:isDestroyed()
+	local fixed_bool = Body:isFixedRotation()
+	local allowed_bool = Body:isSleepingAllowed()
+	local touching_bool = Body:isTouching(otherbody_Body)
+	Body:resetMassData()
+	Body:setActive(active_bool)
+	Body:setAngle(angle)
+	Body:setAngularDamping(damping)
+	Body:setAngularVelocity(w)
+	Body:setAwake(awake_bool)
+	Body:setBullet(status_bool)
+	Body:setFixedRotation(isFixed_bool)
+	Body:setGravityScale(scale)
+	Body:setInertia(inertia)
+	Body:setLinearDamping(ld)
+	Body:setLinearVelocity(x, y)
+	Body:setMass(mass)
+	Body:setMassData(x, y, mass, inertia)
+	Body:setPosition(x, y)
+	Body:setSleepingAllowed(allowed_bool)
+	Body:setTransform(x, y, angle)
+	Body:setType(type_BodyType)
+	Body:setUserData(value_any)
+	Body:setX(x)
+	Body:setY(y)
+
+	ChainShape = object(Shape,Object) -- A ChainShape consists of multiple line segments. It can be used to create the boundaries of your terrain. The shape does not have volume and can only collide with PolygonShape and CircleShape.
+	-- Unlike the PolygonShape, the ChainShape does not have a vertices limit or has to form a convex shape, but self intersections are not supported.
+	local shape_EdgeShape = ChainShape:getChildEdge(index)
+	local x, y = ChainShape:getNextVertex()
+	local x, y = ChainShape:getPoint(index)
+	local x1, y1, x2, y2 = ChainShape:getPoints()
+	local x, y = ChainShape:getPreviousVertex()
+	local count = ChainShape:getVertexCount()
+	ChainShape:setNextVertex(x, y)
+	ChainShape:setPreviousVertex(x, y)
+
+	CircleShape = object(Shape,Object) -- Circle extends Shape and adds a radius and a local position.
+	local x, y = CircleShape:getPoint()
+	local radius = CircleShape:getRadius()
+	CircleShape:setPoint(x, y)
+	CircleShape:setRadius(radius)
+
+	Contact = object(Object) -- Contacts are objects created to manage collisions in worlds.
+	local indexA, indexB = Contact:getChildren()
+	local fixtureA_Fixture, fixtureB_Fixture = Contact:getFixtures()
+	local friction = Contact:getFriction()
+	local nx, ny = Contact:getNormal()
+	local x1, y1, x2, y2 = Contact:getPositions()
+	local restitution = Contact:getRestitution()
+	local enabled_bool = Contact:isEnabled()
+	local touching_bool = Contact:isTouching()
+	Contact:resetFriction()
+	Contact:resetRestitution()
+	Contact:setEnabled(enabled_bool)
+	Contact:setFriction(friction)
+	Contact:setRestitution(restitution)
+
+	DistanceJoint = object(Joint,Object) -- Keeps two bodies at the same distance.
+	local ratio = DistanceJoint:getDampingRatio()
+	local Hz = DistanceJoint:getFrequency()
+	local l = DistanceJoint:getLength()
+	DistanceJoint:setDampingRatio(ratio)
+	DistanceJoint:setFrequency(Hz)
+	DistanceJoint:setLength(l)
+
+	EdgeShape = object(Shape,Object) -- A EdgeShape is a line segment. They can be used to create the boundaries of your terrain. The shape does not have volume and can only collide with PolygonShape and CircleShape.
+	local x, y = EdgeShape:getNextVertex()
+	local x1, y1, x2, y2 = EdgeShape:getPoints()
+	local x, y = EdgeShape:getPreviousVertex()
+	EdgeShape:setNextVertex(x, y)
+	EdgeShape:setPreviousVertex(x, y)
+
+	Fixture = object(Object) -- Fixtures attach shapes to bodies.
+	Fixture:destroy()
+	local body_Body = Fixture:getBody()
+	local topLeftX, topLeftY, bottomRightX, bottomRightY = Fixture:getBoundingBox(index)
+	local ... = Fixture:getCategory()
+	local density = Fixture:getDensity()
+	local categories, mask, group = Fixture:getFilterData()
+	local friction = Fixture:getFriction()
+	local group = Fixture:getGroupIndex()
+	local ... = Fixture:getMask()
+	local x, y, mass, inertia = Fixture:getMassData()
+	local restitution = Fixture:getRestitution()
+	local shape_Shape = Fixture:getShape()
+	local value_any = Fixture:getUserData()
+	local destroyed_bool = Fixture:isDestroyed()
+	local sensor_bool = Fixture:isSensor()
+	local xn, yn, fraction = Fixture:rayCast(x1, y1, x2, y2, maxFraction, childIndex)
+	Fixture:setCategory(...)
+	Fixture:setDensity(density)
+	Fixture:setFilterData(categories, mask, group)
+	Fixture:setFriction(friction)
+	Fixture:setGroupIndex(group)
+	Fixture:setMask(...)
+	Fixture:setRestitution(restitution)
+	Fixture:setSensor(sensor_bool)
+	Fixture:setUserData(value_any)
+	local isInside_bool = Fixture:testPoint(x, y)
+
+	FrictionJoint = object(Joint,Object) -- A FrictionJoint applies friction to a body.
+	local force = FrictionJoint:getMaxForce()
+	local torque = FrictionJoint:getMaxTorque()
+	FrictionJoint:setMaxForce(maxForce)
+	FrictionJoint:setMaxTorque(torque)
+
+	GearJoint = object(Joint,Object) -- Keeps bodies together in such a way that they act like gears.
+	local joint1_Joint, joint2_Joint = GearJoint:getJoints()
+	local ratio = GearJoint:getRatio()
+	GearJoint:setRatio(ratio)
+
+	Joint = object(Object) -- Attach multiple bodies together to interact in unique ways.
+	Joint:destroy()
+	local x1, y1, x2, y2 = Joint:getAnchors()
+	local bodyA_Body, bodyB_Body = Joint:getBodies()
+	local c_bool = Joint:getCollideConnected()
+	local x, y = Joint:getReactionForce(x)
+	local torque = Joint:getReactionTorque(invdt)
+	local type_JointType = Joint:getType()
+	local value_any = Joint:getUserData()
+	local destroyed_bool = Joint:isDestroyed()
+	Joint:setUserData(value_any)
+
+	MotorJoint = object(Joint,Object) -- Controls the relative motion between two Bodies. Position and rotation offsets can be specified, as well as the maximum motor force and torque that will be applied to reach the target offsets.
+	local angleoffset = MotorJoint:getAngularOffset()
+	local x, y = MotorJoint:getLinearOffset()
+	MotorJoint:setAngularOffset(angleoffset)
+	MotorJoint:setLinearOffset(x, y)
+
+	MouseJoint = object(Joint,Object) -- For controlling objects with the mouse.
+	local ratio = MouseJoint:getDampingRatio()
+	local freq = MouseJoint:getFrequency()
+	local f = MouseJoint:getMaxForce()
+	local x, y = MouseJoint:getTarget()
+	MouseJoint:setDampingRatio(ratio)
+	MouseJoint:setFrequency(freq)
+	MouseJoint:setMaxForce(f)
+	MouseJoint:setTarget(x, y)
+
+	PolygonShape = object(Shape,Object) -- A PolygonShape is a convex polygon with up to 8 vertices.
+	local x1, y1, x2, y2 = PolygonShape:getPoints()
+
+	PrismaticJoint = object(Joint,Object) -- Restricts relative motion between Bodies to one shared axis.
+	local enabled_bool = PrismaticJoint:areLimitsEnabled()
+	local x, y = PrismaticJoint:getAxis()
+	local s = PrismaticJoint:getJointSpeed()
+	local t = PrismaticJoint:getJointTranslation()
+	local lower, upper = PrismaticJoint:getLimits()
+	local lower = PrismaticJoint:getLowerLimit()
+	local f = PrismaticJoint:getMaxMotorForce()
+	local force = PrismaticJoint:getMotorForce(invdt)
+	local s = PrismaticJoint:getMotorSpeed()
+	local angle = PrismaticJoint:getReferenceAngle()
+	local upper = PrismaticJoint:getUpperLimit()
+	local enabled_bool = PrismaticJoint:isMotorEnabled()
+	PrismaticJoint:setLimits(lower, upper)
+	local enable_bool = PrismaticJoint:setLimitsEnabled()
+	PrismaticJoint:setLowerLimit(lower)
+	PrismaticJoint:setMaxMotorForce(f)
+	PrismaticJoint:setMotorEnabled(enable_bool)
+	PrismaticJoint:setMotorSpeed(s)
+	PrismaticJoint:setUpperLimit(upper)
+
+	PulleyJoint = object(Joint,Object) -- Allows you to simulate bodies connected through pulleys.
+	local length = PulleyJoint:getConstant()
+	local a1x, a1y, a2x, a2y = PulleyJoint:getGroundAnchors()
+	local length = PulleyJoint:getLengthA()
+	local length = PulleyJoint:getLengthB()
+	local len1, len2 = PulleyJoint:getMaxLengths()
+	local ratio = PulleyJoint:getRatio()
+	PulleyJoint:setConstant(length)
+	PulleyJoint:setMaxLengths(max1, max2)
+	PulleyJoint:setRatio(ratio)
+
+	RevoluteJoint = object(Joint,Object) -- Allow two Bodies to revolve around a shared point.
+	local enabled_bool = RevoluteJoint:areLimitsEnabled()
+	local angle = RevoluteJoint:getJointAngle()
+	local s = RevoluteJoint:getJointSpeed()
+	local lower, upper = RevoluteJoint:getLimits()
+	local lower = RevoluteJoint:getLowerLimit()
+	local f = RevoluteJoint:getMaxMotorTorque()
+	local s = RevoluteJoint:getMotorSpeed()
+	local f = RevoluteJoint:getMotorTorque()
+	local angle = RevoluteJoint:getReferenceAngle()
+	local upper = RevoluteJoint:getUpperLimit()
+	local enabled_bool = RevoluteJoint:hasLimitsEnabled()
+	local enabled_bool = RevoluteJoint:isMotorEnabled()
+	RevoluteJoint:setLimits(lower, upper)
+	RevoluteJoint:setLimitsEnabled(enable_bool)
+	RevoluteJoint:setLowerLimit(lower)
+	RevoluteJoint:setMaxMotorTorque(f)
+	RevoluteJoint:setMotorEnabled(enable_bool)
+	RevoluteJoint:setMotorSpeed(s)
+	RevoluteJoint:setUpperLimit(upper)
+
+	RopeJoint = object(Joint,Object) -- The RopeJoint enforces a maximum distance between two points on two bodies. It has no other effect.
+	local maxLength = RopeJoint:getMaxLength()
+	RopeJoint:setMaxLength(maxLength)
+
+	Shape = object(Object) -- Shapes are solid 2d geometrical objects which handle the mass and collision of a Body in love.physics.
+	-- Shapes are attached to a Body via a Fixture. The Shape object is copied when this happens. 
+	-- The Shape's position is relative to the position of the Body it has been attached to.
+	local topLeftX, topLeftY, bottomRightX, bottomRightY = Shape:computeAABB(tx, ty, tr, childIndex)
+	local x, y, mass, inertia = Shape:computeMass(density)
+	local count = Shape:getChildCount()
+	local radius = Shape:getRadius()
+	local type_ShapeType = Shape:getType()
+	local xn, yn, fraction = Shape:rayCast(x1, y1, x2, y2, maxFraction, tx, ty, tr, childIndex)
+	local hit_bool = Shape:testPoint(tx, ty, tr, x, y)
+
+	WeldJoint = object(Joint,Object) -- A WeldJoint essentially glues two bodies together.
+	local ratio = WeldJoint:getDampingRatio()
+	local freq = WeldJoint:getFrequency()
+	local angle = WeldJoint:getReferenceAngle()
+	WeldJoint:setDampingRatio(ratio)
+	WeldJoint:setFrequency(freq)
+
+	WheelJoint = object(Joint,Object) -- Restricts a point on the second body to a line on the first body.
+	local x, y = WheelJoint:getAxis()
+	local speed = WheelJoint:getJointSpeed()
+	local position = WheelJoint:getJointTranslation()
+	local maxTorque = WheelJoint:getMaxMotorTorque()
+	local speed = WheelJoint:getMotorSpeed()
+	local torque = WheelJoint:getMotorTorque(invdt)
+	local ratio = WheelJoint:getSpringDampingRatio()
+	local freq = WheelJoint:getSpringFrequency()
+	local on_bool = WheelJoint:isMotorEnabled()
+	WheelJoint:setMaxMotorTorque(maxTorque)
+	WheelJoint:setMotorEnabled(enable_bool)
+	WheelJoint:setMotorSpeed(speed)
+	WheelJoint:setSpringDampingRatio(ratio)
+	WheelJoint:setSpringFrequency(freq)
+
+	World = object(Object) -- A world is an object that contains all bodies and joints.
+	World:destroy()
+	local bodies_table = World:getBodies()
+	local n = World:getBodyCount()
+	local beginContact_function, endContact_function, preSolve_function, postSolve_function = World:getCallbacks()
+	local n = World:getContactCount()
+	local contactFilter_function = World:getContactFilter()
+	local contacts_table = World:getContacts()
+	local x, y = World:getGravity()
+	local n = World:getJointCount()
+	local joints_table = World:getJoints()
+	local destroyed_bool = World:isDestroyed()
+	local locked_bool = World:isLocked()
+	local allow_bool = World:isSleepingAllowed()
+	World:queryBoundingBox(topLeftX, topLeftY, bottomRightX, bottomRightY, callback_function)
+	World:rayCast(x1, y1, x2, y2, callback_function)
+	World:setCallbacks(beginContact_function, endContact_function, preSolve_function, postSolve_function)
+	World:setContactFilter(filter_function)
+	World:setGravity(x, y)
+	World:setSleepingAllowed(allow_bool)
+	World:translateOrigin(x, y)
+	World:update(dt, velocityiterations, positioniterations)
+
+	local BodyType_enum = { "static", "dynamic", "kinematic" }
+	local JointType_enum = { "distance", "friction", "gear", "mouse", "prismatic", "pulley", "revolute", "rope", "weld" }
+	local ShapeType_enum = { "circle", "polygon", "edge", "chain" }
+
+::sound:: -- This module is responsible for decoding sound files. It can't play the sounds, see love.audio for that.
+
+	local decoder_Decoder = love.sound.newDecoder(file_File, buffer)
+	local decoder_Decoder = love.sound.newDecoder(filename_string, buffer)
+	local soundData_SoundData = love.sound.newSoundData(filename_string)
+	local soundData_SoundData = love.sound.newSoundData(file_File)
+	local soundData_SoundData = love.sound.newSoundData(decoder_Decoder)
+	local soundData_SoundData = love.sound.newSoundData(samples, rate, bits, channels)
+
+	Decoder = object(Object) -- An object which can gradually decode a sound file.
+	local decoder_Decoder = Decoder:clone()
+	local soundData_SoundData = Decoder:decode()
+	local bitDepth = Decoder:getBitDepth()
+	local channels = Decoder:getChannelCount()
+	local duration = Decoder:getDuration()
+	local rate = Decoder:getSampleRate()
+	Decoder:seek(offset)
+
+	SoundData = object(Data,Object) -- Contains raw audio samples.
+	-- You can not play SoundData back directly. You must wrap a Source object around it.
+	local bitdepth = SoundData:getBitDepth()
+	local channels = SoundData:getChannelCount()
+	local duration = SoundData:getDuration()
+	local sample = SoundData:getSample(i)
+	local sample = SoundData:getSample(i, channel)
+	local count = SoundData:getSampleCount()
+	local rate = SoundData:getSampleRate()
+	SoundData:setSample(i, sample)
+	SoundData:setSample(i, channel, sample)
+
+::system:: -- Provides access to information about the user's system.
+
+	local text_string = love.system.getClipboardText()
+	local osString_string = love.system.getOS()
+	local state_PowerState, percent, seconds = love.system.getPowerInfo()
+	local processorCount = love.system.getProcessorCount()
+	local backgroundmusic_bool = love.system.hasBackgroundMusic()
+	local success_bool = love.system.openURL(url_string)
+	love.system.setClipboardText(text_string)
+	love.system.vibrate(seconds)
+
+	local PowerState_enum = { "unknown", "battery", "nobattery", "charging", "charged" }
+
+::thread:: -- Allows you to work with threads.
+	-- Threads are separate Lua environments, running in parallel to the main code. As their code runs separately, they can be used to compute complex operations without adversely affecting the frame rate of the main thread. However, as they are separate environments, they cannot access the variables and functions of the main thread, and communication between threads is limited.
+	-- All LOVE objects (userdata) are shared among threads so you'll only have to send their references across threads. You may run into concurrency issues if you manipulate an object on multiple threads at the same time.
+	-- When a Thread is started, it only loads the love.thread module. Every other module has to be loaded with require.
+
+	local channel_Channel = love.thread.getChannel(name_string)
+	local channel_Channel = love.thread.newChannel()
+	local thread_Thread = love.thread.newThread(filename_string)
+	local thread_Thread = love.thread.newThread(fileData_FileData)
+	local thread_Thread = love.thread.newThread(codestring_string)
+
+	Channel = object(Object) -- An object which can be used to send and receive data between different threads.
+	Channel:clear()
+	local value_Variant = Channel:demand()
+	local value_Variant = Channel:demand(timeout)
+	local count = Channel:getCount()
+	local hasread_bool = Channel:hasRead(id)
+	local value_Variant = Channel:peek()
+	local ret1_any, ... = Channel:performAtomic(func_function, ...)
+	local value_Variant = Channel:pop()
+	local id = Channel:push(value_Variant)
+	local success_bool = Channel:supply(value_Variant)
+	local success_bool = Channel:supply(value_Variant, timeout)
+
+	Thread = object(Object) -- A Thread is a chunk of code that can run in parallel with other threads. Data can be sent between different threads with Channel objects.
+	local err_string = Thread:getError()
+	local value_bool = Thread:isRunning()
+	Thread:start()
+	Thread:start(...)
+	Thread:wait()
+
+::timer:: -- Provides an interface to the user's clock.
+
+	local delta = love.timer.getAverageDelta()
+	local dt = love.timer.getDelta()
+	local fps = love.timer.getFPS()
+	local time = love.timer.getTime()
+	love.timer.sleep(s)
+	local dt = love.timer.step()
+
+::touch:: -- Provides an interface to touch-screen presses.
+
+	local x, y = love.touch.getPosition(id_light userdata)
+	local pressure = love.touch.getPressure(id_light userdata)
+	local touches_table = love.touch.getTouches()
+
+::video:: -- This module is responsible for decoding, controlling, and streaming video files.
+	-- It can't draw the videos, see love.graphics.newVideo and Video objects for that.
+
+	local videostream_VideoStream = love.video.newVideoStream(filename_string)
+	local videostream_VideoStream = love.video.newVideoStream(file_File)
+
+	VideoStream = object(Object) -- An object which decodes, streams, and controls Videos.
+	local filename_string = VideoStream:getFilename()
+	local playing_bool = VideoStream:isPlaying()
+	VideoStream:pause()
+	VideoStream:play()
+	VideoStream:rewind()
+	VideoStream:seek(offset)
+	local seconds = VideoStream:tell()
+
+::window:: -- Provides an interface for modifying and retrieving information about the program's window.
+
+	love.window.close()
+	local value = love.window.fromPixels(pixelvalue)
+	local x, y = love.window.fromPixels(px, py)
+	local scale = love.window.getDPIScale()
+	local width, height = love.window.getDesktopDimensions(displayindex)
+	local count = love.window.getDisplayCount()
+	local name_string = love.window.getDisplayName(displayindex)
+	local orientation_DisplayOrientation = love.window.getDisplayOrientation(displayindex)
+	local fullscreen_bool, fstype_FullscreenType = love.window.getFullscreen()
+	local modes_table = love.window.getFullscreenModes(displayindex)
+	local imagedata_ImageData = love.window.getIcon()
+	local width, height, flags_table = love.window.getMode()
+	local x, y, displayindex = love.window.getPosition()
+	local x, y, w, h = love.window.getSafeArea()
+	local title_string = love.window.getTitle()
+	local vsync = love.window.getVSync()
+	local focus_bool = love.window.hasFocus()
+	local focus_bool = love.window.hasMouseFocus()
+	local enabled_bool = love.window.isDisplaySleepEnabled()
+	local maximized_bool = love.window.isMaximized()
+	local minimized_bool = love.window.isMinimized()
+	local open_bool = love.window.isOpen()
+	local visible_bool = love.window.isVisible()
+	love.window.maximize()
+	love.window.minimize()
+	love.window.requestAttention(continuous_bool)
+	love.window.restore()
+	love.window.setDisplaySleepEnabled(enable_bool)
+	local success_bool = love.window.setFullscreen(fullscreen_bool)
+	local success_bool = love.window.setFullscreen(fullscreen_bool, fstype_FullscreenType)
+	local success_bool = love.window.setIcon(imagedata_ImageData)
+	local success_bool = love.window.setMode(width, height, flags_table)
+	love.window.setPosition(x, y, displayindex)
+	love.window.setTitle(title_string)
+	love.window.setVSync(vsync)
+	local success_bool = love.window.showMessageBox(title_string, message_string, type_MessageBoxType, attachtowindow_bool)
+	local pressedbutton = love.window.showMessageBox(title_string, message_string, buttonlist_table, type_MessageBoxType, attachtowindow_bool)
+	local pixelvalue = love.window.toPixels(value)
+	local px, py = love.window.toPixels(x, y)
+	local success_bool = love.window.updateMode(width, height, settings_table)
+
+	local DisplayOrientation_enum = { "unknown", "landscape", "landscapeflipped", "portrait", "portraitflipped" }
+	local FullscreenType_enum = { "desktop", "exclusive", "normal" }
+	local MessageBoxType_enum = { "info", "warning", "error" }
