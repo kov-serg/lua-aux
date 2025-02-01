@@ -1,0 +1,2 @@
+https://www.lua.org/ftp/lua-5.3.6.tar.gz
+http://download.savannah.gnu.org/releases/tinycc/
