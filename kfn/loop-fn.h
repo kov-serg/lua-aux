@@ -23,6 +23,6 @@ typedef int loop_t;
 #define LOOP_INT(n) { __loop_rv=(n); LOOP_POINT } /* interrupt n */
 /* for manual labeling: enum { L01=1,L02,L03,L04 }; ... LOOP_POINT_(L02) */
 #define LOOP_POINT_(name) { *__loop=name; goto __loop_leave; case name:{} }
-#define LOOP_INT_(n,name) { __loop_rv=(n); LOOP_POINT_(name) }
+#define LOOP_INT_(name,n) { __loop_rv=(n); LOOP_POINT_(name) }
 
 #endif /* __LOOP_FN_H__ */
