@@ -1,8 +1,9 @@
-function top(t,n,get)
+function top(t,n,get,inv)
 	local keys,idx,cmp={},0
 	n=n or 0 get=get or function(v,k) return v,k end
 	cmp=function(a,b)
-		local v1,v2=table.pack(get(t[a],a)),table.pack(get(t[b],b))
+		if inv then a,b=b,a end
+		local v1,v2={get(t[a],a)},{get(t[b],b)}
 		for k,v in ipairs(v1) do if v~=v2[k] then return v>v2[k] end end
 		return false
 	end
@@ -13,5 +14,5 @@ function top(t,n,get)
 		return keys[idx], t[ keys[idx] ]
 	end
 end
-
-return top
+function ntop(t,n,get,inv) return top(t,n,get,not inv) end
+function opairs(t) return top(t,0,function(v,k) return k end,true) end
