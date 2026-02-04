@@ -8,7 +8,7 @@
 
 #include "lauxlib.h"
 #include "lua-kfn.h" /* lua wrapper */
-#include "loop-fn.h" /* sequenctial function */
+#include "loop-fn.h" /* sequential function */
 #include <stdio.h>
 
 /*-- example of sequential funtion - kfn : {state,init,loop,done} ----------*/
