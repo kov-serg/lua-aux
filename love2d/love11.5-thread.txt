@@ -1,0 +1,64 @@
+
+local thread = love.thread.newThread(code) -- multiline
+local thread = love.thread.newThread(filename)
+local thread = love.thread.newThread(FileData)
+local thread = love.thread.newThread(name,File)
+local thread = love.thread.newThread(name,Data)
+    local ok=thread:start(...) -- boolean, number, string, love type, or flat table expected
+    local isrunning=thread:isRunning()
+    local error=thread:getError()
+    thread:wait() -- wait done
+local channel = love.thread.newChannel()
+local channel = love.thread.getChannel(name)
+    channel:clear()
+    local value=channel:demand()
+    local count=channel:getCount()
+    local hasread=channel:hasRead(id)
+    local value=channel:peek()
+    local ret1,...=channel:performAtomic(func,...)
+    local value = channel:pop()
+    local id=channel:push(value)
+    local ok = channel:supply(value) -- send and wait
+    local ok = channel:supply(value,timeout)
+
+
+-- thread example --
+
+-- This is the code that's going to run on the our thread. It should be moved
+-- to its own dedicated Lua file, but for simplicity's sake we'll create it
+-- here.
+local threadCode = [[
+-- Receive values sent via thread:start
+local min, max = ...
+
+for i = min, max do
+    -- The Channel is used to handle communication between our main thread and
+    -- this thread. On each iteration of the loop will push a message to it which
+    -- we can then pop / receive in the main thread.
+    love.thread.getChannel( 'info' ):push( i )
+end
+]]
+
+local thread -- Our thread object.
+local timer = 0  -- A timer used to animate our circle.
+
+function love.load()
+    thread = love.thread.newThread( threadCode )
+    thread:start( 99, 1000 )
+end
+
+function love.update( dt )
+    timer = timer + dt
+end
+
+function love.draw()
+    -- Get the info channel and pop the next message from it.
+    local info = love.thread.getChannel( 'info' ):pop()
+    if info then
+        love.graphics.print( info, 10, 10 )
+    end
+
+    -- We smoothly animate a circle to show that the thread isn't blocking our main thread.
+    love.graphics.circle( 'line', 100 + math.sin( timer ) * 20, 100 + math.cos( timer ) * 20, 20 )
+end
+

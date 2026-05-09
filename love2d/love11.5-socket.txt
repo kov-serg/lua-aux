@@ -1,0 +1,119 @@
+local socket=require "socket"
+-- socket._VERSION="LuaSocket 3.0-rc1"
+-- socket._DATAGRAMSIZE=8192
+-- socket._SETSIZE=1024
+-- socket._SOCKETINVALID=-1
+-- socket.BLOCKSIZE=2048
+
+local hostname=socket.dns.gethostname()
+local hostname,tab=socket.dns.tohostname(address) -- tab{ip={},name="",alias={}} or err=""
+local ip,tab=socket.dns.toip(address) -- tab{ip={},name="",alias={}} or err=""
+local tab=socket.dns.getaddrinfo(hostname) -- tab={ {family="inet",address="127.0.01"},{family="inet6",address="::1"} }
+local info,serv=socket.dns.getnameinfo(host,service)
+
+local tcp,err=socket.connect(address,port,[laddress],[lport],[family]) -- tcp{client}
+local tcp,err=socket.connect4(address,port,laddress,lport) -- tcp{client} inet
+local tcp,err=socket.connect6(address,port,laddress,lport) -- tcp{client} inet6
+local tcp,err=socket.bind(host, port, backlog)
+local tcp,err=socket.tcp()
+local tcp,err=socket.tcp4()
+local tcp,err=socket.tcp6()
+	local res,err=tcp:connect(addr,port) -- tcp.client
+	local res,err=tcp:bind(addr,port)    -- tcp.server
+	local res,err=tcp:setpeername(addr,port) -- same to connect (tcp.client)
+	local res,err=tcp:setsockname(addr,port) -- same to bind (tcp.server)
+	local res,err=tcp:setoption(tcp_setoption_name,value)
+		tcp_setoption_names={"keepalive","reuseaddr","reuseport","tcp-nodelay","linger","ipv6-v6only"}
+	local value=tcp:getoption(tcp_getoption_name)
+		tcp_getoption_names={"keepalive","reuseaddr","reuseport","tcp-nodelay","linger","error"}
+	local block,total=tcp:gettimeout() -- -1 -1
+	local res=tcp:settimeout(timeout,[mode]) -- mode='b'-block-default, 't'-total
+	local res,err=tcp:listen([backlog])
+	local sock,err=tcp:accept()
+	local size,err=tcp:send(data)
+	local data,err=tcp:receive()
+	local name,port,family=tcp:getpeername() -- server conect to
+		-- 127.0.0.1	80	inet
+		-- ::1	80	inet6
+		-- nil	error
+	local addr,port,family=tcp:getsockname() -- server connection line
+		-- 127.0.0.1	39052	inet
+    	-- ::1	41872	inet6
+		-- nil	error		
+	tcp:shutdown()
+	tcp:close()
+	local family=tcp:getfamily()
+	local received,sent,age=tcp:getstats()
+	local res=tcp:setstats(received,sent,[age])
+	local dirty=tcp:dirty()
+	local fd,err=tcp:getfd()
+	tcp:setfd(fd)
+	tcp.class -- tcp{master}
+
+local udp,err=socket.udp()
+local udp,err=socket.udp4()
+local udp,err=socket.udp6()
+	local sent,err=udp:sendto(data,ip,port)
+	local data,addr_err,port=udp:receivefrom([size]) -- max_size=socket._DATAGRAMSIZE
+	local res,err=udp:setsockname(address,port) -- udp.server
+	local res,err=udp:setpeername(addr,port) -- udp.client (connect to server)
+	local addr,port,family=udp:getpeername() -- need udp{connected} (setpeername with addr~='*')
+		-- 127.0.0.1	32768	inet -- server addr/port
+    local addr,port,family=udp:getsockname() -- connection line
+    	-- 127.0.0.1	43804	inet
+    	-- ::1	45201	inet6
+	local res,err=udp:setoption(udp_setoption_name,value)
+	udp_setoption_names={"dontroute","broadcast" ,"reuseaddr","reuseport",
+		"ip-multicast-if","ip-multicast-ttl","ip-multicast-loop",
+		"ip-add-membership","ip-drop-membership",
+		"ipv6-unicast-hops",
+		"ipv6-multicast-hops","ipv6-multicast-loop",
+		"ipv6-add-membership","ipv6-drop-membership",
+		"ipv6-v6only"}
+	local value=udp:getoption(udp_getoption_name)
+	udp_getoption_names={"dontroute","broadcast","reuseaddr","reuseport",
+		"ip-multicast-if","ip-multicast-loop",
+	    "ipv6-unicast-hops",
+	    "ipv6-multicast-hops","ipv6-multicast-loop",
+	    "ipv6-v6only", "error"}
+	local res=udp:settimeout(timeout,[mode]) -- mode='b'-block-default, 't'-total
+	local block,total=udp:gettimeout()
+	local sent,err=udp:send(data)
+	local data,err=udp:receive([size])
+	udp:close()	
+	local family=udp:getfamily() -- inet, inet6
+	local fd,err=udp:setfd(fd)
+	local fd,err=udp:getfd()
+	local dirty=udp:dirty()
+	udp.class -- 'udp{unconnected}'
+
+local rtab,wtab,err=socket.select(read_tab,write_tab,timeout)
+local time=socket.gettime() -- float value
+socket.sleep(dt)
+
+local arg1,arg2,arg3,...=socket.skip(count,arg1,arg2,arg3,...) -- skip arg1...arg_count, return arg_count+1,...
+local res=socket.choose(sinkt)(name, opt1, opt2) -- default, keep-open, close-when-done
+	socket.sinkt['close-when-done']
+	socket.sinkt['keep-open']	
+	socket.sinkt['default']
+	socket.sink=socket.choose(sinkt)
+	socket.sourcet['default']
+	socket.sourcet['until-closed']
+	socket.sourcet['by-length']
+	socket.source=socket.choose(sourcet)
+
+local my_try=socket.newtry(finalizer_fn_before_error)
+local res,err,...=socket.try( fn(args) ) -- if fn first args is nil or false rise error
+local res,err,...=socket.protect(body_with_trys,args)
+	-- example
+	local v1,v2,v3=socket.protect(function()
+		local sock1=socket.try(socket.udp())
+		local sock2=socket.try(socket.udp())
+		socket.try(sock2:setoption("reuseaddr",true))
+		socket.try(sock2:setoption("broadcast",true)) -- if fail v1=nil,v2=error_msg
+		local sock3=socket.newtry(function()
+			print("finalizer before error")
+		end)(socket.udp())
+		-- ... --
+		return v1,v2,v3
+	end)

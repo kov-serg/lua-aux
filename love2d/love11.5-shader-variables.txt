@@ -1,0 +1,51 @@
+Global built-in variables
+
+mat4 TransformMatrix
+    The transformation matrix affected by love.graphics.translate and friends. Note that automatically batched vertices are transformed on the CPU, and their TransformMatrix will be an identity matrix.
+
+mat4 ProjectionMatrix
+    The orthographic projection matrix.
+
+mat4 TransformProjectionMatrix
+    The combined transform and projection matrices. Used as the transform_projection argument to the vertex shader position function.
+
+vec4 VaryingTexCoord
+    The interpolated per-vertex texture coordinate. Automatically set to the value of VertexTexCoord in the vertex shader before the position function is called. Used as the texture_coords argument to the pixel shader effect function. Writable in the vertex shader. Use this variable to change the texture coordinate in the vertex shader.
+
+vec4 VaryingColor
+    The interpolated per-vertex color. Automatically set to the value of ConstantColor * gammaCorrectColor(VertexColor) in LÖVE 0.10.0 and newer, or VertexColor in 0.9.2 and older, in the vertex shader before the position function is called. Used as the color argument to the pixel shader effect function. Writable in the vertex shader. Use this variable to change the per-vertex or constant color in the vertex shader.
+
+vec4 love_ScreenSize
+    The width and height of the screen (or canvas) currently being rendered to, stored in the x and y components of the variable. The z and w components are used internally by LÖVE. You can convert it to a vec2 with love_ScreenSize.xy or vec2(love_ScreenSize).
+
+
+
+Vertex Shader built-in variables
+
+vec4 VertexPosition
+    The pre-transformed position of the vertex. Used as the vertex_position argument to the vertex shader position function. The third and fourth components of the vector are normally (0, 1).
+
+vec4 VertexTexCoord
+    The texture coordinate of the vertex. The third and fourth components of the vector are normally (0, 1). Meshes allow for custom texture coordinates.
+
+vec4 VertexColor
+    The color of the vertex, sprite, or text character if a Mesh, SpriteBatch, or Text object with per-vertex colors is drawn, or in LÖVE 0.9.2 and older the global color set with love.graphics.setColor. It does not have gamma-correction applied.
+
+vec4 ConstantColor
+    The global color set with love.graphics.setColor. If global gamma-correction is enabled, it will already be gamma-corrected.
+
+
+
+Pixel Shader built-in variables
+
+vec4 array love_Canvases[]
+    Array used to set per-canvas pixel colors when multiple canvases are set with love.graphics.setCanvas and the void effect variant is used instead of the vec4 effect variant of the function. Note that arrays in shaders are 0-based. Writable in the pixel shader when the void effect variant is used.
+
+vec2 love_PixelCoord
+    Coordinates of the pixel on screen. The same as screen_coords passed to the vec4 effect Shader function
+
+
+
+Notes
+
+If you wish to access the texture used for the drawing operation, you may define a uniform called MainTex of the appropriate type yourself, e.g. uniform Image MainTex;
