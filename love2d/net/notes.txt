@@ -1,0 +1,25 @@
+local req_dir = love.filesystem.getRequirePath() -- ?.lua;?/init.lua
+
+local user_dir = love.filesystem.getUserDirectory()
+	-- C:\Users\user\
+	-- /home/user
+local appdir = love.filesystem.getAppdataDirectory()
+	-- W: C:/Users/user/AppData/Roaming
+	-- L: /home/user/.local/share
+	-- A: /data/.local/share/
+local src_base_dir = love.filesystem.getSourceBaseDirectory()
+	-- W: c:/work/kovserg/exp/love2d
+	-- L: /home/user/Desktop/exp/love2d
+	-- A: /starage/emulated/0
+local save_dir = love.filesystem.getSaveDirectory()
+	-- W: C:/Users/user/AppData/Roaming/LOVE/server
+	-- L: /homr/user/.local/share/love/server
+	-- A: /data/data/org.love2d.android/files/save/lovegame
+local src_dir = love.filesystem.getSource()
+	-- W: c:/work/kovserg/exp/love2d/server
+	-- L: /home/user/Desktop/exp/love2d
+	-- A: /storage/emulated/0/lovegame
+local wrk_dir = love.filesystem.getWorkingDirectory()
+	-- W: C:/work/kovserg/exp/love2d/server
+	-- L: /home/user/Desktop/exp/love2d/server
+	-- A: /
