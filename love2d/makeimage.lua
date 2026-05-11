@@ -47,14 +47,15 @@ function unit.makeImage(prm)
 	return gr.newImage(data), data
 end
 
-function unit.saveImageData(data,filename)
+function unit.saveImageData(data,filename,format)
+	format=format or "png"
 	local f,err=io.open(filename,"wb+") if err then error(err) end
-	f:write( data:encode("png"):getString() )
+	f:write( data:encode(format):getString() )
 	f:close()
 end
 
 function unit.saveImage(image,filename,format)
-	saveImageData(makeImageData(image),filename,format)
+	unit.saveImageData(unit.makeImageData(image),filename,format)
 end
 
 function unit.scaleImageDataDown2x(src)
