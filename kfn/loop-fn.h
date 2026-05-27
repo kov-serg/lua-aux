@@ -7,12 +7,13 @@ typedef int loop_t;
 #define LOOP_RESET(loop) { loop=0; }
 #if defined(__COUNTER__) && __COUNTER__!=__COUNTER__
 #define LOOP_BEGIN(loop) { enum { __loop_base=__COUNTER__ }; \
-    loop_t *__loop=&(loop); __loop_switch: int __loop_rv=1; \
+    loop_t *__loop=&(loop); int __loop_rv; __loop_switch: __loop_rv=1; \
     switch(*__loop) { default: *__loop=0; case 0: {
 #define LOOP_POINT { enum { __loop_case=__COUNTER__-__loop_base }; \
     *__loop=__loop_case; goto __loop_leave; case __loop_case:{} }
 #else
-#define LOOP_BEGIN(loop) {loop_t*__loop=&(loop);__loop_switch:int __loop_rv=1;\
+#define LOOP_BEGIN(loop) {loop_t*__loop=&(loop);int __loop_rv;\
+    __loop_switch: __loop_rv=1;\
     switch(*__loop){ default: case 0: *__loop=__LINE__; case __LINE__:{
 #define LOOP_POINT { *__loop=__LINE__; goto __loop_leave; case __LINE__:{} }
 #endif
