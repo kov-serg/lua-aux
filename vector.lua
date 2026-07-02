@@ -2,11 +2,11 @@ local Vector={}
 local Vector_mt={ type='vector', __index=Vector }
 
 vector=setmetatable({},{
-	__call=function(t,x)
+	__call=function(t,x,z)
 		local r={}
 		local mt=getmetatable(x)
 		if type(x)=='number' or (mt and mt.scalar) then
-			r[1]=x
+			z=z or 0 for k=1,x do r[k]=z end
 		else
 			for k,v in ipairs(x) do r[k]=v end
 		end
