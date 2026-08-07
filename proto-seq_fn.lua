@@ -15,7 +15,7 @@ function macros(names)
         end))
     end
 end
-function format(f) return function(...) return string.format(...) end end
+function format(f) return function(...) return string.format(f,...) end end
 function for_scope(body)
     local list,res={}
     local function auto(close,msg)
