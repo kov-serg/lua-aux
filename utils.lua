@@ -86,7 +86,7 @@ function string.split(s,delim,limit,plain)
 	while pos do
 		h,t=s:find(delim,pos,plain)
 		if h then h=h-1 t=t+1 end
-		limit=limit-1 if limit==0 then h=null t=null end
+		limit=limit-1 if limit==0 then h=nil t=nil end
 		table.insert(res,s:sub(pos,h))
 		pos=t
 	end
